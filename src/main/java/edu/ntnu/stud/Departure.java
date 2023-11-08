@@ -13,7 +13,7 @@ public class Departure {
     private final int trainNumber;
     private final String destination;
     private int track;
-    private final LocalTime delay;
+    private LocalTime delay;
 
     /**
      * Constructor
@@ -49,6 +49,10 @@ public class Departure {
      */
     public void setTrack(int track) {
         this.track = track;
+    }
+
+    public void setDelay(String delay) {
+        this.delay = LocalTime.parse(delay);
     }
 
     /**
