@@ -1,4 +1,6 @@
 package edu.ntnu.stud;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * A class representing a single departure.
@@ -6,12 +8,12 @@ package edu.ntnu.stud;
  * @author Nikolai Tandberg
  */
 public class Departure {
-    private final String departureTime;
+    private final LocalTime departureTime;
     private final String line;
     private final int trainNumber;
     private final String destination;
     private int track;
-    private final String delay;
+    private final LocalTime delay;
 
     /**
      * Constructor
@@ -22,14 +24,23 @@ public class Departure {
      * @param track the track at which the train arrives at the station
      * @param delay the amount of time the train is delayed compared to it's scheduled time
      */
-    public Departure(String departureTime, String line, int trainNumber,
-                     String destination, int track, String delay) {
-        this.departureTime = departureTime;
+    public Departure(String departureTime, String line, int trainNumber, String destination, int track, String delay) {
+        this.departureTime = parseTimeString(departureTime);
         this.line = line;
         this.trainNumber = trainNumber;
         this.destination = destination;
         this.track = track;
-        this.delay = delay;
+        this.delay = parseTimeString(delay);
+    }
+
+    /** Parses string into a LocalTime object.
+     *
+     * @param timeString the string that is parsed
+     * @return returns the departure time as a LocalTime object
+     */
+    private LocalTime parseTimeString(String timeString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return LocalTime.parse(timeString, formatter);
     }
 
     /**
@@ -44,7 +55,7 @@ public class Departure {
      *
      * @return returns the departure time
      */
-    public String getDepartureTime() {
+    public LocalTime getDepartureTime() {
         return departureTime;
     }
 
@@ -85,7 +96,7 @@ public class Departure {
      *
      * @return returns the delay of the train compared to it's scheduled arrival
      */
-    public String getDelay() {
+    public LocalTime getDelay() {
         return delay;
     }
 }
