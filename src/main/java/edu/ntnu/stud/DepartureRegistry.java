@@ -1,6 +1,7 @@
 package edu.ntnu.stud;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
@@ -89,5 +90,16 @@ public class DepartureRegistry {
       }
     }
     return res.toString();
+  }
+
+  public void printDepartures() {
+    departures.sort(Comparator.comparing(Departure::getDepartureTime));
+    System.out.println("----------------------------------------------------------------------");
+    System.out.printf("| %14s | %4s | %12s | %11s | %5s | %5s |", "DEPARTURE TIME", "LINE", "TRAIN NUMBER", "DESTINATION", "TRACK", "DELAY");
+    System.out.println("\n----------------------------------------------------------------------");
+    for (Departure departure : departures) {
+      System.out.printf("| %14s | %4s | %12s | %11s | %5s | %5s |\n", departure.getDepartureTime(), departure.getLine(), departure.getTrainNumber(), departure.getDestination(), departure.getTrack(), departure.getDelay());
+    }
+    System.out.println("----------------------------------------------------------------------");
   }
 }
