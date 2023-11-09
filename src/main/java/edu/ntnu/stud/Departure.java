@@ -51,8 +51,12 @@ public class Departure {
         this.track = track;
     }
 
+    /**
+     *
+     * @param delay assign a new delay for the departure
+     */
     public void setDelay(String delay) {
-        this.delay = LocalTime.parse(delay);
+        this.delay = parseTimeString(delay);
     }
 
     /**
