@@ -1,4 +1,6 @@
-package edu.ntnu.stud;
+package edu.ntnu.stud.models;
+
+import edu.ntnu.stud.Utils;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
