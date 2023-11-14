@@ -1,7 +1,6 @@
 package edu.ntnu.stud;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * A class representing a single departure.
