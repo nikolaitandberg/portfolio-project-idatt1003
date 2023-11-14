@@ -38,22 +38,12 @@ public class Departure {
           int track,
           String delay
   ) {
-    this.departureTime = parseTimeString(departureTime);
+    this.departureTime = Utils.parseTimeString(departureTime);
     this.line = line;
     this.trainNumber = trainNumber;
     this.destination = destination;
     this.track = track;
-    this.delay = parseTimeString(delay);
-  }
-
-  /** Parses string of format "HH:mm" into a LocalTime object.
-   *
-   * @param timeString the string that is parsed
-   * @return returns the departure time as a LocalTime object
-   */
-  private static LocalTime parseTimeString(String timeString) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-    return LocalTime.parse(timeString, formatter);
+    this.delay = Utils.parseTimeString(delay);
   }
 
   // Setters
@@ -66,7 +56,7 @@ public class Departure {
  * @param delay a string on format "HH:mm"
  */
   public void setDelay(String delay) {
-    this.delay = parseTimeString(delay);
+    this.delay = Utils.parseTimeString(delay);
   }
 
   // Getters
