@@ -1,5 +1,6 @@
 package edu.ntnu.stud;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
@@ -13,16 +14,21 @@ import java.util.Objects;
  * @since 2023-11-9
  */
 public class DepartureRegistry {
-  private static final ArrayList<Departure> departures = new ArrayList<>();
+  private final ArrayList<Departure> departures;
 
-  /** Adds a single departure to the registry.
+  public DepartureRegistry() {
+    this.departures = new ArrayList<>();
+  }
+
+  /**
+   * Adds a single departure to the registry.
    *
    * @param departureTime the time of day the train departs
-   * @param line the line the train is travelling on
-   * @param trainNumber the unique number of the departure
-   * @param destination the last stop on the line
-   * @param track the track at which the train arrives at the station
-   * @param delay the amount of time the train is delayed compared to it's scheduled time
+   * @param line          the line the train is travelling on
+   * @param trainNumber   the unique number of the departure
+   * @param destination   the last stop on the line
+   * @param track         the track at which the train arrives at the station
+   * @param delay         the amount of time the train is delayed compared to it's scheduled time
    */
   public void addDeparture(
           String departureTime,
@@ -49,7 +55,8 @@ public class DepartureRegistry {
     }
   }
 
-  /** Checks if there is a departure registered with train number.
+  /**
+   * Checks if there is a departure registered with train number.
    *
    * @param trainNumber The train number that's checked to see if it's in use
    * @return a boolean value depending on if the train number is in use
@@ -63,7 +70,8 @@ public class DepartureRegistry {
     return false;
   }
 
-  /** Gets a departure by its train number.
+  /**
+   * Gets a departure by its train number.
    *
    * @param trainNumber the unique number of the departure
    * @return the departure that has the matching train number
@@ -77,21 +85,22 @@ public class DepartureRegistry {
     throw new NoSuchElementException("No Departure with this train number was found");
   }
 
-  /** gets all the departures going to a given destination
+  /**
+   * gets all the departures going to a given destination.
    *
    * @param destination the destination the departures are checked for
    * @return String with all the departures with a matching destination
    */
   public String getDeparturesByDestination(String destination) {
-    StringBuilder res = new StringBuilder();
+    StringBuilder departuresWithDestination = new StringBuilder();
     for (Departure departure : departures) {
       if (Objects.equals(departure.getDestination(), destination)) {
-        res.append(departure);
+        departuresWithDestination.append(departure);
       }
     }
-    return res.toString();
+    return departuresWithDestination.toString();
   }
-
+/* should be moved to UI area of application.
   public void printDepartures() {
     departures.sort(Comparator.comparing(Departure::getDepartureTime));
     System.out.println("----------------------------------------------------------------------");
@@ -102,4 +111,34 @@ public class DepartureRegistry {
     }
     System.out.println("----------------------------------------------------------------------");
   }
+
+ */
+
+  /**
+   * removes all the departures before a given time.
+   *
+   * @param newTime all departures before this time are removed
+   */
+  public void removePassedDepartures(String newTime) {
+    LocalTime newTimeObj = Utils.parseTimeString(newTime);
+    for (Departure departure : departures) {
+      LocalTime realDeparture = Utils.addDelay(departure.getDepartureTime(), departure.getDelay());
+      if (realDeparture.isBefore(newTimeObj)) {
+        departures.remove(departure);
+      }
+    }
+  }
+
+  /**
+   * Gets all departures in registry sorted in ascending order by departure time.
+   *
+   * @return the ArrayList of the sorted departures
+   */
+  public ArrayList<Departure> getSortedDepartures() {
+    ArrayList<Departure> sortedDepartures = departures;
+    sortedDepartures.sort(Comparator.comparing(Departure::getDepartureTime));
+    return sortedDepartures;
+  }
+
+
 }
