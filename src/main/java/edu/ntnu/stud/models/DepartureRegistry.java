@@ -1,7 +1,6 @@
 package edu.ntnu.stud.models;
 
 import edu.ntnu.stud.Utils;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -102,7 +101,7 @@ public class DepartureRegistry {
     }
     return departuresWithDestination.toString();
   }
-/* should be moved to UI area of application.
+  /* should be moved to UI area of application.
   public void printDepartures() {
     departures.sort(Comparator.comparing(Departure::getDepartureTime));
     System.out.println("----------------------------------------------------------------------");
@@ -140,6 +139,26 @@ public class DepartureRegistry {
     ArrayList<Departure> sortedDepartures = departures;
     sortedDepartures.sort(Comparator.comparing(Departure::getDepartureTime));
     return sortedDepartures;
+  }
+
+  /**
+   * Sets a new track for a specific departure in the departure registry.
+   *
+   * @param trainNumber the number of the train for the departure
+   * @param track the track the train of the departure is assigned to
+   */
+  public void setTrackForDeparture(int trainNumber, int track) {
+    getDepartureByTrainNumber(trainNumber).setTrack(track);
+  }
+
+  /**
+   * Sets a new delay for a specific departure in the departure registry.
+   *
+   * @param trainNumber the number of the train for the departure
+   * @param delay updated delay for the specific departure
+   */
+  public void setDelayForDeparture(int trainNumber, String delay) {
+    getDepartureByTrainNumber(trainNumber).setDelay(delay);
   }
 
 
