@@ -101,19 +101,6 @@ public class DepartureRegistry {
     }
     return departuresWithDestination.toString();
   }
-  /* should be moved to UI area of application.
-  public void printDepartures() {
-    departures.sort(Comparator.comparing(Departure::getDepartureTime));
-    System.out.println("----------------------------------------------------------------------");
-    System.out.printf("| %14s | %4s | %12s | %11s | %5s | %5s |", "DEPARTURE TIME", "LINE", "TRAIN NUMBER", "DESTINATION", "TRACK", "DELAY");
-    System.out.println("\n----------------------------------------------------------------------");
-    for (Departure departure : departures) {
-      System.out.printf("| %14s | %4s | %12s | %11s | %5s | %5s |\n", departure.getDepartureTime(), departure.getLine(), departure.getTrainNumber(), departure.getDestination(), departure.getTrack(), departure.getDelay());
-    }
-    System.out.println("----------------------------------------------------------------------");
-  }
-
- */
 
   /**
    * removes all the departures before a given time.
