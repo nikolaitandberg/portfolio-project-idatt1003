@@ -61,13 +61,28 @@ public class TrainDispatchApp {
 
 
 
-          System.out.println("----------------------------------------------------------------------");
-          System.out.printf("| %14s | %4s | %12s | %11s | %5s | %5s |", "DEPARTURE TIME", "LINE", "TRAIN NUMBER", "DESTINATION", "TRACK", "DELAY");
-          System.out.println("\n----------------------------------------------------------------------");
+          System.out.println(
+                  "----------------------------------------------------------------------"
+          );
+          System.out.printf(
+                  "| %14s | %4s | %12s | %11s | %5s | %5s |",
+                  "DEPARTURE TIME", "LINE", "TRAIN NUMBER", "DESTINATION", "TRACK", "DELAY"
+          );
+          System.out.println(
+                  "\n----------------------------------------------------------------------"
+          );
           for (Departure departure : departureRegistry.getSortedDepartures()) {
-            System.out.printf("| %14s | %4s | %12s | %11s | %5s | %5s |\n", departure.getDepartureTime(), departure.getLine(), departure.getTrainNumber(), departure.getDestination(), departure.getTrack(), departure.getDelay());
+            System.out.printf("| %14s | %4s | %12s | %11s | %5s | %5s |\n",
+                    departure.getDepartureTime(),
+                    departure.getLine(),
+                    departure.getTrainNumber(),
+                    departure.getDestination(),
+                    departure.getTrack(),
+                    departure.getDelay());
           }
-          System.out.println("----------------------------------------------------------------------");
+          System.out.println(
+                  "----------------------------------------------------------------------"
+          );
 
           break;
         case 2:
@@ -90,13 +105,7 @@ public class TrainDispatchApp {
 
       }
     }
-
-        System.out.println(departureRegistry.getDepartureByTrainNumber(456));
-        departureRegistry.setTrackForDeparture(456, 2);
-        departureRegistry.setDelayForDeparture(456, "00:30");
-        System.out.println(departureRegistry.getDepartureByTrainNumber(456));
-
-      }
+  }
 
   /**
    * Main method for the train dispatch application, calls for init() and start().
