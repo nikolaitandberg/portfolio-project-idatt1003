@@ -1,9 +1,8 @@
 package edu.ntnu.stud;
 
-import edu.ntnu.stud.models.Departure;
+import edu.ntnu.stud.models.DepartureInformationDisplay;
 import edu.ntnu.stud.models.DepartureRegistry;
 
-import java.time.LocalTime;
 import java.util.Scanner;
 
 /**
@@ -39,11 +38,6 @@ public class TrainDispatchApp {
    */
   private static void start() {
 
-    // TODO: switchcase and while-loop
-
-
-
-
     while (running) {
       System.out.println("1. List all departures");
       System.out.println("2. Add a departure");
@@ -58,39 +52,7 @@ public class TrainDispatchApp {
       switch (input.nextInt()) {
 
         case 1:
-          System.out.println(
-                  "----------------------------------------------------------------------"
-          );
-          System.out.printf(
-                  "| %14s | %4s | %12s | %11s | %5s | %5s |",
-                  "DEPARTURE TIME", "LINE", "TRAIN NUMBER", "DESTINATION", "TRACK", "DELAY"
-          );
-          System.out.println(
-                  "\n----------------------------------------------------------------------"
-          );
-          for (Departure departure : departureRegistry.getSortedDepartures()) {
-
-            if (departure.getDelay() == LocalTime.parse("00:00")) {
-              System.out.printf("| %14s | %4s | %12s | %11s | %5s |       |\n",
-                      departure.getDepartureTime(),
-                      departure.getLine(),
-                      departure.getTrainNumber(),
-                      departure.getDestination(),
-                      departure.getTrack());
-            } else {
-              System.out.printf("| %14s | %4s | %12s | %11s | %5s | %5s |\n",
-                      departure.getDepartureTime(),
-                      departure.getLine(),
-                      departure.getTrainNumber(),
-                      departure.getDestination(),
-                      departure.getTrack(),
-                      departure.getDelay());
-            }
-          }
-          System.out.println(
-                  "----------------------------------------------------------------------"
-          );
-
+          DepartureInformationDisplay.printDepartureList(departureRegistry.getSortedDepartures());
           break;
         case 2:
           System.out.println("Departure time (HH:mm format): ");
@@ -124,11 +86,11 @@ public class TrainDispatchApp {
           break;
         case 5:
           System.out.println("Train number: ");
-          System.out.println(departureRegistry.getDepartureByTrainNumber(input.nextInt()));
+          DepartureInformationDisplay.printSingleDeparture(departureRegistry.getDepartureByTrainNumber(input.nextInt()));
           break;
         case 6:
           System.out.println("Destination: ");
-          System.out.println(departureRegistry.getDeparturesByDestination(input.next()));
+          DepartureInformationDisplay.printDepartureList(departureRegistry.getDeparturesByDestination(input.next()));
           break;
         case 7:
           System.out.println("New time (HH:mm format): ");
