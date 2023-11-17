@@ -90,16 +90,16 @@ public class DepartureRegistry {
    * gets all the departures going to a given destination.
    *
    * @param destination the destination the departures are checked for
-   * @return String with all the departures with a matching destination
+   * @return an ArrayList of all departures with said destination
    */
-  public String getDeparturesByDestination(String destination) {
-    StringBuilder departuresWithDestination = new StringBuilder();
-    for (Departure departure : departures) {
+  public ArrayList<Departure> getDeparturesByDestination(String destination) {
+    ArrayList<Departure> departuresWithDestination = new ArrayList<>();
+    for (Departure departure : getSortedDepartures()) {
       if (Objects.equals(departure.getDestination(), destination)) {
-        departuresWithDestination.append(departure);
+        departuresWithDestination.add(departure);
       }
     }
-    return departuresWithDestination.toString();
+    return departuresWithDestination;
   }
 
   /**
@@ -114,7 +114,7 @@ public class DepartureRegistry {
   /**
    * Gets all departures in registry sorted in ascending order by departure time.
    *
-   * @return the ArrayList of the sorted departures
+   * @return an ArrayList of the sorted departures
    */
   public ArrayList<Departure> getSortedDepartures() {
     ArrayList<Departure> sortedDepartures = departures;
