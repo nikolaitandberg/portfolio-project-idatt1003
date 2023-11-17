@@ -2,6 +2,8 @@ package edu.ntnu.stud;
 
 import edu.ntnu.stud.models.Departure;
 import edu.ntnu.stud.models.DepartureRegistry;
+
+import java.time.LocalTime;
 import java.util.Scanner;
 
 /**
@@ -56,11 +58,6 @@ public class TrainDispatchApp {
       switch (input.nextInt()) {
 
         case 1:
-
-
-
-
-
           System.out.println(
                   "----------------------------------------------------------------------"
           );
@@ -72,13 +69,23 @@ public class TrainDispatchApp {
                   "\n----------------------------------------------------------------------"
           );
           for (Departure departure : departureRegistry.getSortedDepartures()) {
-            System.out.printf("| %14s | %4s | %12s | %11s | %5s | %5s |\n",
-                    departure.getDepartureTime(),
-                    departure.getLine(),
-                    departure.getTrainNumber(),
-                    departure.getDestination(),
-                    departure.getTrack(),
-                    departure.getDelay());
+
+            if (departure.getDelay() == LocalTime.parse("00:00")) {
+              System.out.printf("| %14s | %4s | %12s | %11s | %5s |       |\n",
+                      departure.getDepartureTime(),
+                      departure.getLine(),
+                      departure.getTrainNumber(),
+                      departure.getDestination(),
+                      departure.getTrack());
+            } else {
+              System.out.printf("| %14s | %4s | %12s | %11s | %5s | %5s |\n",
+                      departure.getDepartureTime(),
+                      departure.getLine(),
+                      departure.getTrainNumber(),
+                      departure.getDestination(),
+                      departure.getTrack(),
+                      departure.getDelay());
+            }
           }
           System.out.println(
                   "----------------------------------------------------------------------"
@@ -86,9 +93,24 @@ public class TrainDispatchApp {
 
           break;
         case 2:
+          System.out.println("Departure time (HH:mm format): ");
+          String departureTime = input.next();
+          System.out.println("Line: ");
+          String line = input.next();
+          System.out.println("Train number: ");
+          int trainNumber = input.nextInt();
+          System.out.println("Destination: ");
+          String destination = input.next();
+          System.out.println("Delay (HH:mm format): ");
+          String delay = input.next();
+          System.out.println("Track (-1 if no track is assigned): ");
+          int track = input.nextInt();
 
+          departureRegistry.addDeparture(departureTime, line, trainNumber, destination, track, delay);
           break;
         case 3:
+
+
           break;
         case 4:
           break;
@@ -100,6 +122,7 @@ public class TrainDispatchApp {
           break;
         case 8:
           System.out.println("Shutting down...");
+          running = false;
           break;
 
 
