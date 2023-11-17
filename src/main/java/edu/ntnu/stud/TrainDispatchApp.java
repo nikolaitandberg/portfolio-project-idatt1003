@@ -131,6 +131,8 @@ public class TrainDispatchApp {
           System.out.println(departureRegistry.getDeparturesByDestination(input.next()));
           break;
         case 7:
+          System.out.println("New time (HH:mm format): ");
+          departureRegistry.removePassedDepartures(Utils.parseTimeString(input.next()));
           break;
         case 8:
           System.out.println("Shutting down...");
