@@ -107,14 +107,8 @@ public class DepartureRegistry {
    *
    * @param newTime all departures before this time are removed
    */
-  public void removePassedDepartures(String newTime) {
-    LocalTime newTimeObj = Utils.parseTimeString(newTime);
-    for (Departure departure : departures) {
-      LocalTime realDeparture = Utils.addDelay(departure.getDepartureTime(), departure.getDelay());
-      if (realDeparture.isBefore(newTimeObj)) {
-        departures.remove(departure);
-      }
-    }
+  public void removePassedDepartures(LocalTime newTime) {
+    departures.removeIf(departure -> Utils.addDelay(departure.getDepartureTime(), departure.getDelay()).isBefore(newTime));
   }
 
   /**
