@@ -52,7 +52,7 @@ public class TrainDispatchApp {
       System.out.println("5. Search for a departure by its train number");
       System.out.println("6. Search for departures by their destination");
       System.out.println("7. Update the clock");
-      System.out.println("8. Shit down the application");
+      System.out.println("8. Shut down the application");
 
 
       switch (input.nextInt()) {
@@ -109,10 +109,18 @@ public class TrainDispatchApp {
           departureRegistry.addDeparture(departureTime, line, trainNumber, destination, track, delay);
           break;
         case 3:
-
-
+          System.out.println("Train number: ");
+          int trainNumberNewTrack = input.nextInt();
+          System.out.println("Track: ");
+          int newTrack = input.nextInt();
+          departureRegistry.setTrackForDeparture(trainNumberNewTrack, newTrack);
           break;
         case 4:
+          System.out.println("Train number: ");
+          int trainNumberNewDelay = input.nextInt();
+          System.out.println("Delay (HH:mm format): ");
+          String newDelay = input.next();
+          departureRegistry.setDelayForDeparture(trainNumberNewDelay, newDelay);
           break;
         case 5:
           break;
