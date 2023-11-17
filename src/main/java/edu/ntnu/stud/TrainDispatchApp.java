@@ -123,8 +123,12 @@ public class TrainDispatchApp {
           departureRegistry.setDelayForDeparture(trainNumberNewDelay, newDelay);
           break;
         case 5:
+          System.out.println("Train number: ");
+          System.out.println(departureRegistry.getDepartureByTrainNumber(input.nextInt()));
           break;
         case 6:
+          System.out.println("Destination: ");
+          System.out.println(departureRegistry.getDeparturesByDestination(input.next()));
           break;
         case 7:
           break;
