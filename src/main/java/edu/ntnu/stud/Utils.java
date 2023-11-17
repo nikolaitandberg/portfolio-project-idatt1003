@@ -2,6 +2,7 @@ package edu.ntnu.stud;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Utils class for methods used in train dispatch system.
@@ -18,8 +19,15 @@ public class Utils {
    * @return the time as a LocalTime object
    */
   public static LocalTime parseTimeString(String timeString) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-    return LocalTime.parse(timeString, formatter);
+    LocalTime time = null;
+    try {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+      time = LocalTime.parse(timeString, formatter);
+    }
+    catch (DateTimeParseException dateTimeParseException) {
+      throw new IllegalArgumentException("Invalid time format. Expected format: 'HH:mm'", dateTimeParseException);
+    }
+    return time;
   }
 
   /** Adds two LocalTimeObjects with format "HH:mm".
