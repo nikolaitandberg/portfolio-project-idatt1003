@@ -27,11 +27,6 @@ public class Utils {
    * @return returns the sum of the two LocalTime objects as a single LocalTime object
    */
   public static LocalTime addDelay(LocalTime time, LocalTime delay) {
-    int timeHours = time.getHour();
-    int timeMinutes = time.getMinute();
-    int delayHours = delay.getHour();
-    int delayMinutes = delay.getMinute();
-
-    return LocalTime.of(timeHours + delayHours, timeMinutes + delayMinutes);
+    return time.plusHours(delay.getHour()).plusMinutes(delay.getMinute());
   }
 }
