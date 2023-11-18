@@ -1,7 +1,6 @@
 package edu.ntnu.stud.models;
 
 import edu.ntnu.stud.Utils;
-
 import java.time.LocalTime;
 
 /**
@@ -18,7 +17,6 @@ public class Departure {
   private final int trainNumber;
   private final String destination;
   private int track;
-
   private LocalTime delay;
   /**
      * Constructor.
@@ -39,11 +37,29 @@ public class Departure {
           int track,
           String delay
   ) {
+    if (departureTime.isEmpty()) {
+      throw new IllegalArgumentException("Departure time cannot be left empty");
+    }
     this.departureTime = Utils.parseTimeString(departureTime);
+    if (line.isEmpty()) {
+      throw new IllegalArgumentException("Line cannot be left empty");
+    }
     this.line = line;
+    if (trainNumber < 1) {
+      throw new IllegalArgumentException("Train number cannot be less than 1");
+    }
     this.trainNumber = trainNumber;
+    if (destination.isEmpty()) {
+      throw new IllegalArgumentException("Destination cannot be left empty");
+    }
     this.destination = destination;
+    if (track < -1 || track == 0) {
+      throw new IllegalArgumentException("Track cannot be 0 or a negative number other than -1");
+    }
     this.track = track;
+    if (delay.isEmpty()) {
+      throw new IllegalArgumentException("Delay cannot be left empty");
+    }
     this.delay = Utils.parseTimeString(delay);
   }
 
