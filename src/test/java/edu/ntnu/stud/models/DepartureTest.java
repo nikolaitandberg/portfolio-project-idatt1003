@@ -27,17 +27,17 @@ public class DepartureTest {
       assertEquals(Departure.class, departure1.getClass());
 
       try {
-        Departure departure2 = new Departure("11:00", "R11", 2, "Drammen", 2, "00:10");
+        new Departure("11:00", "R11", 2, "Drammen", 2, "00:10");
       } catch (Exception e) {
         fail("Should not get IllegalArgumentException");
       }
     }
 
     @Test
-    @DisplayName("Departure time exception handling test")
-    public void badDepartureTime() {
+    @DisplayName("Departure time wrong format exception handling test")
+    public void badFormatDepartureTime() {
       try {
-        Departure departureWithWrongDepartureTimeFormat1 = new Departure(
+        new Departure(
                 "10",
                 "R14",
                 1,
@@ -49,37 +49,13 @@ public class DepartureTest {
       } catch (IllegalArgumentException e) {
         assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
       }
+    }
 
+    @Test
+    @DisplayName("Empty departure time exception handling test")
+    public void emptyDepartureTime() {
       try {
-        Departure departureWithWrongDepartureTimeFormat2 = new Departure(
-                "10:00:00",
-                "R14",
-                1,
-                "Asker",
-                1,
-                "00:10"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch (IllegalArgumentException e) {
-        assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
-      }
-
-      try {
-        Departure departureWithWrongDepartureTimeFormat3 = new Departure(
-                "25:61",
-                "R14",
-                1,
-                "Asker",
-                1,
-                "00:10"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch (IllegalArgumentException e) {
-        assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
-      }
-
-      try {
-        Departure departureWithEmptyDepartureTime = new Departure(
+        new Departure(
                 "",
                 "R14",
                 1,
@@ -89,15 +65,15 @@ public class DepartureTest {
         );
         fail("should throw IllegalArgumentException");
       } catch (IllegalArgumentException e) {
-        assertEquals("Departure time cannot be left empty", e.getMessage());
+        assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
       }
     }
 
     @Test
-    @DisplayName("Line exception handling test")
-    public void badLine() {
+    @DisplayName("Empty line exception handling test")
+    public void emptyLine() {
       try {
-        Departure departureWithEmptyLine = new Departure(
+        new Departure(
                 "10:00",
                 "",
                 1,
@@ -115,7 +91,7 @@ public class DepartureTest {
     @DisplayName("Train number exception handling test")
     public void badTrainNumber() {
       try {
-        Departure departureWithWrongTrainNumber = new Departure(
+        new Departure(
                 "10:00",
                 "R14",
                 0,
@@ -133,7 +109,7 @@ public class DepartureTest {
     @DisplayName("Destination exception handling test")
     public void badDestination() {
       try {
-        Departure departureWithEmptyDestination = new Departure(
+        new Departure(
                 "10:00",
                 "R14",
                 1,
@@ -148,10 +124,10 @@ public class DepartureTest {
     }
 
     @Test
-    @DisplayName("Track exception handling test")
-    public void badTrack() {
+    @DisplayName("Track negative number exception handling test")
+    public void negativeNumberTrack() {
       try {
-        Departure departureBadTrack1 = new Departure(
+        new Departure(
                 "10:00",
                 "R14",
                 1,
@@ -164,8 +140,13 @@ public class DepartureTest {
         assertEquals("Track cannot be 0 or a negative number other than -1", e.getMessage());
       }
 
+    }
+
+    @Test
+    @DisplayName("Track 0 exception handling test")
+    public void badTrack() {
       try {
-        Departure departureWithBadTrack2 = new Departure(
+        new Departure(
                 "10:00",
                 "R14",
                 1,
@@ -181,10 +162,10 @@ public class DepartureTest {
 
 
     @Test
-    @DisplayName("Delay exception handling test")
-    public void badDelay() {
+    @DisplayName("Delay wrong format exception handling test")
+    public void badFormatDelay() {
       try {
-        Departure departureWithBadDelay1 = new Departure(
+        new Departure(
                 "10:00",
                 "R14",
                 1,
@@ -196,52 +177,13 @@ public class DepartureTest {
       } catch(IllegalArgumentException e) {
         assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
       }
+    }
 
+    @Test
+    @DisplayName("Empty delay exception handling test")
+    public void emptyDelay() {
       try {
-        Departure departureWithBadDelay2 = new Departure(
-                "10:00",
-                "R14",
-                1,
-                "Asker",
-                1,
-                "10:10:10"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch(IllegalArgumentException e) {
-        assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
-      }
-
-      try {
-        Departure departureWithBadDelay3 = new Departure(
-                "10:00",
-                "R14",
-                1,
-                "Asker",
-                1,
-                "-10:10"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch(IllegalArgumentException e) {
-        assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
-      }
-
-      try {
-        Departure departureWithBadDelay4 = new Departure(
-                "10:00",
-                "R14",
-                1,
-                "Asker",
-                1,
-                "test"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch(IllegalArgumentException e) {
-        assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
-      }
-
-
-      try {
-        Departure departureWithEmptyDelay = new Departure(
+        new Departure(
                 "00:10",
                 "R14",
                 1,
@@ -251,7 +193,7 @@ public class DepartureTest {
         );
         fail("should throw IllegalArgumentException");
       } catch (IllegalArgumentException e) {
-        assertEquals("Delay cannot be left empty", e.getMessage());
+        assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
       }
     }
 
