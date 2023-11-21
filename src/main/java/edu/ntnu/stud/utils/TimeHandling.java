@@ -1,4 +1,4 @@
-package edu.ntnu.stud;
+package edu.ntnu.stud.utils;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
  * @since 2023-11-13
  * @version 1.0
  */
-public class Utils {
+public class TimeHandling {
 
   /** Parses string of format "HH:mm" into a LocalTime object.
    *
@@ -19,7 +19,7 @@ public class Utils {
    * @return the time as a LocalTime object
    */
   public static LocalTime parseTimeString(String timeString) {
-    LocalTime time = null;
+    LocalTime time;
     try {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
       time = LocalTime.parse(timeString, formatter);
