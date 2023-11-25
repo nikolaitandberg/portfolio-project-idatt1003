@@ -1,11 +1,11 @@
 package edu.ntnu.stud.models;
 
-import edu.ntnu.stud.Utils;
+import edu.ntnu.stud.utils.TimeHandling;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * A class representing the departure registry.
@@ -15,11 +15,9 @@ import java.util.Objects;
  * @since 2023-11-9
  */
 public class DepartureRegistry {
-  private final ArrayList<Departure> departures;
+  private final ArrayList<Departure> departures = new ArrayList<>();
 
-  public DepartureRegistry() {
-    this.departures = new ArrayList<>();
-  }
+  public DepartureRegistry() {}
 
   /**
    * Adds a single departure to the registry.
@@ -87,19 +85,15 @@ public class DepartureRegistry {
   }
 
   /**
-   * gets all the departures going to a given destination.
+   * Gets all departures with a given destination.
    *
-   * @param destination the destination the departures are checked for
-   * @return an ArrayList of all departures with said destination
+   * @param destination the destination of the departures
+   * @return an ArrayList of departures with the given destination
    */
   public ArrayList<Departure> getDeparturesByDestination(String destination) {
-    ArrayList<Departure> departuresWithDestination = new ArrayList<>();
-    for (Departure departure : getSortedDepartures()) {
-      if (Objects.equals(departure.getDestination(), destination)) {
-        departuresWithDestination.add(departure);
-      }
-    }
-    return departuresWithDestination;
+    return departures.stream()
+                    .filter(departure -> departure.getDestination().equalsIgnoreCase(destination))
+                    .collect(Collectors.toCollection(ArrayList::new));
   }
 
   /**
@@ -108,7 +102,9 @@ public class DepartureRegistry {
    * @param newTime all departures before this time are removed
    */
   public void removePassedDepartures(LocalTime newTime) {
-    departures.removeIf(departure -> Utils.addDelay(departure.getDepartureTime(), departure.getDelay()).isBefore(newTime));
+    departures.removeIf(
+        departure -> TimeHandling.addDelay(departure.getDepartureTime(), departure.getDelay())
+        .isBefore(newTime));
   }
 
   /**
