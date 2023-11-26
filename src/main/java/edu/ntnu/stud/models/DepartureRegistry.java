@@ -61,27 +61,25 @@ public class DepartureRegistry {
    * @return a boolean value depending on if the train number is in use
    */
   public boolean checkIfTrainNumberExists(int trainNumber) {
-    for (Departure departure : departures) {
-      if (departure.getTrainNumber() == trainNumber) {
-        return true;
-      }
-    }
-    return false;
+    return departures.stream().anyMatch(departure -> departure.getTrainNumber() == trainNumber);
   }
 
   /**
-   * Gets a departure by its train number.
+   * Gets a single departure with a given train number.
    *
-   * @param trainNumber the unique number of the departure
-   * @return the departure that has the matching train number
+   * @param trainNumber the train number of the departure
+   * @return the departure with the given train number
+   * @throws NoSuchElementException if no departure with the given train number exists
    */
   public Departure getDepartureByTrainNumber(int trainNumber) {
-    for (Departure departure : departures) {
-      if (departure.getTrainNumber() == trainNumber) {
-        return departure;
-      }
+    if (checkIfTrainNumberExists(trainNumber)) {
+      return departures.stream()
+              .filter(departure -> departure.getTrainNumber() == trainNumber)
+              .findFirst()
+              .orElseThrow(NoSuchElementException::new);
+    } else {
+      throw new NoSuchElementException("No departure with this train number exists!");
     }
-    throw new NoSuchElementException("No Departure with this train number was found");
   }
 
   /**
@@ -113,9 +111,9 @@ public class DepartureRegistry {
    * @return an ArrayList of the sorted departures
    */
   public ArrayList<Departure> getSortedDepartures() {
-    ArrayList<Departure> sortedDepartures = departures;
-    sortedDepartures.sort(Comparator.comparing(Departure::getDepartureTime));
-    return sortedDepartures;
+    return departures.stream()
+            .sorted(Comparator.comparing(Departure::getDepartureTime))
+            .collect(Collectors.toCollection(ArrayList::new));
   }
 
   /**
