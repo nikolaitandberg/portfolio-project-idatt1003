@@ -130,10 +130,10 @@ public class DepartureRegistry {
    *
    * @return an ArrayList of the sorted departures
    */
-  public ArrayList<Departure> getSortedDepartures() {
+  public List<Departure> getSortedDepartures() {
     return departures.stream()
             .sorted(Comparator.comparing(Departure::getDepartureTime))
-            .collect(Collectors.toCollection(ArrayList::new));
+            .collect(Collectors.toList());
   }
 
   /**
