@@ -1,12 +1,14 @@
-package edu.ntnu.stud.Interface;
+package edu.ntnu.stud.view;
 
 import edu.ntnu.stud.models.DepartureRegistry;
 import edu.ntnu.stud.utils.TimeHandling;
-
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * Class for handling user input and displaying information to the user.
+ */
 public class UserInterface {
   private static DepartureRegistry departureRegistry;
   static Scanner input;
@@ -53,7 +55,7 @@ public class UserInterface {
           addDeparture();
           break;
         case 3:
-          AssignTrackToDeparture();
+          assignTrackToDeparture();
           break;
         case 4:
           assignDelayToDeparture();
@@ -120,7 +122,7 @@ public class UserInterface {
               destination,
               track,
               delay);
-    } catch(IllegalArgumentException e) {
+    } catch (IllegalArgumentException e) {
       System.out.println(e.getMessage());
     }
 
@@ -130,14 +132,14 @@ public class UserInterface {
    * Assigns a track to a departure through user input.
    *
    */
-  private static void AssignTrackToDeparture() {
+  private static void assignTrackToDeparture() {
     System.out.println("Train number: ");
     int trainNumberNewTrack = getValidIntInput();
     System.out.println("Track: ");
     int newTrack = getValidIntInput();
     try {
       departureRegistry.setTrackForDeparture(trainNumberNewTrack, newTrack);
-    } catch(NoSuchElementException e) {
+    } catch (NoSuchElementException e) {
       System.out.println(e.getMessage());
     }
   }
@@ -153,7 +155,7 @@ public class UserInterface {
     String newDelay = input.next();
     try {
       departureRegistry.setDelayForDeparture(trainNumberNewDelay, newDelay);
-    } catch(NoSuchElementException | IllegalArgumentException e) {
+    } catch (NoSuchElementException | IllegalArgumentException e) {
       System.out.println(e.getMessage());
     }
   }
@@ -165,8 +167,10 @@ public class UserInterface {
   private static void searchForDepartureByTrainNumber() {
     System.out.println("Train number: ");
     try {
-      DepartureInformationDisplay.printSingleDeparture(departureRegistry.getDepartureByTrainNumber(getValidIntInput()));
-    } catch(NoSuchElementException e) {
+      DepartureInformationDisplay.printSingleDeparture(
+              departureRegistry.getDepartureByTrainNumber(getValidIntInput())
+      );
+    } catch (NoSuchElementException e) {
       System.out.println(e.getMessage());
     }
   }
@@ -178,8 +182,10 @@ public class UserInterface {
   private static void searchForDeparturesByDestination() {
     System.out.println("Destination: ");
     try {
-      DepartureInformationDisplay.printDepartureList(departureRegistry.getDeparturesByDestination(input.next()));
-    } catch(NoSuchElementException e) {
+      DepartureInformationDisplay.printDepartureList(
+              departureRegistry.getDeparturesByDestination(input.next())
+      );
+    } catch (NoSuchElementException e) {
       System.out.println(e.getMessage());
     }
   }

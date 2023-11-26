@@ -1,7 +1,6 @@
-package edu.ntnu.stud.Interface;
+package edu.ntnu.stud.view;
 
 import edu.ntnu.stud.models.Departure;
-
 import java.time.LocalTime;
 import java.util.List;
 

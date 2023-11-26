@@ -1,6 +1,6 @@
 package edu.ntnu.stud;
 
-import edu.ntnu.stud.Interface.UserInterface;
+import edu.ntnu.stud.view.UserInterface;
 
 
 /**
