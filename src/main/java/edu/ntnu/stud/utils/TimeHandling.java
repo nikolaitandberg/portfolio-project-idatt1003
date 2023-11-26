@@ -13,6 +13,8 @@ import java.time.format.DateTimeParseException;
  */
 public class TimeHandling {
 
+  public TimeHandling() {}
+
   /** Parses string of format "HH:mm" into a LocalTime object.
    *
    * @param timeString the string that is parsed
