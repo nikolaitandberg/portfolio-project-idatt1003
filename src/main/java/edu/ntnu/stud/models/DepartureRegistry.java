@@ -60,7 +60,7 @@ public class DepartureRegistry {
    * @param trainNumber The train number that's checked to see if it's in use
    * @return a boolean value depending on if the train number is in use
    */
-  public boolean checkIfTrainNumberExists(int trainNumber) {
+  private boolean checkIfTrainNumberExists(int trainNumber) {
     return departures.stream().anyMatch(departure -> departure.getTrainNumber() == trainNumber);
   }
 
@@ -83,16 +83,33 @@ public class DepartureRegistry {
   }
 
   /**
+   * Checks if there is a departure registered with destination.
+   *
+   * @param destination The destination that's checked to see if it's in use
+   * @return a boolean value depending on if the destination is in use
+   */
+    private boolean checkIfDestinationExists(String destination) {
+      return departures.stream().anyMatch(departure -> departure.getDestination().equals(destination));
+    }
+
+  /**
    * Gets all departures with a given destination.
    *
    * @param destination the destination of the departures
    * @return an ArrayList of departures with the given destination
+   * @throws NoSuchElementException if no departure with the given destination exists
    */
   public ArrayList<Departure> getDeparturesByDestination(String destination) {
-    return departures.stream()
-                    .filter(departure -> departure.getDestination().equalsIgnoreCase(destination))
-                    .collect(Collectors.toCollection(ArrayList::new));
+    if (checkIfDestinationExists(destination)) {
+      return departures.stream()
+              .filter(departure -> departure.getDestination().equals(destination))
+              .collect(Collectors.toCollection(ArrayList::new));
+    } else {
+      throw new NoSuchElementException("No departure with this destination exists!");
+    }
   }
+
+
 
   /**
    * removes all the departures before a given time.
