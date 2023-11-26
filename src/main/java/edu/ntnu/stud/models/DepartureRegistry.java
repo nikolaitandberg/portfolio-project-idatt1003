@@ -4,6 +4,7 @@ import edu.ntnu.stud.utils.TimeHandling;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
@@ -88,22 +89,24 @@ public class DepartureRegistry {
    * @param destination The destination that's checked to see if it's in use
    * @return a boolean value depending on if the destination is in use
    */
-    private boolean checkIfDestinationExists(String destination) {
-      return departures.stream().anyMatch(departure -> departure.getDestination().equals(destination));
-    }
+  private boolean checkIfDestinationExists(String destination) {
+    return departures.stream().anyMatch(
+            departure -> departure.getDestination().equals(destination)
+    );
+  }
 
   /**
    * Gets all departures with a given destination.
    *
    * @param destination the destination of the departures
-   * @return an ArrayList of departures with the given destination
+   * @return A list of departures with the given destination
    * @throws NoSuchElementException if no departure with the given destination exists
    */
-  public ArrayList<Departure> getDeparturesByDestination(String destination) {
+  public List<Departure> getDeparturesByDestination(String destination) {
     if (checkIfDestinationExists(destination)) {
       return departures.stream()
               .filter(departure -> departure.getDestination().equals(destination))
-              .collect(Collectors.toCollection(ArrayList::new));
+              .collect(Collectors.toList());
     } else {
       throw new NoSuchElementException("No departure with this destination exists!");
     }

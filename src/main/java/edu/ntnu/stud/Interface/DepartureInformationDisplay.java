@@ -1,7 +1,9 @@
-package edu.ntnu.stud.models;
+package edu.ntnu.stud.Interface;
+
+import edu.ntnu.stud.models.Departure;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for displaying departure information in a neat manner in the console.
@@ -16,7 +18,7 @@ public class DepartureInformationDisplay {
    *
    * @param departureList the list of departures to print
    */
-  public static void printDepartureList(ArrayList<Departure> departureList) {
+  public static void printDepartureList(List<Departure> departureList) {
     System.out.println(
             "----------------------------------------------------------------------"
     );
