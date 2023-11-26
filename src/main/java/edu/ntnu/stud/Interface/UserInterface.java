@@ -3,6 +3,7 @@ package edu.ntnu.stud.Interface;
 import edu.ntnu.stud.models.DepartureRegistry;
 import edu.ntnu.stud.utils.TimeHandling;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -42,67 +43,25 @@ public class UserInterface {
       switch (input.nextInt()) {
 
         case 1:
-          DepartureInformationDisplay.printDepartureList(departureRegistry.getSortedDepartures());
+          listAllDepartures();
           break;
         case 2:
-          System.out.println("Departure time (HH:mm format): ");
-          String departureTime = input.next();
-          System.out.println("Line: ");
-          String line = input.next();
-          System.out.println("Train number: ");
-          int trainNumber;
-          try {
-            trainNumber = input.nextInt();
-          } catch(Exception e) {
-            System.out.println("input has to be an integer");
-            break;
-          }
-
-          System.out.println("Destination: ");
-          String destination = input.next();
-          System.out.println("Delay (HH:mm format): ");
-          String delay = input.next();
-          System.out.println("Track (-1 if no track is assigned): ");
-          int track = input.nextInt();
-
-          try {
-            departureRegistry.addDeparture(
-                    departureTime,
-                    line,
-                    trainNumber,
-                    destination,
-                    track,
-                    delay);
-          } catch(IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-          }
-
+          addDeparture();
           break;
         case 3:
-          System.out.println("Train number: ");
-          int trainNumberNewTrack = input.nextInt();
-          System.out.println("Track: ");
-          int newTrack = input.nextInt();
-          departureRegistry.setTrackForDeparture(trainNumberNewTrack, newTrack);
+          AssignTrackToDeparture();
           break;
         case 4:
-          System.out.println("Train number: ");
-          int trainNumberNewDelay = input.nextInt();
-          System.out.println("Delay (HH:mm format): ");
-          String newDelay = input.next();
-          departureRegistry.setDelayForDeparture(trainNumberNewDelay, newDelay);
+          assignDelayToDeparture();
           break;
         case 5:
-          System.out.println("Train number: ");
-          DepartureInformationDisplay.printSingleDeparture(departureRegistry.getDepartureByTrainNumber(input.nextInt()));
+          searchForDepartureByTrainNumber();
           break;
         case 6:
-          System.out.println("Destination: ");
-          DepartureInformationDisplay.printDepartureList(departureRegistry.getDeparturesByDestination(input.next()));
+          searchForDeparturesByDestination();
           break;
         case 7:
-          System.out.println("New time (HH:mm format): ");
-          departureRegistry.removePassedDepartures(TimeHandling.parseTimeString(input.next()));
+          updateClock();
           break;
         case 8:
           System.out.println("Shutting down...");
@@ -114,7 +73,96 @@ public class UserInterface {
 
       }
     }
+
+
   }
+
+  private static void listAllDepartures() {
+    DepartureInformationDisplay.printDepartureList(departureRegistry.getSortedDepartures());
+  }
+
+  private static void addDeparture() {
+    System.out.println("Departure time (HH:mm format): ");
+    String departureTime = input.next();
+
+    System.out.println("Line: ");
+    String line = input.next();
+
+    System.out.println("Train number: ");
+    int trainNumber = getValidIntInput();
+
+    System.out.println("Destination: ");
+    String destination = input.next();
+
+    System.out.println("Delay (HH:mm format): ");
+    String delay = input.next();
+
+    System.out.println("Track (-1 if no track is assigned): ");
+    int track = getValidIntInput();
+
+    try {
+      departureRegistry.addDeparture(
+              departureTime,
+              line,
+              trainNumber,
+              destination,
+              track,
+              delay);
+    } catch(IllegalArgumentException e) {
+      System.out.println(e.getMessage());
+    }
+
+  }
+
+  private static void AssignTrackToDeparture() {
+    System.out.println("Train number: ");
+    int trainNumberNewTrack = getValidIntInput();
+    System.out.println("Track: ");
+    int newTrack = getValidIntInput();
+    departureRegistry.setTrackForDeparture(trainNumberNewTrack, newTrack);
+
+  }
+
+  private static void assignDelayToDeparture() {
+    System.out.println("Train number: ");
+    int trainNumberNewDelay = getValidIntInput();
+    System.out.println("Delay (HH:mm format): ");
+    String newDelay = input.next();
+    departureRegistry.setDelayForDeparture(trainNumberNewDelay, newDelay);
+  }
+
+  private static void searchForDepartureByTrainNumber() {
+    System.out.println("Train number: ");
+    DepartureInformationDisplay.printSingleDeparture(departureRegistry.getDepartureByTrainNumber(getValidIntInput()));
+  }
+
+  private static void searchForDeparturesByDestination() {
+    System.out.println("Destination: ");
+    DepartureInformationDisplay.printDepartureList(departureRegistry.getDeparturesByDestination(input.next()));
+  }
+
+  private static void updateClock() {
+    System.out.println("New time (HH:mm format): ");
+    departureRegistry.removePassedDepartures(TimeHandling.parseTimeString(input.next()));
+  }
+
+  private static int getValidIntInput() {
+    int integer = 0;
+
+    boolean validInput = false;
+    while (!validInput) {
+      try {
+        integer = input.nextInt();
+        validInput = true;
+      } catch (InputMismatchException e) {
+        System.out.println("input has to be an integer, please try again: ");
+        input.next();
+      }
+    }
+    return integer;
+  }
+
+
 
 
 
