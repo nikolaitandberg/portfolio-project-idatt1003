@@ -38,7 +38,7 @@ public class DepartureRegistry {
           int track,
           String delay
   ) {
-    if (checkIfTrainNumberExists(trainNumber)) {
+    if (checkIfDepartureWithTrainNumberExists(trainNumber)) {
       throw new IllegalArgumentException(
               "A departure with this train number is already registered!"
       );
@@ -61,7 +61,7 @@ public class DepartureRegistry {
    * @param trainNumber The train number that's checked to see if it's in use
    * @return a boolean value depending on if the train number is in use
    */
-  private boolean checkIfTrainNumberExists(int trainNumber) {
+  private boolean checkIfDepartureWithTrainNumberExists(int trainNumber) {
     return departures.stream().anyMatch(departure -> departure.getTrainNumber() == trainNumber);
   }
 
@@ -73,7 +73,7 @@ public class DepartureRegistry {
    * @throws NoSuchElementException if no departure with the given train number exists
    */
   public Departure getDepartureByTrainNumber(int trainNumber) {
-    if (checkIfTrainNumberExists(trainNumber)) {
+    if (checkIfDepartureWithTrainNumberExists(trainNumber)) {
       return departures.stream()
               .filter(departure -> departure.getTrainNumber() == trainNumber)
               .findFirst()
@@ -89,7 +89,7 @@ public class DepartureRegistry {
    * @param destination The destination that's checked to see if it's in use
    * @return a boolean value depending on if the destination is in use
    */
-  private boolean checkIfDestinationExists(String destination) {
+  private boolean checkIfDepartureWithDestinationExists(String destination) {
     return departures.stream().anyMatch(
             departure -> departure.getDestination().equals(destination)
     );
@@ -103,7 +103,7 @@ public class DepartureRegistry {
    * @throws NoSuchElementException if no departure with the given destination exists
    */
   public List<Departure> getDeparturesByDestination(String destination) {
-    if (checkIfDestinationExists(destination)) {
+    if (checkIfDepartureWithDestinationExists(destination)) {
       return departures.stream()
               .filter(departure -> departure.getDestination().equals(destination))
               .collect(Collectors.toList());
@@ -129,11 +129,16 @@ public class DepartureRegistry {
    * Gets all departures in registry sorted in ascending order by departure time.
    *
    * @return an ArrayList of the sorted departures
+   * @throws NoSuchElementException if no departures are registered
    */
   public List<Departure> getSortedDepartures() {
-    return departures.stream()
-            .sorted(Comparator.comparing(Departure::getDepartureTime))
-            .collect(Collectors.toList());
+    if (!departures.isEmpty()) {
+      return departures.stream()
+              .sorted(Comparator.comparing(Departure::getDepartureTime))
+              .collect(Collectors.toList());
+    } else {
+      throw new NoSuchElementException("No departures are registered!");
+    }
   }
 
   /**
