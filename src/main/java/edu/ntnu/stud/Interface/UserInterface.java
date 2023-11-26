@@ -81,10 +81,18 @@ public class UserInterface {
 
   }
 
+  /**
+   * Prints all departures in registry in the terminal.
+   *
+   */
   private static void listAllDepartures() {
     DepartureInformationDisplay.printDepartureList(departureRegistry.getSortedDepartures());
   }
 
+  /**
+   * Adds a departure to the registry through user input.
+   *
+   */
   private static void addDeparture() {
     System.out.println("Departure time (HH:mm format): ");
     String departureTime = input.next();
@@ -118,6 +126,10 @@ public class UserInterface {
 
   }
 
+  /**
+   * Assigns a track to a departure through user input.
+   *
+   */
   private static void AssignTrackToDeparture() {
     System.out.println("Train number: ");
     int trainNumberNewTrack = getValidIntInput();
@@ -130,6 +142,10 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Assigns a delay to a departure through user input.
+   *
+   */
   private static void assignDelayToDeparture() {
     System.out.println("Train number: ");
     int trainNumberNewDelay = getValidIntInput();
@@ -142,6 +158,10 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Searches for a departure by its train number through user input.
+   *
+   */
   private static void searchForDepartureByTrainNumber() {
     System.out.println("Train number: ");
     try {
@@ -151,6 +171,10 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Searches for departures by their destination through user input.
+   *
+   */
   private static void searchForDeparturesByDestination() {
     System.out.println("Destination: ");
     try {
@@ -160,11 +184,20 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Updates the clock through user input.
+   *
+   */
   private static void updateClock() {
     System.out.println("New time (HH:mm format): ");
     departureRegistry.removePassedDepartures(TimeHandling.parseTimeString(input.next()));
   }
 
+  /**
+   * Gets a valid integer input from the user.
+   *
+   * @return the valid integer input
+   */
   private static int getValidIntInput() {
     int integer = 0;
 
