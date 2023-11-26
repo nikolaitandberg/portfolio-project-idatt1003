@@ -4,6 +4,7 @@ import edu.ntnu.stud.models.DepartureRegistry;
 import edu.ntnu.stud.utils.TimeHandling;
 
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -27,6 +28,9 @@ public class UserInterface {
 
   }
 
+  /**
+   * Starts the application.
+   */
   public static void start() {
 
     while (running) {
@@ -119,8 +123,11 @@ public class UserInterface {
     int trainNumberNewTrack = getValidIntInput();
     System.out.println("Track: ");
     int newTrack = getValidIntInput();
-    departureRegistry.setTrackForDeparture(trainNumberNewTrack, newTrack);
-
+    try {
+      departureRegistry.setTrackForDeparture(trainNumberNewTrack, newTrack);
+    } catch(NoSuchElementException e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   private static void assignDelayToDeparture() {
@@ -128,17 +135,29 @@ public class UserInterface {
     int trainNumberNewDelay = getValidIntInput();
     System.out.println("Delay (HH:mm format): ");
     String newDelay = input.next();
-    departureRegistry.setDelayForDeparture(trainNumberNewDelay, newDelay);
+    try {
+      departureRegistry.setDelayForDeparture(trainNumberNewDelay, newDelay);
+    } catch(NoSuchElementException | IllegalArgumentException e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   private static void searchForDepartureByTrainNumber() {
     System.out.println("Train number: ");
-    DepartureInformationDisplay.printSingleDeparture(departureRegistry.getDepartureByTrainNumber(getValidIntInput()));
+    try {
+      DepartureInformationDisplay.printSingleDeparture(departureRegistry.getDepartureByTrainNumber(getValidIntInput()));
+    } catch(NoSuchElementException e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   private static void searchForDeparturesByDestination() {
     System.out.println("Destination: ");
-    DepartureInformationDisplay.printDepartureList(departureRegistry.getDeparturesByDestination(input.next()));
+    try {
+      DepartureInformationDisplay.printDepartureList(departureRegistry.getDeparturesByDestination(input.next()));
+    } catch(NoSuchElementException e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   private static void updateClock() {
