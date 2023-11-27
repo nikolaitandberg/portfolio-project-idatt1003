@@ -19,8 +19,9 @@ public class TimeHandling {
    *
    * @param timeString the string that is parsed
    * @return the time as a LocalTime object
+   * @throws IllegalArgumentException if the string is not of format "HH:mm"
    */
-  public static LocalTime parseTimeString(String timeString) {
+  public static LocalTime parseTimeString(String timeString) throws IllegalArgumentException {
     LocalTime time;
     try {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -34,9 +35,22 @@ public class TimeHandling {
 
   /** Adds two LocalTimeObjects with format "HH:mm".
    *
+   *
+   * @param time the time to be added to
+   * @param delay the delay to be added
    * @return returns the sum of the two LocalTime objects as a single LocalTime object
+   * @throws IllegalArgumentException if the sum of the two LocalTime objects is greater than 24 hours
+   * @throws NullPointerException if either of the LocalTime objects are null
    */
-  public static LocalTime addDelay(LocalTime time, LocalTime delay) {
+  public static LocalTime addDelay(LocalTime time, LocalTime delay) throws NullPointerException, IllegalArgumentException {
+    if (time == null || delay == null) {
+      throw new NullPointerException("Time or delay cannot be null");
+    }
+
+    if (time.getHour() + delay.getHour() > 23 || time.getHour() + delay.getHour() == 23 && time.getMinute() + delay.getMinute() > 59) {
+      throw new IllegalArgumentException("Return time value cannot be greater than 24 hours");
+    }
+
     return time.plusHours(delay.getHour()).plusMinutes(delay.getMinute());
   }
 }
