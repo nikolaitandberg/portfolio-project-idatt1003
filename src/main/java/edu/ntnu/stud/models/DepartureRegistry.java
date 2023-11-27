@@ -1,7 +1,6 @@
 package edu.ntnu.stud.models;
 
 import edu.ntnu.stud.utils.TimeHandling;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -119,10 +118,10 @@ public class DepartureRegistry {
    *
    * @param newTime all departures before this time are removed
    */
-  public void removePassedDepartures(LocalTime newTime) {
+  public void removePassedDepartures(String newTime) {
     departures.removeIf(
         departure -> TimeHandling.addDelay(departure.getDepartureTime(), departure.getDelay())
-        .isBefore(newTime));
+        .isBefore(TimeHandling.parseTimeString(newTime)));
   }
 
   /**

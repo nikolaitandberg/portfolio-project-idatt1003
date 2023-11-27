@@ -1,7 +1,6 @@
 package edu.ntnu.stud.view;
 
 import edu.ntnu.stud.models.DepartureRegistry;
-import edu.ntnu.stud.utils.TimeHandling;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -75,8 +74,6 @@ public class UserInterface {
           break;
         default:
           System.out.println("please enter a number from 1 through 8");
-
-
       }
     }
 
@@ -196,7 +193,7 @@ public class UserInterface {
    */
   private static void updateClock() {
     System.out.println("New time (HH:mm format): ");
-    departureRegistry.removePassedDepartures(TimeHandling.parseTimeString(input.next()));
+    departureRegistry.removePassedDepartures(input.next());
   }
 
   /**
