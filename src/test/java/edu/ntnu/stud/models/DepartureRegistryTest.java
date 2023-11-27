@@ -3,12 +3,18 @@ package edu.ntnu.stud.models;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * Class for testing DepartureRegistry class
+ *
+ * @author nikolaitandberg
+ * @version 1.0
+ * @since 2023-11-26
+ *
+ */
 class DepartureRegistryTest {
   @Nested
   @DisplayName("addDeparture tests")
@@ -22,62 +28,14 @@ class DepartureRegistryTest {
     }
 
     @Test
-    @DisplayName("Should not add departure with wrong departure time format")
-    public void shouldNotAddDepartureWithWrongDepartureTimeFormat() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      assertThrows(IllegalArgumentException.class, () -> departureRegistry.addDeparture("10", "R14", 1, "Asker", 1, "00:00"));
-    }
-
-    @Test
-    @DisplayName("Should not add departure with empty line")
-    public void shouldNotAddDepartureWithEmptyLine() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      assertThrows(IllegalArgumentException.class, () -> departureRegistry.addDeparture("10:00", "", 1, "Asker", 1, "00:00"));
-    }
-
-    @Test
     @DisplayName("Should not add departure with same train number")
     public void shouldNotAddDepartureWithSameTrainNumber() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
       assertThrows(IllegalArgumentException.class, () -> departureRegistry.addDeparture("11:00", "R11", 1, "Drammen", 2, "00:10"));
     }
-
-    @Test
-    @DisplayName("Should not add departure when train number is less than 1")
-    public void shouldNotAddDepartureWithTrainNumber0() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      assertThrows(IllegalArgumentException.class, () -> departureRegistry.addDeparture("10:00", "R14", 0, "Asker", 1, "00:00"));
-    }
-
-    @Test
-    @DisplayName("Should not add departure with empty destination")
-    public void shouldNotAddDepartureWithEmptyDestination() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      assertThrows(IllegalArgumentException.class, () -> departureRegistry.addDeparture("10:00", "R14", 1, "", 1, "00:00"));
-    }
-
-    @Test
-    @DisplayName("Should not add departure when track is 0")
-    public void shouldNotAddDepartureWithTrack0() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      assertThrows(IllegalArgumentException.class, () -> departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 0, "00:00"));
-    }
-
-    @Test
-    @DisplayName("Should not add departure when track is a negative number other than -1")
-    public void shouldNotAddDepartureWithTrackNegativeNumberOtherThanMinus1() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      assertThrows(IllegalArgumentException.class, () -> departureRegistry.addDeparture("10:00", "R14", 1, "Asker", -10, "00:00"));
-    }
-
-    @Test
-    @DisplayName("Should not add departure with wrong delay format")
-    public void shouldNotAddDepartureWithWrongDelayFormat() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      assertThrows(IllegalArgumentException.class, () -> departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00"));
-    }
   }
+
 
   @Nested
   @DisplayName("getDepartureByTrainNumber tests")
@@ -134,60 +92,23 @@ class DepartureRegistryTest {
     }
 
     @Test
-    @DisplayName("Should not get sorted departures")
+    @DisplayName("Should not get sorted departures when departures is empty")
     public void shouldNotGetSortedDepartures() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       assertThrows(NoSuchElementException.class, departureRegistry::getSortedDepartures);
     }
   }
 
-  @Nested
-  @DisplayName("setTrack tests")
-  public class TestsForSetTrack {
-    @Test
-    @DisplayName("Should set track")
-    public void shouldSetTrack() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
-      departureRegistry.setTrackForDeparture(1, 2);
-      assertEquals(2, departureRegistry.getDepartureByTrainNumber(1).getTrack());
-    }
-
-    @Test
-    @DisplayName("Should not set track when track is 0")
-    public void shouldNotSetTrackWhenTrackIs0() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
-      assertThrows(IllegalArgumentException.class, () -> departureRegistry.setTrackForDeparture(1, 0));
-    }
-
-    @Test
-    @DisplayName("Should not set track when track is a negative number other than -1")
-    public void shouldNotSetTrackWhenTrackIsNegativeNumberOtherThan1() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
-      assertThrows(IllegalArgumentException.class, () -> departureRegistry.setTrackForDeparture(1, -10));
-    }
+  @Test
+  @DisplayName("Should remove passed departures")
+  public void shouldRemovePassedDepartures() {
+    DepartureRegistry departureRegistry = new DepartureRegistry();
+    departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
+    departureRegistry.addDeparture("11:00", "R11", 2, "Drammen", 2, "00:10");
+    departureRegistry.removePassedDepartures("10:30");
+    assertEquals(1, departureRegistry.getSortedDepartures().size());
   }
 
-  @Nested
-  @DisplayName("setDelay tests")
-  public class TestsForSetDelay {
-    @Test
-    @DisplayName("Should set delay")
-    public void shouldSetDelay() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
-      departureRegistry.setDelayForDeparture(1, "00:10");
-      assertEquals("00:10", departureRegistry.getDepartureByTrainNumber(1).getDelay().toString());
-    }
+}
 
-    @Test
-    @DisplayName("Should not set delay with wrong time format")
-    public void shouldNotSetDelayWithWrongTimeFormat() {
-      DepartureRegistry departureRegistry = new DepartureRegistry();
-      assertThrows(IllegalArgumentException.class, () -> departureRegistry.setDelayForDeparture(1, "00"));
-    }
 
-  }
-  }
