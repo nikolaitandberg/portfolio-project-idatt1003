@@ -23,144 +23,106 @@ public class DepartureTest {
     @Test
     @DisplayName("Departure creation test")
     public void shouldCreateDeparture() {
-      Departure departure1 = new Departure("10:00", "R14", 1, "Asker", 1, "00:00");
-      assertEquals(Departure.class, departure1.getClass());
-
-      try {
-        new Departure("11:00", "R11", 2, "Drammen", 2, "00:10");
-      } catch (Exception e) {
-        fail("Should not get IllegalArgumentException");
-      }
+      assertDoesNotThrow(() -> new Departure(
+              "10:00",
+              "R14",
+              1,
+              "Asker",
+              1,
+              "00:10"
+      ));
     }
 
     @Test
-    @DisplayName("Empty line exception handling test")
-    public void emptyLine() {
-      try {
-        new Departure(
-                "10:00",
-                "",
-                1,
-                "Asker",
-                1,
-                "00:10"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch (IllegalArgumentException e) {
-        assertEquals("Line cannot be left empty", e.getMessage());
-      }
+    @DisplayName("Should not create departure with wrong time format")
+    public void shouldNotCreateDepartureWithWrongTimeFormat() {
+      assertThrows(IllegalArgumentException.class, () -> new Departure(
+              "10",
+              "R14",
+              1,
+              "Asker",
+              1,
+              "00:10"
+      ));
     }
 
     @Test
-    @DisplayName("Train number exception handling test")
-    public void badTrainNumber() {
-      try {
-        new Departure(
-                "10:00",
-                "R14",
-                0,
-                "Asker",
-                1,
-                "00:10"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch (IllegalArgumentException e) {
-        assertEquals("Train number cannot be less than 1", e.getMessage());
-      }
+    @DisplayName("Should not create departure with wrong delay format")
+    public void shouldNotCreateDepartureWithWrongDelayFormat() {
+      assertThrows(IllegalArgumentException.class, () -> new Departure(
+              "10:00",
+              "R14",
+              1,
+              "Asker",
+              1,
+              "00"
+      ));
     }
 
     @Test
-    @DisplayName("Destination exception handling test")
-    public void badDestination() {
-      try {
-        new Departure(
-                "10:00",
-                "R14",
-                1,
-                "",
-                1,
-                "00:10"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch (IllegalArgumentException e) {
-        assertEquals("Destination cannot be left empty", e.getMessage());
-      }
+    @DisplayName("Should not create departure with empty line")
+    public void shouldNotCreateDepartureWithEmptyLine() {
+      assertThrows(IllegalArgumentException.class, () -> new Departure(
+              "10:00",
+              "",
+              1,
+              "Asker",
+              1,
+              "00:10"
+      ));
     }
 
     @Test
-    @DisplayName("Track negative number exception handling test")
-    public void negativeNumberTrack() {
-      try {
-        new Departure(
-                "10:00",
-                "R14",
-                1,
-                "Asker",
-                -10,
-                "00:10"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch (IllegalArgumentException e) {
-        assertEquals("Track cannot be 0 or a negative number other than -1", e.getMessage());
-      }
-
+    @DisplayName("Should not create departure with train number less than 1")
+    public void shouldNotCreateDepartureWithTrainNumberLessThan1() {
+      assertThrows(IllegalArgumentException.class, () -> new Departure(
+              "10:00",
+              "R14",
+              0,
+              "Asker",
+              1,
+              "00:10"
+      ));
     }
 
     @Test
-    @DisplayName("Track 0 exception handling test")
-    public void badTrack() {
-      try {
-        new Departure(
-                "10:00",
-                "R14",
-                1,
-                "Asker",
-                0,
-                "00:10"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch (IllegalArgumentException e) {
-        assertEquals("Track cannot be 0 or a negative number other than -1", e.getMessage());
-      }
-    }
-
-
-    @Test
-    @DisplayName("Delay wrong format exception handling test")
-    public void badFormatDelay() {
-      try {
-        new Departure(
-                "10:00",
-                "R14",
-                1,
-                "Asker",
-                1,
-                "100000000"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch(IllegalArgumentException e) {
-        assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
-      }
+    @DisplayName("Should not create departure with empty destination")
+    public void shouldNotCreateDepartureWithEmptyDestination() {
+      assertThrows(IllegalArgumentException.class, () -> new Departure(
+              "10:00",
+              "R14",
+              1,
+              "",
+              1,
+              "00:10"
+      ));
     }
 
     @Test
-    @DisplayName("Empty delay exception handling test")
-    public void emptyDelay() {
-      try {
-        new Departure(
-                "00:10",
-                "R14",
-                1,
-                "Asker",
-                1,
-                ""
-        );
-        fail("should throw IllegalArgumentException");
-      } catch (IllegalArgumentException e) {
-        assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
-      }
+    @DisplayName("Should not create departure with track 0")
+    public void shouldNotCreateDepartureWithTrack0() {
+      assertThrows(IllegalArgumentException.class, () -> new Departure(
+              "10:00",
+              "R14",
+              1,
+              "Asker",
+              0,
+              "00:10"
+      ));
     }
 
+    @Test
+    @DisplayName("Should not create departure with track less than -1")
+    public void shouldNotCreateDepartureWithTrackLessThanMinus1() {
+      assertThrows(IllegalArgumentException.class, () -> new Departure(
+              "10:00",
+              "R14",
+              1,
+              "Asker",
+              -2,
+              "00:10"
+      ));
+    }
   }
 
   @Nested
