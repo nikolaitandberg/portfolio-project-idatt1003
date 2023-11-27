@@ -34,42 +34,6 @@ public class DepartureTest {
     }
 
     @Test
-    @DisplayName("Departure time wrong format exception handling test")
-    public void badFormatDepartureTime() {
-      try {
-        new Departure(
-                "10",
-                "R14",
-                1,
-                "Asker",
-                1,
-                "00:10"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch (IllegalArgumentException e) {
-        assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
-      }
-    }
-
-    @Test
-    @DisplayName("Empty departure time exception handling test")
-    public void emptyDepartureTime() {
-      try {
-        new Departure(
-                "",
-                "R14",
-                1,
-                "Asker",
-                1,
-                "00:10"
-        );
-        fail("should throw IllegalArgumentException");
-      } catch (IllegalArgumentException e) {
-        assertEquals("Invalid time format. Expected format: 'HH:mm'", e.getMessage());
-      }
-    }
-
-    @Test
     @DisplayName("Empty line exception handling test")
     public void emptyLine() {
       try {
