@@ -1,6 +1,7 @@
 package edu.ntnu.stud.view;
 
 import edu.ntnu.stud.models.DepartureRegistry;
+import edu.ntnu.stud.utils.TimeHandling;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -34,7 +35,11 @@ public class UserInterface {
    */
   public static void start() {
 
+    System.out.println("Welcome to the train dispatch application!");
+
     while (running) {
+      System.out.println("Please choose an option from the menu below: ");
+      System.out.println("-----------------------------------------------");
       System.out.println("1. List all departures");
       System.out.println("2. Add a departure");
       System.out.println("3. Assign a track to a departure");
@@ -45,7 +50,7 @@ public class UserInterface {
       System.out.println("8. Shut down the application");
       input = new Scanner(System.in);
 
-      switch (input.nextInt()) {
+      switch (getValidMenuOptionInput()) {
 
         case 1:
           listAllDepartures();
@@ -73,7 +78,7 @@ public class UserInterface {
           running = false;
           break;
         default:
-          System.out.println("please enter a number from 1 through 8");
+          System.out.println("Input has to be an integer (1 - 8)");
       }
     }
 
@@ -94,22 +99,22 @@ public class UserInterface {
    */
   private static void addDeparture() {
     System.out.println("Departure time (HH:mm format): ");
-    String departureTime = input.next();
+    String departureTime = getValidDepartureTimeInput();
 
     System.out.println("Line: ");
-    String line = input.next();
+    String line = getValidLineInput();
 
     System.out.println("Train number: ");
-    int trainNumber = getValidIntInput();
+    int trainNumber = getValidTrainNumberInput();
 
     System.out.println("Destination: ");
-    String destination = input.next();
+    String destination = getValidDestinationInput();
 
     System.out.println("Delay (HH:mm format): ");
-    String delay = input.next();
+    String delay = getValidDepartureTimeInput();
 
     System.out.println("Track (-1 if no track is assigned): ");
-    int track = getValidIntInput();
+    int track = getValidTrackInput();
 
     try {
       departureRegistry.addDeparture(
@@ -131,9 +136,9 @@ public class UserInterface {
    */
   private static void assignTrackToDeparture() {
     System.out.println("Train number: ");
-    int trainNumberNewTrack = getValidIntInput();
-    System.out.println("Track: ");
-    int newTrack = getValidIntInput();
+    int trainNumberNewTrack = getValidTrainNumberInput();
+    System.out.println("New track: ");
+    int newTrack = getValidTrackInput();
     try {
       departureRegistry.setTrackForDeparture(trainNumberNewTrack, newTrack);
     } catch (NoSuchElementException e) {
@@ -147,9 +152,9 @@ public class UserInterface {
    */
   private static void assignDelayToDeparture() {
     System.out.println("Train number: ");
-    int trainNumberNewDelay = getValidIntInput();
+    int trainNumberNewDelay = getValidTrainNumberInput();
     System.out.println("Delay (HH:mm format): ");
-    String newDelay = input.next();
+    String newDelay = getValidDepartureTimeInput();
     try {
       departureRegistry.setDelayForDeparture(trainNumberNewDelay, newDelay);
     } catch (NoSuchElementException | IllegalArgumentException e) {
@@ -165,7 +170,7 @@ public class UserInterface {
     System.out.println("Train number: ");
     try {
       DepartureInformationDisplay.printSingleDeparture(
-              departureRegistry.getDepartureByTrainNumber(getValidIntInput())
+              departureRegistry.getDepartureByTrainNumber(getValidTrainNumberInput())
       );
     } catch (NoSuchElementException e) {
       System.out.println(e.getMessage());
@@ -180,7 +185,7 @@ public class UserInterface {
     System.out.println("Destination: ");
     try {
       DepartureInformationDisplay.printDepartureList(
-              departureRegistry.getDeparturesByDestination(input.next())
+              departureRegistry.getDeparturesByDestination(getValidDestinationInput())
       );
     } catch (NoSuchElementException e) {
       System.out.println(e.getMessage());
@@ -193,32 +198,118 @@ public class UserInterface {
    */
   private static void updateClock() {
     System.out.println("New time (HH:mm format): ");
-    departureRegistry.removePassedDepartures(input.next());
+    departureRegistry.removePassedDepartures(getValidDepartureTimeInput());
   }
 
-  /**
-   * Gets a valid integer input from the user.
-   *
-   * @return the valid integer input
-   */
-  private static int getValidIntInput() {
-    int integer = 0;
+  private static String getValidDepartureTimeInput() {
+    String departureTime = "";
+    boolean validInput = false;
+
+    while (!validInput) {
+      try {
+        departureTime = input.next();
+        TimeHandling.parseTimeString(departureTime);
+        validInput = true;
+      } catch (IllegalArgumentException e) {
+        System.out.println("input has to be in the format HH:mm, please try again: ");
+        input.nextLine();
+      }
+  }
+    return departureTime;
+  }
+
+  private static String getValidLineInput() {
+    String line = "";
+    boolean validInput = false;
+
+    while (!validInput) {
+      line = input.next();
+      if (line.length() < 5) {
+        validInput = true;
+      } else {
+        System.out.println("input has to be less than 5 characters, please try again: ");
+        input.nextLine();
+      }
+  }
+    return line;
+  }
+
+  private static int getValidTrainNumberInput() {
+    int trainNumber = 0;
 
     boolean validInput = false;
     while (!validInput) {
       try {
-        integer = input.nextInt();
-        validInput = true;
+        trainNumber = input.nextInt();
+        if (trainNumber < 10000 && trainNumber > 0) {
+          validInput = true;
+        } else {
+          System.out.println("input has to be a an integer (1 - 10000), please try again: ");
+          input.nextLine();
+        }
       } catch (InputMismatchException e) {
-        System.out.println("input has to be an integer, please try again: ");
+        System.out.println("input has to be an integer (1 - 10000), please try again: ");
         input.next();
       }
     }
-    return integer;
+    return trainNumber;
   }
 
+  private static String getValidDestinationInput() {
+    String destination = "";
+    boolean validInput = false;
 
+    while (!validInput) {
+      destination = input.next();
+      if (destination.length() < 12) {
+        validInput = true;
+      } else {
+        System.out.println("input has to be less than 16 characters, please try again: ");
+        input.nextLine();
+      }
+    }
+    return destination;
+  }
 
+  private static int getValidTrackInput() {
+    int track = 0;
 
+    boolean validInput = false;
+    while (!validInput) {
+      try {
+        track = input.nextInt();
+        if (track < 10000 && track > 0 || track == -1) {
+          validInput = true;
+        } else {
+          System.out.println("input has to be a an integer (1 - 10000), or -1 if no track is assigned yet, please try again: ");
+          input.nextLine();
+        }
+      } catch (InputMismatchException e) {
+        System.out.println("input has to be an integer (1 - 10000), or -1 if no track is assigned yet, please try again: ");
+        input.next();
+      }
+    }
+    return track;
+  }
 
+  private static int getValidMenuOptionInput() {
+    int menuOption = 0;
+
+    boolean validInput = false;
+    while (!validInput) {
+      try {
+        menuOption = input.nextInt();
+        if (menuOption < 9 && menuOption > 0) {
+          validInput = true;
+        } else {
+          System.out.println("Input has to be an integer (1 - 8), please try again: ");
+          input.nextLine();
+        }
+      } catch (InputMismatchException e) {
+        System.out.println("Input has to be an integer (1 - 8), please try again: ");
+        input.next();
+      }
+    }
+    return menuOption;
+  }
 }
