@@ -97,7 +97,7 @@ public class DepartureRegistry {
   }
 
   /**
-   * Gets all departures with a given destination.
+   * Gets all departures with a given destination in ascending order by departure time.
    *
    * @param destination the destination of the departures
    * @return A list of departures with the given destination
@@ -107,6 +107,7 @@ public class DepartureRegistry {
     if (checkIfDepartureWithDestinationExists(destination)) {
       return departures.stream()
               .filter(departure -> departure.getDestination().equals(destination))
+              .sorted(Comparator.comparing(Departure::getDepartureTime))
               .collect(Collectors.toList());
     } else {
       throw new NoSuchElementException("No departure with this destination exists!");
