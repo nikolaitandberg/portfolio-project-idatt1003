@@ -42,8 +42,7 @@ public class UserInterface {
     System.out.println("Welcome to the train dispatch application!");
 
     while (running) {
-      System.out.println("Please choose an option from the menu below: ");
-      System.out.println("-----------------------------------------------");
+      System.out.println("\nPlease choose an option from the menu below by typing the corresponding number (1-8): ");
       System.out.println("1. List all departures");
       System.out.println("2. Add a departure");
       System.out.println("3. Assign a track to a departure");
@@ -94,7 +93,11 @@ public class UserInterface {
    *
    */
   private static void listAllDepartures() {
-    printDepartureList(departureRegistry.getSortedDepartures());
+    try {
+      printDepartureList(departureRegistry.getSortedDepartures());
+    } catch (NoSuchElementException e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   /**
@@ -202,7 +205,11 @@ public class UserInterface {
    */
   private static void updateClock() {
     System.out.println("New time (HH:mm format): ");
-    departureRegistry.removePassedDepartures(getValidDepartureTimeInput());
+    try {
+      departureRegistry.setClock(getValidDepartureTimeInput());
+    } catch (IllegalArgumentException e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   private static String getValidDepartureTimeInput() {
@@ -322,6 +329,10 @@ public class UserInterface {
    * @param departureList the list of departures to print
    */
   private static void printDepartureList(List<Departure> departureList) {
+    System.out.println(
+            "--------------------------------------------------------------------------"
+    );
+    System.out.println("| Train dispatch system                              CURRENT TIME: " + departureRegistry.getClock() + " |");
     System.out.println(
             "--------------------------------------------------------------------------"
     );
