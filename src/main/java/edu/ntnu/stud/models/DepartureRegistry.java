@@ -31,6 +31,8 @@ public class DepartureRegistry {
    * @param destination   the last stop on the line
    * @param track         the track at which the train arrives at the station
    * @param delay         the amount of time the train is delayed compared to it's scheduled time
+   * @throws IllegalArgumentException
+   *         if a departure with the same train number is already registered
    */
   public void addDeparture(
           String departureTime,
@@ -39,7 +41,7 @@ public class DepartureRegistry {
           String destination,
           int track,
           String delay
-  ) {
+  ) throws IllegalArgumentException {
     if (checkIfDepartureWithTrainNumberExists(trainNumber)) {
       throw new IllegalArgumentException(
               "A departure with this train number is already registered!"
@@ -74,7 +76,7 @@ public class DepartureRegistry {
    * @return A list containing the departure with the given train number
    * @throws NoSuchElementException if no departure with the given train number exists
    */
-  public List<Departure> getDepartureByTrainNumber(int trainNumber) {
+  public List<Departure> getDepartureByTrainNumber(int trainNumber) throws NoSuchElementException {
     if (checkIfDepartureWithTrainNumberExists(trainNumber)) {
       return departures.stream()
               .filter(departure -> departure.getTrainNumber() == trainNumber)
@@ -103,7 +105,8 @@ public class DepartureRegistry {
    * @return A list of departures with the given destination
    * @throws NoSuchElementException if no departure with the given destination exists
    */
-  public List<Departure> getDeparturesByDestination(String destination) {
+  public List<Departure> getDeparturesByDestination(String destination)
+          throws NoSuchElementException {
     if (checkIfDepartureWithDestinationExists(destination)) {
       return departures.stream()
               .filter(departure -> departure.getDestination().equals(destination))
@@ -120,7 +123,7 @@ public class DepartureRegistry {
    * @return an ArrayList of the sorted departures
    * @throws NoSuchElementException if no departures are registered
    */
-  public List<Departure> getSortedDepartures() {
+  public List<Departure> getSortedDepartures() throws NoSuchElementException {
     if (!departures.isEmpty()) {
       return departures.stream()
               .sorted(Comparator.comparing(Departure::getDepartureTime))
@@ -160,7 +163,7 @@ public class DepartureRegistry {
    * @param newTime the new time
    * @throws IllegalArgumentException if the new time is before the current time
    */
-  public void setClock(String newTime) {
+  public void setClock(String newTime) throws IllegalArgumentException {
     if (TimeHandling.parseTimeString(newTime).isBefore(clock)) {
       throw new IllegalArgumentException("New time cannot be before current time!");
     }
@@ -175,6 +178,6 @@ public class DepartureRegistry {
   private void removePastDepartures() {
     departures.removeIf(
             departure -> TimeHandling.addDelay(departure.getDepartureTime(), departure.getDelay())
-                    .isBefore(clock));
+            .isBefore(clock));
   }
 }
