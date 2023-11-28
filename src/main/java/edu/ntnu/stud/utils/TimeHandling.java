@@ -15,7 +15,8 @@ public class TimeHandling {
 
   public TimeHandling() {}
 
-  /** Parses string of format "HH:mm" into a LocalTime object.
+  /**
+   * Parses string of format "HH:mm" into a LocalTime object.
    *
    * @param timeString the string that is parsed
    * @return the time as a LocalTime object
@@ -26,29 +27,26 @@ public class TimeHandling {
     try {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
       time = LocalTime.parse(timeString, formatter);
-    }
-    catch (DateTimeParseException dateTimeParseException) {
-      throw new IllegalArgumentException("Invalid time format. Expected format: 'HH:mm'", dateTimeParseException);
+    } catch (DateTimeParseException dateTimeParseException) {
+      throw new IllegalArgumentException(
+              "Invalid time format. Expected format: 'HH:mm'", dateTimeParseException
+      );
     }
     return time;
   }
 
-  /** Adds two LocalTimeObjects with format "HH:mm".
+  /**
+   * Adds two LocalTimeObjects with format "HH:mm".
    *
    *
    * @param time the time to be added to
    * @param delay the delay to be added
    * @return returns the sum of the two LocalTime objects as a single LocalTime object
-   * @throws IllegalArgumentException if the sum of the two LocalTime objects is greater than 24 hours
    * @throws NullPointerException if either of the LocalTime objects are null
    */
-  public static LocalTime addDelay(LocalTime time, LocalTime delay) throws NullPointerException, IllegalArgumentException {
+  public static LocalTime addDelay(LocalTime time, LocalTime delay) throws NullPointerException {
     if (time == null || delay == null) {
       throw new NullPointerException("Time or delay cannot be null");
-    }
-
-    if (time.getHour() + delay.getHour() > 23 || time.getHour() + delay.getHour() == 23 && time.getMinute() + delay.getMinute() > 59) {
-      throw new IllegalArgumentException("Return time value cannot be greater than 24 hours");
     }
 
     return time.plusHours(delay.getHour()).plusMinutes(delay.getMinute());

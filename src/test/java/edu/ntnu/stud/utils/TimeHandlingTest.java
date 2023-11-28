@@ -105,12 +105,6 @@ class TimeHandlingTest {
     }
 
     @Test
-    @DisplayName("Should not add delay to time when sum is greater than 24 hours")
-    public void shouldNotAddDelay() {
-      assertThrows(IllegalArgumentException.class, () -> TimeHandling.addDelay(LocalTime.of(23,50), LocalTime.of(0,10)));
-    }
-
-    @Test
     @DisplayName("Should not add delay to time when time is null")
     public void shouldNotAddDelayWhenNull() {
       assertThrows(NullPointerException.class, () -> TimeHandling.addDelay(null, LocalTime.of(0,20)));
