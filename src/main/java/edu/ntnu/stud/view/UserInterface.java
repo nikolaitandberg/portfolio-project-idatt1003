@@ -3,8 +3,6 @@ package edu.ntnu.stud.view;
 import edu.ntnu.stud.models.Departure;
 import edu.ntnu.stud.models.DepartureRegistry;
 import edu.ntnu.stud.utils.TimeHandling;
-
-import java.time.LocalTime;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -51,7 +49,6 @@ public class UserInterface {
       System.out.println("6. Search for departures by their destination");
       System.out.println("7. Update the clock");
       System.out.println("8. Shut down the application");
-      input = new Scanner(System.in);
 
       switch (getValidMenuOptionInput()) {
 
@@ -345,22 +342,29 @@ public class UserInterface {
     );
     for (Departure departure : departureList) {
 
-      if (departure.getDelay() == LocalTime.parse("00:00")) {
-        System.out.printf("| %14s | %4s | %12s | %15s | %5s |       |\n",
-                departure.getDepartureTime(),
-                departure.getLine(),
-                departure.getTrainNumber(),
-                departure.getDestination(),
-                departure.getTrack());
+      String track;
+
+      if (departure.getTrack() == -1) {
+        track = "";
       } else {
-        System.out.printf("| %14s | %4s | %12s | %15s | %5s | %5s |\n",
-                departure.getDepartureTime(),
-                departure.getLine(),
-                departure.getTrainNumber(),
-                departure.getDestination(),
-                departure.getTrack(),
-                departure.getDelay());
+        track = Integer.toString(departure.getTrack());
       }
+
+      String delay;
+
+      if (departure.getDelay().equals(TimeHandling.parseTimeString("00:00"))) {
+        delay = "";
+      } else {
+        delay = departure.getDelay().toString();
+      }
+
+      System.out.printf("| %14s | %4s | %12s | %15s | %5s | %5s |\n",
+              departure.getDepartureTime(),
+              departure.getLine(),
+              departure.getTrainNumber(),
+              departure.getDestination(),
+              track,
+              delay);
     }
     System.out.println(
             "--------------------------------------------------------------------------"
