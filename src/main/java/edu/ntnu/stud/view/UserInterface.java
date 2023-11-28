@@ -1,8 +1,12 @@
 package edu.ntnu.stud.view;
 
+import edu.ntnu.stud.models.Departure;
 import edu.ntnu.stud.models.DepartureRegistry;
 import edu.ntnu.stud.utils.TimeHandling;
+
+import java.time.LocalTime;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -90,7 +94,7 @@ public class UserInterface {
    *
    */
   private static void listAllDepartures() {
-    DepartureInformationDisplay.printDepartureList(departureRegistry.getSortedDepartures());
+    printDepartureList(departureRegistry.getSortedDepartures());
   }
 
   /**
@@ -169,7 +173,7 @@ public class UserInterface {
   private static void searchForDepartureByTrainNumber() {
     System.out.println("Train number: ");
     try {
-      DepartureInformationDisplay.printDepartureList(
+      printDepartureList(
               departureRegistry.getDepartureByTrainNumber(getValidTrainNumberInput())
       );
     } catch (NoSuchElementException e) {
@@ -184,7 +188,7 @@ public class UserInterface {
   private static void searchForDeparturesByDestination() {
     System.out.println("Destination: ");
     try {
-      DepartureInformationDisplay.printDepartureList(
+      printDepartureList(
               departureRegistry.getDeparturesByDestination(getValidDestinationInput())
       );
     } catch (NoSuchElementException e) {
@@ -311,5 +315,44 @@ public class UserInterface {
       }
     }
     return menuOption;
+  }
+
+  /** Prints a list of departures with labels to the terminal.
+   *
+   * @param departureList the list of departures to print
+   */
+  private static void printDepartureList(List<Departure> departureList) {
+    System.out.println(
+            "--------------------------------------------------------------------------"
+    );
+    System.out.printf(
+            "| %14s | %4s | %12s | %15s | %5s | %5s |",
+            "DEPARTURE TIME", "LINE", "TRAIN NUMBER", "DESTINATION", "TRACK", "DELAY"
+    );
+    System.out.println(
+            "\n--------------------------------------------------------------------------"
+    );
+    for (Departure departure : departureList) {
+
+      if (departure.getDelay() == LocalTime.parse("00:00")) {
+        System.out.printf("| %14s | %4s | %12s | %15s | %5s |       |\n",
+                departure.getDepartureTime(),
+                departure.getLine(),
+                departure.getTrainNumber(),
+                departure.getDestination(),
+                departure.getTrack());
+      } else {
+        System.out.printf("| %14s | %4s | %12s | %15s | %5s | %5s |\n",
+                departure.getDepartureTime(),
+                departure.getLine(),
+                departure.getTrainNumber(),
+                departure.getDestination(),
+                departure.getTrack(),
+                departure.getDelay());
+      }
+    }
+    System.out.println(
+            "--------------------------------------------------------------------------"
+    );
   }
 }
