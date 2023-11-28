@@ -169,7 +169,7 @@ public class UserInterface {
   private static void searchForDepartureByTrainNumber() {
     System.out.println("Train number: ");
     try {
-      DepartureInformationDisplay.printSingleDeparture(
+      DepartureInformationDisplay.printDepartureList(
               departureRegistry.getDepartureByTrainNumber(getValidTrainNumberInput())
       );
     } catch (NoSuchElementException e) {

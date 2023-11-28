@@ -45,7 +45,7 @@ class DepartureRegistryTest {
     public void shouldGetDepartureByTrainNumber() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
-      assertEquals(1, departureRegistry.getDepartureByTrainNumber(1).getTrainNumber());
+      assertEquals(1, departureRegistry.getDepartureByTrainNumber(1).get(0).getTrainNumber());
     }
 
     @Test

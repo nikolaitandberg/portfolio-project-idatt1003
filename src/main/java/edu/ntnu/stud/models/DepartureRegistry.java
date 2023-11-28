@@ -71,12 +71,11 @@ public class DepartureRegistry {
    * @return the departure with the given train number
    * @throws NoSuchElementException if no departure with the given train number exists
    */
-  public Departure getDepartureByTrainNumber(int trainNumber) {
+  public List<Departure> getDepartureByTrainNumber(int trainNumber) {
     if (checkIfDepartureWithTrainNumberExists(trainNumber)) {
       return departures.stream()
               .filter(departure -> departure.getTrainNumber() == trainNumber)
-              .findFirst()
-              .orElseThrow(NoSuchElementException::new);
+              .collect(Collectors.toList());
     } else {
       throw new NoSuchElementException("No departure with this train number exists!");
     }
@@ -147,7 +146,7 @@ public class DepartureRegistry {
    * @param track the track the train of the departure is assigned to
    */
   public void setTrackForDeparture(int trainNumber, int track) {
-    getDepartureByTrainNumber(trainNumber).setTrack(track);
+    getDepartureByTrainNumber(trainNumber).get(0).setTrack(track);
   }
 
   /**
@@ -157,7 +156,7 @@ public class DepartureRegistry {
    * @param delay updated delay for the specific departure
    */
   public void setDelayForDeparture(int trainNumber, String delay) {
-    getDepartureByTrainNumber(trainNumber).setDelay(delay);
+    getDepartureByTrainNumber(trainNumber).get(0).setDelay(delay);
   }
 
 
