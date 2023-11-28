@@ -1,6 +1,7 @@
 package edu.ntnu.stud.models;
 
 import edu.ntnu.stud.utils.TimeHandling;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
  */
 public class DepartureRegistry {
   private final ArrayList<Departure> departures = new ArrayList<>();
+
+  private LocalTime clock = LocalTime.of(0, 0);
 
   public DepartureRegistry() {}
 
@@ -68,7 +71,7 @@ public class DepartureRegistry {
    * Gets a single departure with a given train number.
    *
    * @param trainNumber the train number of the departure
-   * @return the departure with the given train number
+   * @return A list containing the departure with the given train number
    * @throws NoSuchElementException if no departure with the given train number exists
    */
   public List<Departure> getDepartureByTrainNumber(int trainNumber) {
@@ -110,19 +113,6 @@ public class DepartureRegistry {
     }
   }
 
-
-
-  /**
-   * removes all the departures before a given time.
-   *
-   * @param newTime all departures before this time are removed
-   */
-  public void removePassedDepartures(String newTime) {
-    departures.removeIf(
-        departure -> TimeHandling.addDelay(departure.getDepartureTime(), departure.getDelay())
-        .isBefore(TimeHandling.parseTimeString(newTime)));
-  }
-
   /**
    * Gets all departures in registry sorted in ascending order by departure time.
    *
@@ -137,6 +127,10 @@ public class DepartureRegistry {
     } else {
       throw new NoSuchElementException("No departures are registered!");
     }
+  }
+
+  public LocalTime getClock() {
+    return clock;
   }
 
   /**
@@ -159,5 +153,27 @@ public class DepartureRegistry {
     getDepartureByTrainNumber(trainNumber).get(0).setDelay(delay);
   }
 
+  /**
+   * Sets the clock to a new time.
+   *
+   * @param newTime the new time
+   * @throws IllegalArgumentException if the new time is before the current time
+   */
+  public void setClock(String newTime) {
+    if (TimeHandling.parseTimeString(newTime).isBefore(clock)) {
+      throw new IllegalArgumentException("New time cannot be before current time!");
+    }
+    clock = TimeHandling.parseTimeString(newTime);
+    removePastDepartures();
+  }
 
+  /**
+   * removes all the departures before a given time.
+   *
+   */
+  private void removePastDepartures() {
+    departures.removeIf(
+            departure -> TimeHandling.addDelay(departure.getDepartureTime(), departure.getDelay())
+                    .isBefore(clock));
+  }
 }

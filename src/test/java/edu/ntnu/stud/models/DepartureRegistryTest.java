@@ -99,16 +99,35 @@ class DepartureRegistryTest {
     }
   }
 
-  @Test
-  @DisplayName("Should remove passed departures")
-  public void shouldRemovePassedDepartures() {
-    DepartureRegistry departureRegistry = new DepartureRegistry();
-    departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
-    departureRegistry.addDeparture("11:00", "R11", 2, "Drammen", 2, "00:10");
-    departureRegistry.removePassedDepartures("10:30");
-    assertEquals(1, departureRegistry.getSortedDepartures().size());
-  }
+  @Nested
+  @DisplayName("setClock tests")
+  public class TestsForSetClock {
+    @Test
+    @DisplayName("Should set clock")
+    public void shouldSetClock() {
+      DepartureRegistry departureRegistry = new DepartureRegistry();
+      departureRegistry.setClock("10:00");
+      assertEquals("10:00", departureRegistry.getClock().toString());
+    }
 
+    @Test
+    @DisplayName("Should not set clock before current time")
+    public void shouldNotSetClockBeforeCurrentTime() {
+      DepartureRegistry departureRegistry = new DepartureRegistry();
+      departureRegistry.setClock("10:00");
+      assertThrows(IllegalArgumentException.class, () -> departureRegistry.setClock("09:00"));
+    }
+
+    @Test
+    @DisplayName("Should remove past departures")
+    public void shouldRemovePastDepartures() {
+      DepartureRegistry departureRegistry = new DepartureRegistry();
+      departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
+      departureRegistry.addDeparture("11:00", "R11", 2, "Drammen", 2, "00:10");
+      departureRegistry.setClock("10:30");
+      assertEquals(1, departureRegistry.getSortedDepartures().size());
+    }
+  }
 }
 
 
