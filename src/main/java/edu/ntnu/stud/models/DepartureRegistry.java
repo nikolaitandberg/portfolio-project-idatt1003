@@ -70,10 +70,10 @@ public class DepartureRegistry {
   }
 
   /**
-   * Gets one single departure with a given train number.
+   * Gets departure by its train number.
    *
    * @param trainNumber the train number of the departure
-   * @return A list containing the departure with the given train number
+   * @return the departure with the given train number
    * @throws NoSuchElementException if no departure with the given train number exists
    */
   public Departure getDepartureByTrainNumber(int trainNumber) throws NoSuchElementException {
@@ -134,7 +134,7 @@ public class DepartureRegistry {
   }
 
   /**
-   * gets clock for the DepartureRegistry
+   * gets clock for the DepartureRegistry.
    *
    * @return the clock time as a localTime object
    */
@@ -165,7 +165,7 @@ public class DepartureRegistry {
   /**
    * Sets clock to a new time and removes past departures.
    *
-   * @param newTime the new time
+   * @param newTime the new time the clock will be set to
    * @throws IllegalArgumentException if the new time is before the current time
    */
   public void setClock(String newTime) throws IllegalArgumentException {

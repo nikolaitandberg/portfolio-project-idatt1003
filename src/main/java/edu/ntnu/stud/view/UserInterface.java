@@ -360,7 +360,8 @@ public class UserInterface {
     return option;
   }
 
-  /** Prints a list of departures in a table to the terminal.
+  /**
+   * Prints a list of departures in a table to the terminal.
    *
    * @param departureList the list of departures to print
    */
@@ -369,7 +370,9 @@ public class UserInterface {
             departureList.stream().map(Departure::toString).collect(Collectors.joining("\n"))
     );
   }
-  /** Prints a single departure in a table to the terminal.
+
+  /**
+   * Prints a single departure in a table to the terminal.
    *
    * @param departure the departure to print
    */
@@ -377,7 +380,8 @@ public class UserInterface {
     printTable(departure.toString());
   }
 
-  /** Prints a table with labels to the terminal.
+  /**
+   * Prints a table with labels to the terminal.
    *
    * @param items the items to print in the table
    */
