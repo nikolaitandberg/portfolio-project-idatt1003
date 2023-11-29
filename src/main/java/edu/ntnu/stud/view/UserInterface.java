@@ -1,8 +1,10 @@
 package edu.ntnu.stud.view;
 
+import edu.ntnu.stud.models.Departure;
 import edu.ntnu.stud.models.DepartureRegistry;
 import edu.ntnu.stud.utils.TimeHandling;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -174,7 +176,7 @@ public class UserInterface {
     System.out.println("Train number: ");
     try {
       printDepartureList(
-              departureRegistry.getDepartureByTrainNumberString(getValidTrainNumberInput())
+              departureRegistry.getDepartureByTrainNumber(getValidTrainNumberInput())
       );
     } catch (NoSuchElementException e) {
       System.out.println(e.getMessage());
@@ -361,7 +363,7 @@ public class UserInterface {
    *
    * @param departureList the list of departures to print
    */
-  private static void printDepartureList(String departureList) {
+  private static void printDepartureList(List<Departure> departureList) {
     System.out.println(
             "--------------------------------------------------------------------------"
     );
@@ -377,7 +379,32 @@ public class UserInterface {
     System.out.println(
             "\n--------------------------------------------------------------------------"
     );
-    System.out.println(departureList);
+    for (Departure departure : departureList) {
+
+      String track;
+
+      if (departure.getTrack() == -1) {
+        track = "";
+      } else {
+        track = Integer.toString(departure.getTrack());
+      }
+
+      String delay;
+
+      if (departure.getDelay().equals(TimeHandling.parseTimeString("00:00"))) {
+        delay = "";
+      } else {
+        delay = departure.getDelay().toString();
+      }
+
+      System.out.printf("| %14s | %4s | %12s | %15s | %5s | %5s |\n",
+              departure.getDepartureTime(),
+              departure.getLine(),
+              departure.getTrainNumber(),
+              departure.getDestination(),
+              track,
+              delay);
+    }
     System.out.println(
             "--------------------------------------------------------------------------"
     );

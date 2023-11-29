@@ -4,6 +4,7 @@ import edu.ntnu.stud.utils.TimeHandling;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
@@ -75,17 +76,14 @@ public class DepartureRegistry {
    * @return A list containing the departure with the given train number
    * @throws NoSuchElementException if no departure with the given train number exists
    */
-  private Departure getDepartureByTrainNumber(int trainNumber) throws NoSuchElementException {
-    return departures.stream()
-            .filter(departure -> departure.getTrainNumber() == trainNumber)
-            .findFirst()
-            .orElseThrow(() -> new NoSuchElementException(
-                    "No departure with this train number exists!"
-            ));
-  }
-  
-  public String getDepartureByTrainNumberString(int trainNumber) throws NoSuchElementException{
-    return getDepartureByTrainNumber(trainNumber).toString();
+  public List<Departure> getDepartureByTrainNumber(int trainNumber) throws NoSuchElementException {
+    if (checkIfDepartureWithTrainNumberExists(trainNumber)) {
+      return departures.stream()
+              .filter(departure -> departure.getTrainNumber() == trainNumber)
+              .collect(Collectors.toList());
+    } else {
+      throw new NoSuchElementException("No departure with this train number exists!");
+    }
   }
 
   /**
@@ -107,14 +105,13 @@ public class DepartureRegistry {
    * @return A list of departures with the given destination
    * @throws NoSuchElementException if no departure with the given destination exists
    */
-  public String getDeparturesByDestination(String destination)
+  public List<Departure> getDeparturesByDestination(String destination)
           throws NoSuchElementException {
     if (checkIfDepartureWithDestinationExists(destination)) {
       return departures.stream()
               .filter(departure -> departure.getDestination().equals(destination))
               .sorted(Comparator.comparing(Departure::getDepartureTime))
-              .map(Departure::toString)
-              .collect(Collectors.joining("\n"));
+              .collect(Collectors.toList());
     } else {
       throw new NoSuchElementException("No departure with this destination exists!");
     }
@@ -126,11 +123,11 @@ public class DepartureRegistry {
    * @return an ArrayList of the sorted departures
    * @throws NoSuchElementException if no departures are registered
    */
-  public String getSortedDepartures() throws NoSuchElementException {
+  public List<Departure> getSortedDepartures() throws NoSuchElementException {
     if (!departures.isEmpty()) {
       return departures.stream()
               .sorted(Comparator.comparing(Departure::getDepartureTime))
-              .map(Departure::toString).collect(Collectors.joining("\n"));
+              .collect(Collectors.toList());
     } else {
       throw new NoSuchElementException("No departures are registered!");
     }
@@ -152,7 +149,7 @@ public class DepartureRegistry {
    * @param track the track the train of the departure is assigned to
    */
   public void setTrackForDeparture(int trainNumber, int track) {
-    getDepartureByTrainNumber(trainNumber).setTrack(track);
+    getDepartureByTrainNumber(trainNumber).get(0).setTrack(track);
   }
 
   /**
@@ -162,7 +159,7 @@ public class DepartureRegistry {
    * @param delay updated delay for the specific departure
    */
   public void setDelayForDeparture(int trainNumber, String delay) {
-    getDepartureByTrainNumber(trainNumber).setDelay(delay);
+    getDepartureByTrainNumber(trainNumber).get(0).setDelay(delay);
   }
 
   /**
