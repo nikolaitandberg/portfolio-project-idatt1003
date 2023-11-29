@@ -107,13 +107,13 @@ class TimeHandlingTest {
     @Test
     @DisplayName("Should not add delay to time when time is null")
     public void shouldNotAddDelayWhenNull() {
-      assertThrows(NullPointerException.class, () -> TimeHandling.addDelay(null, LocalTime.of(0,20)));
+      assertThrows(IllegalArgumentException.class, () -> TimeHandling.addDelay(null, LocalTime.of(0,20)));
     }
 
     @Test
     @DisplayName("Should not add delay to time when delay is null")
     public void shouldNotAddDelayWhenNull2() {
-      assertThrows(NullPointerException.class, () -> TimeHandling.addDelay(LocalTime.of(23,50), null));
+      assertThrows(IllegalArgumentException.class, () -> TimeHandling.addDelay(LocalTime.of(23,50), null));
     }
 
   }

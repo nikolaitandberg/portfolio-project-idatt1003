@@ -42,11 +42,11 @@ public class TimeHandling {
    * @param time the time to be added to
    * @param delay the delay to be added
    * @return returns the sum of the two LocalTime objects as a single LocalTime object
-   * @throws NullPointerException if either of the LocalTime objects are null
+   * @throws IllegalArgumentException if either of the LocalTime objects are null
    */
-  public static LocalTime addDelay(LocalTime time, LocalTime delay) throws NullPointerException {
+  public static LocalTime addDelay(LocalTime time, LocalTime delay) throws IllegalArgumentException {
     if (time == null || delay == null) {
-      throw new NullPointerException("Time or delay cannot be null");
+      throw new IllegalArgumentException("Time or delay cannot be null");
     }
 
     return time.plusHours(delay.getHour()).plusMinutes(delay.getMinute());
