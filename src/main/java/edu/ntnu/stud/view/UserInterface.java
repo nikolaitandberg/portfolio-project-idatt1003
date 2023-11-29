@@ -7,6 +7,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * Class for handling user input and displaying information to the user.
@@ -175,7 +176,7 @@ public class UserInterface {
   private static void searchForDepartureByTrainNumber() {
     System.out.println("Train number: ");
     try {
-      printDepartureList(
+      printDeparture(
               departureRegistry.getDepartureByTrainNumber(getValidTrainNumberInput())
       );
     } catch (NoSuchElementException e) {
@@ -359,11 +360,28 @@ public class UserInterface {
     return option;
   }
 
-  /** Prints a list of departures with labels to the terminal.
+  /** Prints a list of departures in a table to the terminal.
    *
    * @param departureList the list of departures to print
    */
   private static void printDepartureList(List<Departure> departureList) {
+    printTable(
+            departureList.stream().map(Departure::toString).collect(Collectors.joining("\n"))
+    );
+  }
+  /** Prints a single departure in a table to the terminal.
+   *
+   * @param departure the departure to print
+   */
+  private static void printDeparture(Departure departure) {
+    printTable(departure.toString());
+  }
+
+  /** Prints a table with labels to the terminal.
+   *
+   * @param items the items to print in the table
+   */
+  private static void printTable(String items) {
     System.out.println(
             "--------------------------------------------------------------------------"
     );
@@ -379,32 +397,7 @@ public class UserInterface {
     System.out.println(
             "\n--------------------------------------------------------------------------"
     );
-    for (Departure departure : departureList) {
-
-      String track;
-
-      if (departure.getTrack() == -1) {
-        track = "";
-      } else {
-        track = Integer.toString(departure.getTrack());
-      }
-
-      String delay;
-
-      if (departure.getDelay().equals(TimeHandling.parseTimeString("00:00"))) {
-        delay = "";
-      } else {
-        delay = departure.getDelay().toString();
-      }
-
-      System.out.printf("| %14s | %4s | %12s | %15s | %5s | %5s |\n",
-              departure.getDepartureTime(),
-              departure.getLine(),
-              departure.getTrainNumber(),
-              departure.getDestination(),
-              track,
-              delay);
-    }
+    System.out.println(items);
     System.out.println(
             "--------------------------------------------------------------------------"
     );
