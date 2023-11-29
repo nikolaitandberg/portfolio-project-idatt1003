@@ -70,7 +70,7 @@ public class DepartureRegistry {
   }
 
   /**
-   * Gets a single departure with a given train number.
+   * Gets one single departure with a given train number.
    *
    * @param trainNumber the train number of the departure
    * @return A list containing the departure with the given train number
@@ -133,12 +133,17 @@ public class DepartureRegistry {
     }
   }
 
+  /**
+   * gets clock for the DepartureRegistry
+   *
+   * @return the clock time as a localTime object
+   */
   public LocalTime getClock() {
     return clock;
   }
 
   /**
-   * Sets a new track for a specific departure in the departure registry.
+   * Sets new track for a specific departure in the departure registry.
    *
    * @param trainNumber the number of the train for the departure
    * @param track the track the train of the departure is assigned to
@@ -148,7 +153,7 @@ public class DepartureRegistry {
   }
 
   /**
-   * Sets a new delay for a specific departure in the departure registry.
+   * Sets new delay for a specific departure in the departure registry.
    *
    * @param trainNumber the number of the train for the departure
    * @param delay updated delay for the specific departure
@@ -158,7 +163,7 @@ public class DepartureRegistry {
   }
 
   /**
-   * Sets the clock to a new time.
+   * Sets clock to a new time and removes past departures.
    *
    * @param newTime the new time
    * @throws IllegalArgumentException if the new time is before the current time
@@ -172,7 +177,7 @@ public class DepartureRegistry {
   }
 
   /**
-   * removes all the departures before a given time.
+   * removes all departures before current time from departure registry.
    *
    */
   private void removePastDepartures() {
