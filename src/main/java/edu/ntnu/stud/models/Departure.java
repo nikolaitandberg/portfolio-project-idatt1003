@@ -63,8 +63,6 @@ public class Departure {
     this.setDelay(delay);
   }
 
-  // Setters
-
   /**
    * Sets a new track for the departure.
    *
@@ -89,27 +87,56 @@ public class Departure {
     this.delay = TimeHandling.parseTimeString(delay);
   }
 
-  // Getters
+  /**
+   * gets departure time.
+   *
+   * @return the departure time as a LocalTime object
+   */
   public LocalTime getDepartureTime() {
     return departureTime;
   }
 
+  /**
+   * gets line.
+   *
+   * @return the line as a string
+   */
   public String getLine() {
     return line;
   }
 
+  /**
+   * gets train number.
+   *
+   * @return the train number as an integer
+   */
   public int getTrainNumber() {
     return trainNumber;
   }
 
+  /**
+   * gets destination.
+   *
+   * @return the destination as a string
+   */
   public String getDestination() {
     return destination;
   }
 
+  /**
+   * gets track.
+   *
+   * @return the track as an integer
+   */
   public int getTrack() {
     return track;
   }
 
+  /**
+   * gets delay.
+   *
+   * @return the delay as a LocalTime object
+   */
   public LocalTime getDelay() {
     return delay;
   }
