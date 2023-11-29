@@ -40,7 +40,9 @@ public class UserInterface {
     System.out.println("Welcome to the train dispatch application!");
 
     while (running) {
-      System.out.println("\nPlease choose an option from the menu below by typing the corresponding number (1-8): ");
+      System.out.println(
+              "\nPlease choose an option below by typing the corresponding number (1-8): "
+      );
       System.out.println("1. List all departures");
       System.out.println("2. Add a departure");
       System.out.println("3. Assign a track to a departure");
@@ -50,7 +52,7 @@ public class UserInterface {
       System.out.println("7. Update the clock");
       System.out.println("8. Shut down the application");
 
-      switch (getValidMenuOptionInput()) {
+      switch (getValidMenuInput()) {
 
         case 1:
           listAllDepartures();
@@ -209,6 +211,11 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Gets valid user input for departure time. Also used for Delay input.
+   *
+   * @return the string input
+   */
   private static String getValidDepartureTimeInput() {
     String departureTime = "";
     boolean validInput = false;
@@ -222,10 +229,15 @@ public class UserInterface {
         System.out.println("input has to be in the format HH:mm, please try again: ");
         input.nextLine();
       }
-  }
+    }
     return departureTime;
   }
 
+  /**
+   * Gets valid user input for line.
+   *
+   * @return the string input
+   */
   private static String getValidLineInput() {
     String line = "";
     boolean validInput = false;
@@ -238,10 +250,15 @@ public class UserInterface {
         System.out.println("input has to be less than 5 characters, please try again: ");
         input.nextLine();
       }
-  }
+    }
     return line;
   }
 
+  /**
+   * Gets valid user input for train number.
+   *
+   * @return the integer input
+   */
   private static int getValidTrainNumberInput() {
     int trainNumber = 0;
 
@@ -263,6 +280,11 @@ public class UserInterface {
     return trainNumber;
   }
 
+  /**
+   * Gets valid user input for destination.'
+   *
+   * @return the string input
+   */
   private static String getValidDestinationInput() {
     String destination = "";
     boolean validInput = false;
@@ -279,6 +301,11 @@ public class UserInterface {
     return destination;
   }
 
+  /**
+   * Gets valid user input for track.
+   *
+   * @return the integer input
+   */
   private static int getValidTrackInput() {
     int track = 0;
 
@@ -289,25 +316,36 @@ public class UserInterface {
         if (track < 10000 && track > 0 || track == -1) {
           validInput = true;
         } else {
-          System.out.println("input has to be a an integer (1 - 10000), or -1 if no track is assigned yet, please try again: ");
+          System.out.println(
+                  "input has to be a an integer (1 - 10000),"
+                        + " or -1 if no track is assigned yet, please try again: "
+          );
           input.nextLine();
         }
       } catch (InputMismatchException e) {
-        System.out.println("input has to be an integer (1 - 10000), or -1 if no track is assigned yet, please try again: ");
+        System.out.println(
+                "input has to be a an integer (1 - 10000),"
+                        + " or -1 if no track is assigned yet, please try again: "
+        );
         input.next();
       }
     }
     return track;
   }
 
-  private static int getValidMenuOptionInput() {
-    int menuOption = 0;
+  /**
+   * Gets valid user input for menu option.
+   *
+   * @return the integer input
+   */
+  private static int getValidMenuInput() {
+    int option = 0;
 
     boolean validInput = false;
     while (!validInput) {
       try {
-        menuOption = input.nextInt();
-        if (menuOption < 9 && menuOption > 0) {
+        option = input.nextInt();
+        if (option < 9 && option > 0) {
           validInput = true;
         } else {
           System.out.println("Input has to be an integer (1 - 8), please try again: ");
@@ -318,7 +356,7 @@ public class UserInterface {
         input.next();
       }
     }
-    return menuOption;
+    return option;
   }
 
   /** Prints a list of departures with labels to the terminal.
@@ -329,9 +367,10 @@ public class UserInterface {
     System.out.println(
             "--------------------------------------------------------------------------"
     );
-    System.out.println("| Train dispatch system                              CURRENT TIME: " + departureRegistry.getClock() + " |");
+    System.out.printf("| %21s %28s %19s |",
+            "Train dispatch system", "", "CURRENT TIME: " + departureRegistry.getClock());
     System.out.println(
-            "--------------------------------------------------------------------------"
+            "\n--------------------------------------------------------------------------"
     );
     System.out.printf(
             "| %14s | %4s | %12s | %15s | %5s | %5s |",
