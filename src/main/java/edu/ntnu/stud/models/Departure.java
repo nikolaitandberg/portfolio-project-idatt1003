@@ -141,4 +141,38 @@ public class Departure {
     return delay;
   }
 
+
+  /**
+   * creates a string representation of the departure.
+   *
+   * @return string containing departure time, line, train number, destination, track and delay
+   */
+  @Override
+  public String toString() {
+
+    String delayShown;
+    String trackShown;
+
+    if (delay == LocalTime.of(0, 0)) {
+      delayShown = " ";
+    } else {
+      delayShown = delay.toString();
+    }
+
+    if (track == -1) {
+      trackShown = " ";
+    } else {
+      trackShown = String.valueOf(track);
+    }
+
+    return String.format(
+            "| %14s | %4s | %12s | %15s | %5s | %5s |",
+            departureTime,
+            line,
+            trainNumber,
+            destination,
+            trackShown,
+            delayShown
+    );
+  }
 }
