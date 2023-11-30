@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
- * A class representing the departure registry.
+ * A class representing a registry of Departure objects.
  *
  * @author Nikolai Tandberg
  * @version 1.0
@@ -19,8 +19,6 @@ public class DepartureRegistry {
   private final ArrayList<Departure> departures = new ArrayList<>();
 
   private LocalTime clock = LocalTime.of(0, 0);
-
-  public DepartureRegistry() {}
 
   /**
    * Adds a single departure to the registry.
@@ -146,7 +144,7 @@ public class DepartureRegistry {
    * Sets new track for a specific departure in the departure registry.
    *
    * @param trainNumber the number of the train for the departure
-   * @param track the track the train of the departure is assigned to
+   * @param track updated track for the specific departure
    */
   public void setTrackForDeparture(int trainNumber, int track) {
     getDepartureByTrainNumber(trainNumber).setTrack(track);

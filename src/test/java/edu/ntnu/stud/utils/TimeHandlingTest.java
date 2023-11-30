@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Class for testing TimeHandling class
  *
- * @author nikolaitandberg
+ * @author Nikolai Tandberg
  * @version 1.0
  * @since 2023-11-27
  */

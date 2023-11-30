@@ -6,7 +6,7 @@ import edu.ntnu.stud.view.UserInterface;
 /**
  * This is the application class for the train dispatch system.
  *
- * @author nikolaitandberg
+ * @author Nikolai Tandberg
  * @version 1.0
  * @since 2023-13-11
  */

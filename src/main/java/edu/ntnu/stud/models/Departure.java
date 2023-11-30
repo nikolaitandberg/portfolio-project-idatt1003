@@ -20,23 +20,41 @@ public class Departure {
   private LocalTime delay;
 
   /**
-   * Constructs an object of the Departure class.
-   * Takes the following parameters
-   * May throw IllegalArgumentException
+   * <h1>Departure constructor documentation</h1>
    *
-   * @param departureTime the time of day the train departs
-   * @param line the train is travelling on
-   * @param trainNumber the unique number of the departure
-   * @param destination the last stop on the line
-   * @param track the track at which the train arrives at the station
-   * @throws IllegalArgumentException When line is empty,
-   *                                  when train number is less than 1,
-   *                                  when destination is empty,
-   *                                  when track is 0 or a negative number other than -1
-   *                                  when delay or departureTime is not of format "HH:mm"
-   *                                  see {@link TimeHandling#parseTimeString(String)}
-   *                                  for more information
+   *     <p>
+   *         Constructs an object of the Departure class.
+   *         Takes the following parameters.
+   *         May throw IllegalArgumentException.
+   *     </p>
+   *
+   *     <ul>
+   *         <li>
+   *             <code>@param departureTime</code>: the time of day the train departs
+   *         </li>
+   *         <li>
+   *             <code>@param line</code>: the train is traveling on
+   *         </li>
+   *         <li>
+   *             <code>@param trainNumber</code>: the unique number of the departure
+   *         </li>
+   *         <li>
+   *             <code>@param destination</code>: the last stop on the line
+   *         </li>
+   *         <li>
+   *             <code>@param track</code>: the track at which the train arrives at the station
+   *         </li>
+   *         <li>
+   *             <code>@throws IllegalArgumentException</code>: When line is empty,
+   *             when train number is less than 1,
+   *             when destination is empty,
+   *             when track is 0 or a negative number other than -1,
+   *             when delay or departureTime is not of format "HH:mm".
+   *             See {@link TimeHandling#parseTimeString(String)}
+   *         </li>
+   *     </ul>
    */
+
   public Departure(
           String departureTime,
           String line,
@@ -143,7 +161,7 @@ public class Departure {
 
 
   /**
-   * creates a string representation of the departure.
+   * creates a string representation of the departure, hides track if -1 and delay if none.
    *
    * @return string containing departure time, line, train number, destination, track and delay
    */

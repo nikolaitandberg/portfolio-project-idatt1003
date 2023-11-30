@@ -11,11 +11,15 @@ import java.util.stream.Collectors;
 
 /**
  * Class for handling user input and displaying information to the user.
+ *
+ * @author Nikolai Tandberg
+ * @version 1.0
+ * @since 2023-11-21
  */
 public class UserInterface {
   private static DepartureRegistry departureRegistry;
-  static Scanner input;
-  static boolean running;
+  private static Scanner input;
+  private static boolean running;
 
   /**
    * initializes registry needed to run application and adds some starting data.
