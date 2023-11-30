@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Class for testing the Departure class
  *
- * @author nikolaitandberg
+ * @author Nikolai Tandberg
  * @version 1.0
  * @since 2023-11-18
  */
@@ -21,7 +21,7 @@ public class DepartureTest {
   @DisplayName("Departure constructor tests")
   public class TestsForDepartureConstructor {
     @Test
-    @DisplayName("Departure creation test")
+    @DisplayName("Should create departure")
     public void shouldCreateDeparture() {
       assertDoesNotThrow(() -> new Departure(
               "10:00",
@@ -173,6 +173,38 @@ public class DepartureTest {
       assertEquals(departure.getDelay(), LocalTime.of(0,10));
       departure.setDelay("10:00");
       assertEquals(departure.getDelay(), LocalTime.of(10,0));
+    }
+  }
+
+  @Nested
+  @DisplayName("Tests for toString")
+  public class TestsForToString {
+    @Test
+    @DisplayName("Should return string with track and delay")
+    public void shouldReturnCorrectString() {
+      Departure departure = new Departure("10:00", "R14", 1, "Asker", 1, "00:20");
+      assertEquals("|          10:00 |  R14 |            1 |           Asker |     1 | 00:20 |", departure.toString());
+    }
+
+    @Test
+    @DisplayName("Should return string with track and no delay")
+    public void shouldReturnCorrectString2() {
+      Departure departure = new Departure("10:00", "R14", 1, "Asker", 1, "00:00");
+      assertEquals("|          10:00 |  R14 |            1 |           Asker |     1 |       |", departure.toString());
+    }
+
+    @Test
+    @DisplayName("Should return string with no track and delay")
+    public void shouldReturnCorrectString3() {
+      Departure departure = new Departure("10:00", "R14", 1, "Asker", -1, "00:20");
+      assertEquals("|          10:00 |  R14 |            1 |           Asker |       | 00:20 |", departure.toString());
+    }
+
+    @Test
+    @DisplayName("Should return string with no track and no delay")
+    public void shouldReturnCorrectString4() {
+      Departure departure = new Departure("10:00", "R14", 1, "Asker", -1, "00:00");
+      assertEquals("|          10:00 |  R14 |            1 |           Asker |       |       |", departure.toString());
     }
   }
 
