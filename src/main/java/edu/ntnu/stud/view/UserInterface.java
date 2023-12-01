@@ -28,6 +28,7 @@ public class UserInterface {
     departureRegistry = new DepartureRegistry();
 
     input = new Scanner(System.in);
+    input.useDelimiter("\r?\n");
     running = true;
 
     departureRegistry.addDeparture("14:00", "L2", 55, "Drammen", 2, "00:10");
