@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * @version 1.0
  * @since 2023-11-18
  */
-public class DepartureTest {
+class DepartureTest {
   @Nested
   @DisplayName("Departure constructor tests")
-  public class TestsForDepartureConstructor {
+  class TestsForDepartureConstructor {
     @Test
     @DisplayName("Should create departure")
-    public void shouldCreateDeparture() {
+    void shouldCreateDeparture() {
       assertDoesNotThrow(() -> new Departure(
               "10:00",
               "R14",
@@ -35,7 +35,7 @@ public class DepartureTest {
 
     @Test
     @DisplayName("Should not create departure with wrong time format")
-    public void shouldNotCreateDepartureWithWrongTimeFormat() {
+    void shouldNotCreateDepartureWithWrongTimeFormat() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
               "10",
               "R14",
@@ -48,7 +48,7 @@ public class DepartureTest {
 
     @Test
     @DisplayName("Should not create departure with wrong delay format")
-    public void shouldNotCreateDepartureWithWrongDelayFormat() {
+    void shouldNotCreateDepartureWithWrongDelayFormat() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
               "10:00",
               "R14",
@@ -61,7 +61,7 @@ public class DepartureTest {
 
     @Test
     @DisplayName("Should not create departure with empty line")
-    public void shouldNotCreateDepartureWithEmptyLine() {
+    void shouldNotCreateDepartureWithEmptyLine() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
               "10:00",
               "",
@@ -74,7 +74,7 @@ public class DepartureTest {
 
     @Test
     @DisplayName("Should not create departure with train number less than 1")
-    public void shouldNotCreateDepartureWithTrainNumberLessThan1() {
+    void shouldNotCreateDepartureWithTrainNumberLessThan1() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
               "10:00",
               "R14",
@@ -87,7 +87,7 @@ public class DepartureTest {
 
     @Test
     @DisplayName("Should not create departure with empty destination")
-    public void shouldNotCreateDepartureWithEmptyDestination() {
+    void shouldNotCreateDepartureWithEmptyDestination() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
               "10:00",
               "R14",
@@ -100,7 +100,7 @@ public class DepartureTest {
 
     @Test
     @DisplayName("Should not create departure with track 0")
-    public void shouldNotCreateDepartureWithTrack0() {
+    void shouldNotCreateDepartureWithTrack0() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
               "10:00",
               "R14",
@@ -113,7 +113,7 @@ public class DepartureTest {
 
     @Test
     @DisplayName("Should not create departure with track less than -1")
-    public void shouldNotCreateDepartureWithTrackLessThanMinus1() {
+    void shouldNotCreateDepartureWithTrackLessThanMinus1() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
               "10:00",
               "R14",
@@ -127,48 +127,48 @@ public class DepartureTest {
 
   @Nested
   @DisplayName("Tests for getters and setters")
-  public class TestsForDeparturesGettersSetters {
+  class TestsForDeparturesGettersSetters {
 
     @Test
     @DisplayName("Get departure time test")
-    public void getDepartureTimeTest() {
+    void getDepartureTimeTest() {
       Departure departure = new Departure("10:00", "R14", 1, "Asker", 1, "00:00");
       assertEquals(departure.getDepartureTime(), LocalTime.of(10,0));
     }
 
     @Test
     @DisplayName("Get line test")
-    public void getLineTest() {
+    void getLineTest() {
       Departure departure = new Departure("10:00", "R14", 1, "Asker", 1, "00:00");
-      assertEquals(departure.getLine(), "R14");
+      assertEquals("R14", departure.getLine());
     }
 
     @Test
     @DisplayName("Get train number test")
-    public void getTrainNumberTest() {
+    void getTrainNumberTest() {
       Departure departure = new Departure("10:00", "R14", 1, "Asker", 1, "00:00");
-      assertEquals(departure.getTrainNumber(), 1);
+      assertEquals(1, departure.getTrainNumber());
     }
 
     @Test
     @DisplayName("Get destination test")
-    public void getDestinationTest() {
+    void getDestinationTest() {
       Departure departure = new Departure("10:00", "R14", 1, "Asker", 1, "00:00");
-      assertEquals(departure.getDestination(), "Asker");
+      assertEquals("Asker", departure.getDestination());
     }
 
     @Test
     @DisplayName("Get and set track test")
-    public void getSetTrackTest() {
+    void getSetTrackTest() {
       Departure departure = new Departure("10:00", "R14", 1, "Asker", -1, "00:00");
       assertEquals(departure.getTrack(), -1);
       departure.setTrack(1);
-      assertEquals(departure.getTrack(), 1);
+      assertEquals(1,departure.getTrack());
     }
 
     @Test
     @DisplayName("Get and set delay test")
-    public void getSetDelayTest() {
+    void getSetDelayTest() {
       Departure departure = new Departure("10:00", "R14", 1, "Asker", -1, "00:10");
       assertEquals(departure.getDelay(), LocalTime.of(0,10));
       departure.setDelay("10:00");
@@ -178,31 +178,31 @@ public class DepartureTest {
 
   @Nested
   @DisplayName("Tests for toString")
-  public class TestsForToString {
+  class TestsForToString {
     @Test
     @DisplayName("Should return string with track and delay")
-    public void shouldReturnCorrectString() {
+    void shouldReturnCorrectString() {
       Departure departure = new Departure("10:00", "R14", 1, "Asker", 1, "00:20");
       assertEquals("|          10:00 |  R14 |            1 |           Asker |     1 | 00:20 |", departure.toString());
     }
 
     @Test
     @DisplayName("Should return string with track and no delay")
-    public void shouldReturnCorrectString2() {
+    void shouldReturnCorrectString2() {
       Departure departure = new Departure("10:00", "R14", 1, "Asker", 1, "00:00");
       assertEquals("|          10:00 |  R14 |            1 |           Asker |     1 |       |", departure.toString());
     }
 
     @Test
     @DisplayName("Should return string with no track and delay")
-    public void shouldReturnCorrectString3() {
+    void shouldReturnCorrectString3() {
       Departure departure = new Departure("10:00", "R14", 1, "Asker", -1, "00:20");
       assertEquals("|          10:00 |  R14 |            1 |           Asker |       | 00:20 |", departure.toString());
     }
 
     @Test
     @DisplayName("Should return string with no track and no delay")
-    public void shouldReturnCorrectString4() {
+    void shouldReturnCorrectString4() {
       Departure departure = new Departure("10:00", "R14", 1, "Asker", -1, "00:00");
       assertEquals("|          10:00 |  R14 |            1 |           Asker |       |       |", departure.toString());
     }

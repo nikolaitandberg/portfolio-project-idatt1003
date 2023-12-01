@@ -20,6 +20,9 @@ public class UserInterface {
   private static DepartureRegistry departureRegistry;
   private static Scanner input;
   private static boolean running;
+  private static final String TRAIN_NUMBER_REQUEST = "Train number: ";
+
+  private UserInterface() {}
 
   /**
    * initializes registry needed to run application and adds some starting data.
@@ -99,7 +102,7 @@ public class UserInterface {
    */
   private static void listAllDepartures() {
     try {
-      printDepartureList(departureRegistry.getSortedDepartures());
+      printDepartureList(departureRegistry.getDepartures());
     } catch (NoSuchElementException e) {
       System.out.println(e.getMessage());
     }
@@ -116,7 +119,7 @@ public class UserInterface {
     System.out.println("Line: ");
     String line = getValidLineInput();
 
-    System.out.println("Train number: ");
+    System.out.println(TRAIN_NUMBER_REQUEST);
     int trainNumber = getValidTrainNumberInput();
 
     System.out.println("Destination: ");
@@ -147,12 +150,12 @@ public class UserInterface {
    *
    */
   private static void assignTrackToDeparture() {
-    System.out.println("Train number: ");
-    int trainNumberNewTrack = getValidTrainNumberInput();
+    System.out.println(TRAIN_NUMBER_REQUEST);
+    int trainNumber = getValidTrainNumberInput();
     System.out.println("New track: ");
     int newTrack = getValidTrackInput();
     try {
-      departureRegistry.setTrackForDeparture(trainNumberNewTrack, newTrack);
+      departureRegistry.setTrackForDeparture(trainNumber, newTrack);
     } catch (NoSuchElementException e) {
       System.out.println(e.getMessage());
     }
@@ -163,12 +166,12 @@ public class UserInterface {
    *
    */
   private static void assignDelayToDeparture() {
-    System.out.println("Train number: ");
-    int trainNumberNewDelay = getValidTrainNumberInput();
+    System.out.println(TRAIN_NUMBER_REQUEST);
+    int trainNumber = getValidTrainNumberInput();
     System.out.println("Delay (HH:mm format): ");
     String newDelay = getValidDepartureTimeInput();
     try {
-      departureRegistry.setDelayForDeparture(trainNumberNewDelay, newDelay);
+      departureRegistry.setDelayForDeparture(trainNumber, newDelay);
     } catch (NoSuchElementException | IllegalArgumentException e) {
       System.out.println(e.getMessage());
     }
@@ -179,7 +182,7 @@ public class UserInterface {
    *
    */
   private static void searchForDepartureByTrainNumber() {
-    System.out.println("Train number: ");
+    System.out.println(TRAIN_NUMBER_REQUEST);
     try {
       printDeparture(
               departureRegistry.getDepartureByTrainNumber(getValidTrainNumberInput())

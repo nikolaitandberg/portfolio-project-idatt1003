@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 /**
  * A class representing a registry of Departure objects.
@@ -109,7 +108,7 @@ public class DepartureRegistry {
       return departures.stream()
               .filter(departure -> departure.getDestination().equals(destination))
               .sorted(Comparator.comparing(Departure::getDepartureTime))
-              .collect(Collectors.toList());
+              .toList();
     } else {
       throw new NoSuchElementException("No departure with this destination exists!");
     }
@@ -118,14 +117,14 @@ public class DepartureRegistry {
   /**
    * Gets all departures in registry sorted in ascending order by departure time.
    *
-   * @return an ArrayList of the sorted departures
+   * @return a list of departures sorted by departure time
    * @throws NoSuchElementException if no departures are registered
    */
-  public List<Departure> getSortedDepartures() throws NoSuchElementException {
+  public List<Departure> getDepartures() throws NoSuchElementException {
     if (!departures.isEmpty()) {
       return departures.stream()
               .sorted(Comparator.comparing(Departure::getDepartureTime))
-              .collect(Collectors.toList());
+              .toList();
     } else {
       throw new NoSuchElementException("No departures are registered!");
     }

@@ -18,18 +18,18 @@ import static org.junit.jupiter.api.Assertions.*;
 class DepartureRegistryTest {
   @Nested
   @DisplayName("addDeparture tests")
-  public class TestsForAddDeparture {
+  class TestsForAddDeparture {
     @Test
     @DisplayName("Should add departure")
-    public void shouldAddDeparture() {
+    void shouldAddDeparture() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
-      assertEquals(1, departureRegistry.getSortedDepartures().size());
+      assertEquals(1, departureRegistry.getDepartures().size());
     }
 
     @Test
     @DisplayName("Should not add departure with same train number")
-    public void shouldNotAddDepartureWithSameTrainNumber() {
+    void shouldNotAddDepartureWithSameTrainNumber() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
       assertThrows(IllegalArgumentException.class, () -> departureRegistry.addDeparture("11:00", "R11", 1, "Drammen", 2, "00:10"));
@@ -39,10 +39,10 @@ class DepartureRegistryTest {
 
   @Nested
   @DisplayName("getDepartureByTrainNumber tests")
-  public class TestsForGetDepartureByTrainNumber {
+  class TestsForGetDepartureByTrainNumber {
     @Test
     @DisplayName("Should get departure by train number")
-    public void shouldGetDepartureByTrainNumber() {
+    void shouldGetDepartureByTrainNumber() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
       assertEquals(1, departureRegistry.getDepartureByTrainNumber(1).getTrainNumber());
@@ -50,7 +50,7 @@ class DepartureRegistryTest {
 
     @Test
     @DisplayName("Should not get departure by train number")
-    public void shouldNotGetDepartureByTrainNumber() {
+    void shouldNotGetDepartureByTrainNumber() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
       assertThrows(NoSuchElementException.class, () -> departureRegistry.getDepartureByTrainNumber(2));
@@ -59,10 +59,10 @@ class DepartureRegistryTest {
 
   @Nested
   @DisplayName("getDeparturesByDestination tests")
-  public class TestsForGetDeparturesByDestination {
+  class TestsForGetDeparturesByDestination {
     @Test
     @DisplayName("Should get departures by destination")
-    public void shouldGetDeparturesByDestination() {
+    void shouldGetDeparturesByDestination() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
       departureRegistry.addDeparture("11:00", "R11", 2, "Drammen", 2, "00:10");
@@ -71,7 +71,7 @@ class DepartureRegistryTest {
 
     @Test
     @DisplayName("Should not get departures by destination")
-    public void shouldNotGetDeparturesByDestination() {
+    void shouldNotGetDeparturesByDestination() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
       departureRegistry.addDeparture("11:00", "R11", 2, "Drammen", 2, "00:10");
@@ -81,30 +81,30 @@ class DepartureRegistryTest {
 
   @Nested
   @DisplayName("getSortedDepartures tests")
-  public class TestsForGetSortedDepartures {
+  class TestsForGetSortedDepartures {
     @Test
     @DisplayName("Should get sorted departures")
-    public void shouldGetSortedDepartures() {
+    void shouldGetSortedDepartures() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
       departureRegistry.addDeparture("11:00", "R11", 2, "Drammen", 2, "00:10");
-      assertEquals(2, departureRegistry.getSortedDepartures().size());
+      assertEquals(2, departureRegistry.getDepartures().size());
     }
 
     @Test
     @DisplayName("Should not get sorted departures when departures is empty")
-    public void shouldNotGetSortedDepartures() {
+    void shouldNotGetSortedDepartures() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
-      assertThrows(NoSuchElementException.class, departureRegistry::getSortedDepartures);
+      assertThrows(NoSuchElementException.class, departureRegistry::getDepartures);
     }
   }
 
   @Nested
   @DisplayName("setClock tests")
-  public class TestsForSetClock {
+  class TestsForSetClock {
     @Test
     @DisplayName("Should set clock")
-    public void shouldSetClock() {
+    void shouldSetClock() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.setClock("10:00");
       assertEquals("10:00", departureRegistry.getClock().toString());
@@ -112,7 +112,7 @@ class DepartureRegistryTest {
 
     @Test
     @DisplayName("Should not set clock before current time")
-    public void shouldNotSetClockBeforeCurrentTime() {
+    void shouldNotSetClockBeforeCurrentTime() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.setClock("10:00");
       assertThrows(IllegalArgumentException.class, () -> departureRegistry.setClock("09:00"));
@@ -120,12 +120,12 @@ class DepartureRegistryTest {
 
     @Test
     @DisplayName("Should remove past departures")
-    public void shouldRemovePastDepartures() {
+    void shouldRemovePastDepartures() {
       DepartureRegistry departureRegistry = new DepartureRegistry();
       departureRegistry.addDeparture("10:00", "R14", 1, "Asker", 1, "00:00");
       departureRegistry.addDeparture("11:00", "R11", 2, "Drammen", 2, "00:10");
       departureRegistry.setClock("10:30");
-      assertEquals(1, departureRegistry.getSortedDepartures().size());
+      assertEquals(1, departureRegistry.getDepartures().size());
     }
   }
 }

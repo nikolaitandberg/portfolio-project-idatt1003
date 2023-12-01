@@ -20,100 +20,102 @@ class TimeHandlingTest {
 
   @Nested
   @DisplayName("parseTimeString tests")
-  public class TestsForParseTimeString {
+  class TestsForParseTimeString {
 
     @Test
     @DisplayName("Should create LocalTime object from time string with correct format 'HH:mm'")
-    public void shouldCreateLocalTimeObject() {
+    void shouldCreateLocalTimeObject() {
       assertEquals(LocalTime.of(10,30), TimeHandling.parseTimeString("10:30"));
     }
 
     @Test
     @DisplayName("Should parse time string with correct format 'HH:mm'")
-    public void shouldParseTimeString() {
+    void shouldParseTimeString() {
       assertEquals("10:00", TimeHandling.parseTimeString("10:00").toString());
     }
 
     @Test
     @DisplayName("Should not parse time string with wrong format 'HH'")
-    public void shouldNotParseTimeString() {
+    void shouldNotParseTimeString() {
       assertThrows(IllegalArgumentException.class, () -> TimeHandling.parseTimeString("10"));
     }
 
     @Test
     @DisplayName("Should not parse time string with wrong format 'HH:mm:ss'")
-    public void shouldNotParseTimeString2() {
+    void shouldNotParseTimeString2() {
       assertThrows(IllegalArgumentException.class, () -> TimeHandling.parseTimeString("10:00:00"));
     }
 
     @Test
     @DisplayName("Should not parse time string with wrong format 'HHmm'")
-    public void shouldNotParseTimeString3() {
+    void shouldNotParseTimeString3() {
       assertThrows(IllegalArgumentException.class, () -> TimeHandling.parseTimeString("1000"));
     }
 
     @Test
     @DisplayName("Should not parse time string with wrong format 'H:mm'")
-    public void shouldNotParseTimeString4() {
+    void shouldNotParseTimeString4() {
       assertThrows(IllegalArgumentException.class, () -> TimeHandling.parseTimeString("9:30"));
     }
 
     @Test
     @DisplayName("Should not parse time string with wrong format 'HH:m'")
-    public void shouldNotParseTimeString5() {
+    void shouldNotParseTimeString5() {
       assertThrows(IllegalArgumentException.class, () -> TimeHandling.parseTimeString("09:3"));
     }
 
     @Test
     @DisplayName("Should not parse time string with wrong format 'H:m'")
-    public void shouldNotParseTimeString6() {
+    void shouldNotParseTimeString6() {
       assertThrows(IllegalArgumentException.class, () -> TimeHandling.parseTimeString("9:3"));
     }
 
     @Test
     @DisplayName("Should not parse time string with wrong format 'hour:minute'")
-    public void shouldNotParseTimeString7() {
+    void shouldNotParseTimeString7() {
       assertThrows(IllegalArgumentException.class, () -> TimeHandling.parseTimeString("ten:thirty"));
     }
 
     @Test
     @DisplayName("Should not parse time string with wrong format 'HH,mm'")
-    public void shouldNotParseTimeString8() {
+    void shouldNotParseTimeString8() {
       assertThrows(IllegalArgumentException.class, () -> TimeHandling.parseTimeString("10,00"));
     }
 
     @Test
     @DisplayName("Should not parse time string with wrong format 'HH.mm'")
-    public void shouldNotParseTimeString9() {
+    void shouldNotParseTimeString9() {
       assertThrows(IllegalArgumentException.class, () -> TimeHandling.parseTimeString("10.00"));
     }
   }
 
   @Nested
   @DisplayName("addDelay tests")
-  public class TestsForAddDelay {
+  class TestsForAddDelay {
     @Test
     @DisplayName("Should add delay to time")
-    public void shouldAddDelay() {
+    void shouldAddDelay() {
       assertEquals(LocalTime.of(10,10), TimeHandling.addDelay(LocalTime.of(10,0), LocalTime.of(0,10)));
     }
 
     @Test
     @DisplayName("Should add delay to time")
-    public void shouldAddDelay2() {
+    void shouldAddDelay2() {
       assertEquals(LocalTime.of(10,10), TimeHandling.addDelay(LocalTime.of(9,50), LocalTime.of(0,20)));
     }
 
     @Test
     @DisplayName("Should not add delay to time when time is null")
-    public void shouldNotAddDelayWhenNull() {
-      assertThrows(IllegalArgumentException.class, () -> TimeHandling.addDelay(null, LocalTime.of(0,20)));
+    void shouldNotAddDelayWhenNull() {
+      LocalTime delay = LocalTime.of(0,20);
+      assertThrows(IllegalArgumentException.class, () -> TimeHandling.addDelay(null, delay));
     }
 
     @Test
     @DisplayName("Should not add delay to time when delay is null")
-    public void shouldNotAddDelayWhenNull2() {
-      assertThrows(IllegalArgumentException.class, () -> TimeHandling.addDelay(LocalTime.of(23,50), null));
+    void shouldNotAddDelayWhenNull2() {
+      LocalTime time = LocalTime.of(23,50);
+      assertThrows(IllegalArgumentException.class, () -> TimeHandling.addDelay(time, null));
     }
 
   }

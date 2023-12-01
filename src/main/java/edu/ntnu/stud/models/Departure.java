@@ -20,10 +20,9 @@ public class Departure {
   private LocalTime delay;
 
   /**
-   * <h1>Departure constructor documentation</h1>
+   * <h1>Constructs an object of the Departure class.</h1>
    *
    *     <p>
-   *         Constructs an object of the Departure class.
    *         Takes the following parameters.
    *         May throw IllegalArgumentException.
    *     </p>
@@ -33,7 +32,7 @@ public class Departure {
    *             <code>@param departureTime</code>: the time of day the train departs
    *         </li>
    *         <li>
-   *             <code>@param line</code>: the train is traveling on
+   *             <code>@param line</code>: the line the train is traveling on
    *         </li>
    *         <li>
    *             <code>@param trainNumber</code>: the unique number of the departure
@@ -97,7 +96,7 @@ public class Departure {
   /**
    * set new delay and uses TimeHandling class to parse from string parameter to LocalTime object.
    *
-   * @param delay a string on format "HH:mm"
+   * @param delay a string of format "HH:mm"
    * @throws IllegalArgumentException if the string is not of format "HH:mm"
    * @see TimeHandling#parseTimeString(String) for more information
    */
