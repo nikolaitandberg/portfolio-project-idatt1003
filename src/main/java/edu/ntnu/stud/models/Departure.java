@@ -158,6 +158,15 @@ public class Departure {
     return delay;
   }
 
+  /**
+   * gets actual departure time of the departure.
+   *
+   * @return the scheduled departure time with delay added
+   */
+  public LocalTime getRealDepartureTime() {
+    return departureTime.plusHours(delay.getHour()).plusMinutes(delay.getMinute());
+  }
+
 
   /**
    * creates a string representation of the departure, hides track if -1 and delay if none.

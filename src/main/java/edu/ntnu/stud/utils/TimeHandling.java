@@ -13,7 +13,7 @@ import java.time.format.DateTimeParseException;
  */
 public class TimeHandling {
 
-  public TimeHandling() {}
+  private TimeHandling() {}
 
   /**
    * Parses string of format "HH:mm" into a LocalTime object.
@@ -33,23 +33,5 @@ public class TimeHandling {
       );
     }
     return time;
-  }
-
-  /**
-   * Adds the hours and minutes of LocalTimeObject together with another LocalTime object.
-   *
-   *
-   * @param time the time to be added to
-   * @param delay the delay to be added
-   * @return LocalTime object with the added minutes and hours of the two LocalTime objects
-   * @throws IllegalArgumentException if either of the LocalTime objects are null
-   */
-  public static LocalTime addDelay(LocalTime time, LocalTime delay)
-          throws IllegalArgumentException {
-    if (time == null || delay == null) {
-      throw new IllegalArgumentException("Time or delay cannot be null");
-    }
-
-    return time.plusHours(delay.getHour()).plusMinutes(delay.getMinute());
   }
 }

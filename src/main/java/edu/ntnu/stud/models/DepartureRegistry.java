@@ -178,8 +178,6 @@ public class DepartureRegistry {
    *
    */
   private void removePastDepartures() {
-    departures.removeIf(
-            departure -> TimeHandling.addDelay(departure.getDepartureTime(), departure.getDelay())
-            .isBefore(clock));
+    departures.removeIf(departure -> departure.getRealDepartureTime().isBefore(clock));
   }
 }
