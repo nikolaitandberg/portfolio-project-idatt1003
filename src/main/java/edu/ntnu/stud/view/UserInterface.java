@@ -2,15 +2,12 @@ package edu.ntnu.stud.view;
 
 import edu.ntnu.stud.models.Departure;
 import edu.ntnu.stud.models.DepartureRegistry;
-import edu.ntnu.stud.utils.TimeHandling;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
- * Class for handling user input and displaying information to the user.
+ * Class for displaying information to the user.
  *
  * @author Nikolai Tandberg
  * @version 1.0
@@ -18,7 +15,6 @@ import java.util.stream.Collectors;
  */
 public class UserInterface {
   private static DepartureRegistry departureRegistry;
-  private static Scanner input;
   private static boolean running;
   private static final String TRAIN_NUMBER_REQUEST = "Train number: ";
 
@@ -29,9 +25,6 @@ public class UserInterface {
    */
   public static void init() {
     departureRegistry = new DepartureRegistry();
-
-    input = new Scanner(System.in);
-    input.useDelimiter("\r?\n");
     running = true;
 
     departureRegistry.addDeparture("14:00", "L2", 55, "Drammen", 2, "00:10");
@@ -61,7 +54,7 @@ public class UserInterface {
       System.out.println("7. Update the clock");
       System.out.println("8. Shut down the application");
 
-      switch (getValidMenuInput()) {
+      switch (Input.getMenuOption()) {
 
         case 1:
           listAllDepartures();
@@ -97,7 +90,7 @@ public class UserInterface {
   }
 
   /**
-   * Prints all departures in registry in the terminal.
+   * Prints all departures in registry to the terminal.
    *
    */
   private static void listAllDepartures() {
@@ -109,27 +102,27 @@ public class UserInterface {
   }
 
   /**
-   * Adds a departure to the registry through user input.
+   * Adds a departure to the registry.
    *
    */
   private static void addDeparture() {
     System.out.println("Departure time (HH:mm format): ");
-    String departureTime = getValidDepartureTimeInput();
+    String departureTime = Input.getTime();
 
     System.out.println("Line: ");
-    String line = getValidLineInput();
+    String line = Input.getLine();
 
     System.out.println(TRAIN_NUMBER_REQUEST);
-    int trainNumber = getValidTrainNumberInput();
+    int trainNumber = Input.getTrainNumber();
 
     System.out.println("Destination: ");
-    String destination = getValidDestinationInput();
+    String destination = Input.getDestination();
 
     System.out.println("Delay (HH:mm format): ");
-    String delay = getValidDepartureTimeInput();
+    String delay = Input.getTime();
 
     System.out.println("Track (-1 if no track is assigned): ");
-    int track = getValidTrackInput();
+    int track = Input.getTrack();
 
     try {
       departureRegistry.addDeparture(
@@ -146,14 +139,14 @@ public class UserInterface {
   }
 
   /**
-   * Assigns a track to a departure through user input.
+   * Assigns a track to a departure.
    *
    */
   private static void assignTrackToDeparture() {
     System.out.println(TRAIN_NUMBER_REQUEST);
-    int trainNumber = getValidTrainNumberInput();
+    int trainNumber = Input.getTrainNumber();
     System.out.println("New track: ");
-    int newTrack = getValidTrackInput();
+    int newTrack = Input.getTrack();
     try {
       departureRegistry.setTrackForDeparture(trainNumber, newTrack);
     } catch (NoSuchElementException e) {
@@ -162,14 +155,14 @@ public class UserInterface {
   }
 
   /**
-   * Assigns a delay to a departure through user input.
+   * Assigns a delay to a departure.
    *
    */
   private static void assignDelayToDeparture() {
     System.out.println(TRAIN_NUMBER_REQUEST);
-    int trainNumber = getValidTrainNumberInput();
+    int trainNumber = Input.getTrainNumber();
     System.out.println("Delay (HH:mm format): ");
-    String newDelay = getValidDepartureTimeInput();
+    String newDelay = Input.getTime();
     try {
       departureRegistry.setDelayForDeparture(trainNumber, newDelay);
     } catch (NoSuchElementException | IllegalArgumentException e) {
@@ -178,14 +171,14 @@ public class UserInterface {
   }
 
   /**
-   * Searches for a departure by its train number through user input.
+   * Searches for a departure by its train number.
    *
    */
   private static void searchForDepartureByTrainNumber() {
     System.out.println(TRAIN_NUMBER_REQUEST);
     try {
       printDeparture(
-              departureRegistry.getDepartureByTrainNumber(getValidTrainNumberInput())
+              departureRegistry.getDepartureByTrainNumber(Input.getTrainNumber())
       );
     } catch (NoSuchElementException e) {
       System.out.println(e.getMessage());
@@ -193,14 +186,14 @@ public class UserInterface {
   }
 
   /**
-   * Searches for departures by their destination through user input.
+   * Searches for departures by their destination.
    *
    */
   private static void searchForDeparturesByDestination() {
     System.out.println("Destination: ");
     try {
       printDepartureList(
-              departureRegistry.getDeparturesByDestination(getValidDestinationInput())
+              departureRegistry.getDeparturesByDestination(Input.getDestination())
       );
     } catch (NoSuchElementException e) {
       System.out.println(e.getMessage());
@@ -208,164 +201,16 @@ public class UserInterface {
   }
 
   /**
-   * Updates the clock through user input.
+   * Updates the clock.
    *
    */
   private static void updateClock() {
     System.out.println("New time (HH:mm format): ");
     try {
-      departureRegistry.setClock(getValidDepartureTimeInput());
+      departureRegistry.setClock(Input.getTime());
     } catch (IllegalArgumentException e) {
       System.out.println(e.getMessage());
     }
-  }
-
-  /**
-   * Gets valid user input for departure time. Also used for Delay input.
-   *
-   * @return the string input
-   */
-  private static String getValidDepartureTimeInput() {
-    String departureTime = "";
-    boolean validInput = false;
-
-    while (!validInput) {
-      try {
-        departureTime = input.next();
-        TimeHandling.parseTimeString(departureTime);
-        validInput = true;
-      } catch (IllegalArgumentException e) {
-        System.out.println("input has to be in the format HH:mm, please try again: ");
-        input.nextLine();
-      }
-    }
-    return departureTime;
-  }
-
-  /**
-   * Gets valid user input for line.
-   *
-   * @return the string input
-   */
-  private static String getValidLineInput() {
-    String line = "";
-    boolean validInput = false;
-
-    while (!validInput) {
-      line = input.next();
-      if (line.length() < 5) {
-        validInput = true;
-      } else {
-        System.out.println("input has to be less than 5 characters, please try again: ");
-        input.nextLine();
-      }
-    }
-    return line;
-  }
-
-  /**
-   * Gets valid user input for train number.
-   *
-   * @return the integer input
-   */
-  private static int getValidTrainNumberInput() {
-    int trainNumber = 0;
-
-    boolean validInput = false;
-    while (!validInput) {
-      try {
-        trainNumber = input.nextInt();
-        if (trainNumber < 10000 && trainNumber > 0) {
-          validInput = true;
-        } else {
-          System.out.println("input has to be a an integer (1 - 10000), please try again: ");
-          input.nextLine();
-        }
-      } catch (InputMismatchException e) {
-        System.out.println("input has to be an integer (1 - 10000), please try again: ");
-        input.next();
-      }
-    }
-    return trainNumber;
-  }
-
-  /**
-   * Gets valid user input for destination.'
-   *
-   * @return the string input
-   */
-  private static String getValidDestinationInput() {
-    String destination = "";
-    boolean validInput = false;
-
-    while (!validInput) {
-      destination = input.next();
-      if (destination.length() < 12) {
-        validInput = true;
-      } else {
-        System.out.println("input has to be less than 16 characters, please try again: ");
-        input.nextLine();
-      }
-    }
-    return destination;
-  }
-
-  /**
-   * Gets valid user input for track.
-   *
-   * @return the integer input
-   */
-  private static int getValidTrackInput() {
-    int track = 0;
-
-    boolean validInput = false;
-    while (!validInput) {
-      try {
-        track = input.nextInt();
-        if (track < 10000 && track > 0 || track == -1) {
-          validInput = true;
-        } else {
-          System.out.println(
-                  "input has to be a an integer (1 - 10000),"
-                        + " or -1 if no track is assigned yet, please try again: "
-          );
-          input.nextLine();
-        }
-      } catch (InputMismatchException e) {
-        System.out.println(
-                "input has to be a an integer (1 - 10000),"
-                        + " or -1 if no track is assigned yet, please try again: "
-        );
-        input.next();
-      }
-    }
-    return track;
-  }
-
-  /**
-   * Gets valid user input for menu option.
-   *
-   * @return the integer input
-   */
-  private static int getValidMenuInput() {
-    int option = 0;
-
-    boolean validInput = false;
-    while (!validInput) {
-      try {
-        option = input.nextInt();
-        if (option < 9 && option > 0) {
-          validInput = true;
-        } else {
-          System.out.println("Input has to be an integer (1 - 8), please try again: ");
-          input.nextLine();
-        }
-      } catch (InputMismatchException e) {
-        System.out.println("Input has to be an integer (1 - 8), please try again: ");
-        input.next();
-      }
-    }
-    return option;
   }
 
   /**
