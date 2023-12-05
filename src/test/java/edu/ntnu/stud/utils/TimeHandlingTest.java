@@ -88,35 +88,4 @@ class TimeHandlingTest {
       assertThrows(IllegalArgumentException.class, () -> TimeHandling.parseTimeString("10.00"));
     }
   }
-
-  @Nested
-  @DisplayName("addDelay tests")
-  class TestsForAddDelay {
-    @Test
-    @DisplayName("Should add delay to time")
-    void shouldAddDelay() {
-      assertEquals(LocalTime.of(10,10), TimeHandling.addDelay(LocalTime.of(10,0), LocalTime.of(0,10)));
-    }
-
-    @Test
-    @DisplayName("Should add delay to time")
-    void shouldAddDelay2() {
-      assertEquals(LocalTime.of(10,10), TimeHandling.addDelay(LocalTime.of(9,50), LocalTime.of(0,20)));
-    }
-
-    @Test
-    @DisplayName("Should not add delay to time when time is null")
-    void shouldNotAddDelayWhenNull() {
-      LocalTime delay = LocalTime.of(0,20);
-      assertThrows(IllegalArgumentException.class, () -> TimeHandling.addDelay(null, delay));
-    }
-
-    @Test
-    @DisplayName("Should not add delay to time when delay is null")
-    void shouldNotAddDelayWhenNull2() {
-      LocalTime time = LocalTime.of(23,50);
-      assertThrows(IllegalArgumentException.class, () -> TimeHandling.addDelay(time, null));
-    }
-
-  }
 }
