@@ -50,8 +50,8 @@ class DepartureRegistryTest {
 
 
   @Nested
-  @DisplayName("getDepartureByTrainNumber tests")
-  class TestsForGetDepartureByTrainNumber {
+  @DisplayName("tests for getters")
+  class TestsForGetters {
     @Test
     @DisplayName("Should get departure by train number")
     void shouldGetDepartureByTrainNumber() {
@@ -65,11 +65,7 @@ class DepartureRegistryTest {
       departureRegistry.addDeparture(LocalTime.of(10,0), "R14", 1, "Asker", 1, LocalTime.of(0,0));
       assertThrows(NoSuchElementException.class, () -> departureRegistry.getDepartureByTrainNumber(2));
     }
-  }
 
-  @Nested
-  @DisplayName("getDeparturesByDestination tests")
-  class TestsForGetDeparturesByDestination {
     @Test
     @DisplayName("Should get departures by destination")
     void shouldGetDeparturesByDestination() {
@@ -85,11 +81,7 @@ class DepartureRegistryTest {
       departureRegistry.addDeparture(LocalTime.of(11,0), "R11", 2, "Drammen", 2, LocalTime.of(0,10));
       assertThrows(NoSuchElementException.class, () -> departureRegistry.getDeparturesByDestination("Oslo"));
     }
-  }
 
-  @Nested
-  @DisplayName("getDepartures tests")
-  class TestsForGetSortedDepartures {
     @Test
     @DisplayName("Should get departures")
     void shouldGetDepartures() {
@@ -103,11 +95,14 @@ class DepartureRegistryTest {
     void shouldNotGetDepartures() {
       assertThrows(NoSuchElementException.class, departureRegistry::getDepartures);
     }
+
+
+
   }
 
   @Nested
-  @DisplayName("setClock tests")
-  class TestsForSetClock {
+  @DisplayName("tests for clock behaviour")
+  class TestsForSetters {
     @Test
     @DisplayName("Should set clock")
     void shouldSetClock() {

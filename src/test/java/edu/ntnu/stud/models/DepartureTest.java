@@ -140,8 +140,8 @@ class DepartureTest {
   }
 
   @Nested
-  @DisplayName("Tests for getters and setters")
-  class TestsForDeparturesGettersSetters {
+  @DisplayName("Tests for getters")
+  class TestsForGetters {
 
     @Test
     @DisplayName("should get departure time")
@@ -174,14 +174,44 @@ class DepartureTest {
     }
 
     @Test
-    @DisplayName("should get and set track")
+    @DisplayName("should get track")
+    void shouldGetTrack() {
+      assertEquals(1,departure.getTrack());
+    }
+  }
+
+
+  @Nested
+  @DisplayName("Tests for setters")
+  class TestsForSetters {
+    @Test
+    @DisplayName("Should set track")
     void shouldSetTrack() {
       departure.setTrack(2);
-      assertEquals(2,departure.getTrack());
+      assertEquals(2, departure.getTrack());
     }
 
     @Test
-    @DisplayName("should get and set delay")
+    @DisplayName("Should set track when -1")
+    void shouldSetTrackWhenMinus1() {
+      departure.setTrack(-1);
+      assertEquals(-1, departure.getTrack());
+    }
+
+    @Test
+    @DisplayName("Should not set track when 0")
+    void shouldNotSetTrackWhen0() {
+      assertThrows(IllegalArgumentException.class, () -> departure.setTrack(0));
+    }
+
+    @Test
+    @DisplayName("Should not set track when less than -1")
+    void shouldNotSetTrackWhenLessThanMinus1() {
+      assertThrows(IllegalArgumentException.class, () -> departure.setTrack(-2));
+    }
+
+    @Test
+    @DisplayName("Should set delay")
     void shouldSetDelay() {
       departure.setDelay(LocalTime.of(10,0));
       assertEquals(LocalTime.of(10,0), departure.getDelay());
