@@ -29,12 +29,6 @@ class TimeHandlingTest {
     }
 
     @Test
-    @DisplayName("Should parse time string with correct format 'HH:mm'")
-    void shouldParseTimeString() {
-      assertEquals("10:00", TimeHandling.parseTimeString("10:00").toString());
-    }
-
-    @Test
     @DisplayName("Should not parse time string with wrong format 'HH'")
     void shouldNotParseTimeString() {
       assertThrows(IllegalArgumentException.class, () -> TimeHandling.parseTimeString("10"));

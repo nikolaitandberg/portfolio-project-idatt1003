@@ -1,9 +1,6 @@
 package edu.ntnu.stud.models;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.time.LocalTime;
 
@@ -20,6 +17,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class DepartureTest {
 
   Departure departure;
+  static LocalTime departureTime;
+  static LocalTime delay;
+
+  @BeforeAll
+  static void setupAll() {
+    departureTime = LocalTime.of(10,0);
+    delay = LocalTime.of(0,0);
+  }
 
   @Nested
   @DisplayName("Departure constructor tests")
@@ -28,38 +33,25 @@ class DepartureTest {
     @DisplayName("Should create departure")
     void shouldCreateDeparture() {
       assertDoesNotThrow(() -> new Departure(
-              "10:00",
+              LocalTime.of(10,0),
               "R14",
               1,
               "Asker",
               1,
-              "00:10"
+              LocalTime.of(0,10)
       ));
     }
 
     @Test
-    @DisplayName("Should not create departure with wrong time format")
-    void shouldNotCreateDepartureWithWrongTimeFormat() {
-      assertThrows(IllegalArgumentException.class, () -> new Departure(
-              "10",
+    @DisplayName("Should not create departure with null departure time")
+    void shouldNotCreateDepartureWithNullDepartureTime() {
+      assertThrows(NullPointerException.class, () -> new Departure(
+              null,
               "R14",
               1,
               "Asker",
               1,
-              "00:10"
-      ));
-    }
-
-    @Test
-    @DisplayName("Should not create departure with wrong delay format")
-    void shouldNotCreateDepartureWithWrongDelayFormat() {
-      assertThrows(IllegalArgumentException.class, () -> new Departure(
-              "10:00",
-              "R14",
-              1,
-              "Asker",
-              1,
-              "00"
+              delay
       ));
     }
 
@@ -67,12 +59,12 @@ class DepartureTest {
     @DisplayName("Should not create departure with empty line")
     void shouldNotCreateDepartureWithEmptyLine() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
-              "10:00",
+              departureTime,
               "",
               1,
               "Asker",
               1,
-              "00:10"
+              delay
       ));
     }
 
@@ -80,12 +72,12 @@ class DepartureTest {
     @DisplayName("Should not create departure with train number less than 1")
     void shouldNotCreateDepartureWithTrainNumberLessThan1() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
-              "10:00",
+              departureTime,
               "R14",
               0,
               "Asker",
               1,
-              "00:10"
+              delay
       ));
     }
 
@@ -93,12 +85,12 @@ class DepartureTest {
     @DisplayName("Should not create departure with empty destination")
     void shouldNotCreateDepartureWithEmptyDestination() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
-              "10:00",
+              departureTime,
               "R14",
               1,
               "",
               1,
-              "00:10"
+              delay
       ));
     }
 
@@ -106,12 +98,12 @@ class DepartureTest {
     @DisplayName("Should not create departure with track 0")
     void shouldNotCreateDepartureWithTrack0() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
-              "10:00",
+              departureTime,
               "R14",
               1,
               "Asker",
               0,
-              "00:10"
+              delay
       ));
     }
 
@@ -119,19 +111,32 @@ class DepartureTest {
     @DisplayName("Should not create departure with track less than -1")
     void shouldNotCreateDepartureWithTrackLessThanMinus1() {
       assertThrows(IllegalArgumentException.class, () -> new Departure(
-              "10:00",
+              departureTime,
               "R14",
               1,
               "Asker",
               -2,
-              "00:10"
+              delay
+      ));
+    }
+
+    @Test
+    @DisplayName("Should not create departure with null delay")
+    void shouldNotCreateDepartureWithNullDelay() {
+      assertThrows(NullPointerException.class, () -> new Departure(
+              departureTime,
+              "R14",
+              1,
+              "Asker",
+              1,
+              null
       ));
     }
   }
 
   @BeforeEach
   void getterSetterTestSetup() {
-    departure = new Departure("10:00", "R14", 1, "Asker", 1, "00:00");
+    departure = new Departure(LocalTime.of(10,0), "R14", 1, "Asker", 1, LocalTime.of(0,10));
   }
 
   @Nested
@@ -163,19 +168,29 @@ class DepartureTest {
     }
 
     @Test
+    @DisplayName("Get real departure time test")
+    void getRealDepartureTimeTest() {
+      assertEquals(LocalTime.of(10,10), departure.getRealDepartureTime());
+    }
+
+    @Test
     @DisplayName("Get and set track test")
     void getSetTrackTest() {
-      assertEquals(1, departure.getTrack());
       departure.setTrack(2);
       assertEquals(2,departure.getTrack());
     }
 
     @Test
-    @DisplayName("Get and set delay test")
+    @DisplayName("should get and set delay test")
     void getSetDelayTest() {
-      assertEquals(LocalTime.of(0,0), departure.getDelay());
-      departure.setDelay("10:00");
+      departure.setDelay(LocalTime.of(10,0));
       assertEquals(LocalTime.of(10,0), departure.getDelay());
+    }
+
+    @Test
+    @DisplayName("Should not set delay when null")
+    void shouldNotSetDelayWhenNull() {
+      assertThrows(NullPointerException.class, () -> departure.setDelay(null));
     }
   }
 
@@ -185,28 +200,28 @@ class DepartureTest {
     @Test
     @DisplayName("Should return string with track and delay")
     void shouldReturnCorrectString() {
-      departure = new Departure("10:00", "R14", 1, "Asker", 1, "00:20");
+      departure = new Departure(LocalTime.of(10,0), "R14", 1, "Asker", 1, LocalTime.of(0,20));
       assertEquals("|          10:00 |  R14 |            1 |           Asker |     1 | 00:20 |", departure.toString());
     }
 
     @Test
     @DisplayName("Should return string with track and no delay")
     void shouldReturnCorrectString2() {
-      departure = new Departure("10:00", "R14", 1, "Asker", 1, "00:00");
+      departure = new Departure(LocalTime.of(10,0), "R14", 1, "Asker", 1, LocalTime.of(0,0));
       assertEquals("|          10:00 |  R14 |            1 |           Asker |     1 |       |", departure.toString());
     }
 
     @Test
     @DisplayName("Should return string with no track and delay")
     void shouldReturnCorrectString3() {
-      departure = new Departure("10:00", "R14", 1, "Asker", -1, "00:20");
+      departure = new Departure(LocalTime.of(10,0), "R14", 1, "Asker", -1, LocalTime.of(0,20));
       assertEquals("|          10:00 |  R14 |            1 |           Asker |       | 00:20 |", departure.toString());
     }
 
     @Test
     @DisplayName("Should return string with no track and no delay")
     void shouldReturnCorrectString4() {
-      departure = new Departure("10:00", "R14", 1, "Asker", -1, "00:00");
+      departure = new Departure(LocalTime.of(10,0), "R14", 1, "Asker", -1, LocalTime.of(0,0));
       assertEquals("|          10:00 |  R14 |            1 |           Asker |       |       |", departure.toString());
     }
   }
