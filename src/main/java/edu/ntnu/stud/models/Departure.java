@@ -98,9 +98,9 @@ public class Departure {
   }
 
   /**
-   * set new delay and uses TimeHandling class to parse from string parameter to LocalTime object.
+   * set new delay.
    *
-   * @param delay a string of format "HH:mm"
+   * @param delay new delay
    * @throws NullPointerException if delay is null
    */
   public void setDelay(LocalTime delay) {
@@ -113,7 +113,7 @@ public class Departure {
   /**
    * gets departure time.
    *
-   * @return the departure time as a LocalTime object
+   * @return departure time
    */
   public LocalTime getDepartureTime() {
     return departureTime;
@@ -122,7 +122,7 @@ public class Departure {
   /**
    * gets line.
    *
-   * @return the line as a string
+   * @return line
    */
   public String getLine() {
     return line;
@@ -131,7 +131,7 @@ public class Departure {
   /**
    * gets train number.
    *
-   * @return the train number as an integer
+   * @return train number
    */
   public int getTrainNumber() {
     return trainNumber;
@@ -140,7 +140,7 @@ public class Departure {
   /**
    * gets destination.
    *
-   * @return the destination as a string
+   * @return destination
    */
   public String getDestination() {
     return destination;
@@ -149,7 +149,7 @@ public class Departure {
   /**
    * gets track.
    *
-   * @return the track as an integer
+   * @return track
    */
   public int getTrack() {
     return track;
@@ -158,7 +158,7 @@ public class Departure {
   /**
    * gets delay.
    *
-   * @return the delay as a LocalTime object
+   * @return delay
    */
   public LocalTime getDelay() {
     return delay;
@@ -167,7 +167,7 @@ public class Departure {
   /**
    * gets actual departure time of the departure.
    *
-   * @return the scheduled departure time with delay added
+   * @return scheduled departure time with delay added
    */
   public LocalTime getRealDepartureTime() {
     return departureTime.plusHours(delay.getHour()).plusMinutes(delay.getMinute());

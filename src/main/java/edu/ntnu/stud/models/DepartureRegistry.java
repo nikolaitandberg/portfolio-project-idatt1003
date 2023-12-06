@@ -71,7 +71,7 @@ public class DepartureRegistry {
    * Gets departure by its train number.
    *
    * @param trainNumber the train number of the departure
-   * @return the departure with the given train number
+   * @return departure with the given train number
    * @throws NoSuchElementException if no departure with the given train number exists
    */
   public Departure getDepartureByTrainNumber(int trainNumber) throws NoSuchElementException {
@@ -88,7 +88,7 @@ public class DepartureRegistry {
    * Checks if there is a departure registered with destination.
    *
    * @param destination The destination that's checked to see if it's in use
-   * @return a boolean value depending on if the destination is in use
+   * @return boolean value depending on if the destination is in use
    */
   private boolean checkIfDepartureWithDestinationExists(String destination) {
     return departures.stream().anyMatch(
@@ -100,7 +100,7 @@ public class DepartureRegistry {
    * Gets all departures with a given destination in ascending order by departure time.
    *
    * @param destination the destination of the departures
-   * @return A list of departures with the given destination
+   * @return list of departures with the given destination
    * @throws NoSuchElementException if no departure with the given destination exists
    */
   public List<Departure> getDeparturesByDestination(String destination)
@@ -118,7 +118,7 @@ public class DepartureRegistry {
   /**
    * Gets all departures in registry sorted in ascending order by departure time.
    *
-   * @return a list of departures sorted by departure time
+   * @return list of departures sorted by departure time
    * @throws NoSuchElementException if no departures are registered
    */
   public List<Departure> getDepartures() throws NoSuchElementException {
@@ -143,7 +143,7 @@ public class DepartureRegistry {
   /**
    * Sets new track for a specific departure in the departure registry.
    *
-   * @param trainNumber the number of the train for the departure
+   * @param trainNumber the train number for the departure
    * @param track updated track for the specific departure
    */
   public void setTrackForDeparture(int trainNumber, int track) {
@@ -153,8 +153,8 @@ public class DepartureRegistry {
   /**
    * Sets new delay for a specific departure in the departure registry.
    *
-   * @param trainNumber the number of the train for the departure
-   * @param delay updated delay for the specific departure
+   * @param trainNumber the train number for the departure
+   * @param delay new delay for the specific departure
    * @throws NullPointerException if delay is null
    */
   public void setDelayForDeparture(int trainNumber, LocalTime delay) {
@@ -164,7 +164,7 @@ public class DepartureRegistry {
   /**
    * Sets clock to a new time and removes past departures.
    *
-   * @param newTime the new time the clock will be set to
+   * @param newTime new time the clock will be set to
    * @throws IllegalArgumentException if the new time is before the current time
    * @throws NullPointerException if newTime is null
    */
@@ -173,6 +173,8 @@ public class DepartureRegistry {
       throw new IllegalArgumentException("New time cannot be before current time!");
     }
     clock = newTime;
+
+    // calls for removePastDepartures method to remove all departures before the new time
     removePastDepartures();
   }
 
