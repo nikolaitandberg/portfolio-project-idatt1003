@@ -1,6 +1,7 @@
 package edu.ntnu.stud.view;
 
 import edu.ntnu.stud.utils.TimeHandling;
+import java.time.LocalTime;
 import java.util.Scanner;
 
 /**
@@ -20,21 +21,21 @@ public class Input {
    *
    * @return the string input
    */
-  static String getTime() {
-    String departureTime = "";
+  static LocalTime getTime() {
+    LocalTime time = null;
     boolean validInput = false;
 
     while (!validInput) {
+      String input = scanner.next();
       try {
-        departureTime = scanner.next();
-        TimeHandling.parseTimeString(departureTime);
+        time = TimeHandling.parseTimeString(input);
         validInput = true;
       } catch (IllegalArgumentException e) {
-        System.out.println("input has to be in the format HH:mm, please try again: ");
+        System.out.println("input has to be of format HH:mm, please try again: ");
         scanner.nextLine();
       }
     }
-    return departureTime;
+    return time;
   }
 
   /**
