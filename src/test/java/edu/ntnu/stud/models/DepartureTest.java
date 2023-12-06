@@ -144,45 +144,45 @@ class DepartureTest {
   class TestsForDeparturesGettersSetters {
 
     @Test
-    @DisplayName("Get departure time test")
-    void getDepartureTimeTest() {
+    @DisplayName("should get departure time")
+    void shouldGetDepartureTime() {
       assertEquals(departure.getDepartureTime(), LocalTime.of(10,0));
     }
 
     @Test
-    @DisplayName("Get line test")
-    void getLineTest() {
+    @DisplayName("should get line")
+    void shouldGetLine() {
       assertEquals("R14", departure.getLine());
     }
 
     @Test
-    @DisplayName("Get train number test")
-    void getTrainNumberTest() {
+    @DisplayName("should get train number")
+    void shouldGetTrainNumber() {
       assertEquals(1, departure.getTrainNumber());
     }
 
     @Test
-    @DisplayName("Get destination test")
-    void getDestinationTest() {
+    @DisplayName("should get destination")
+    void shouldGetDestination() {
       assertEquals("Asker", departure.getDestination());
     }
 
     @Test
-    @DisplayName("Get real departure time test")
-    void getRealDepartureTimeTest() {
+    @DisplayName("should get real departure time")
+    void shouldGetRealDepartureTime() {
       assertEquals(LocalTime.of(10,10), departure.getRealDepartureTime());
     }
 
     @Test
-    @DisplayName("Get and set track test")
-    void getSetTrackTest() {
+    @DisplayName("should get and set track")
+    void shouldSetTrack() {
       departure.setTrack(2);
       assertEquals(2,departure.getTrack());
     }
 
     @Test
-    @DisplayName("should get and set delay test")
-    void getSetDelayTest() {
+    @DisplayName("should get and set delay")
+    void shouldSetDelay() {
       departure.setDelay(LocalTime.of(10,0));
       assertEquals(LocalTime.of(10,0), departure.getDelay());
     }
