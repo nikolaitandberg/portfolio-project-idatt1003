@@ -2,6 +2,7 @@ package edu.ntnu.stud.view;
 
 import edu.ntnu.stud.models.Departure;
 import edu.ntnu.stud.models.DepartureRegistry;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -27,10 +28,44 @@ public class UserInterface {
     departureRegistry = new DepartureRegistry();
     running = true;
 
-    departureRegistry.addDeparture("14:00", "L2", 55, "Drammen", 2, "00:10");
-    departureRegistry.addDeparture("09:00", "R13", 19, "Lillestrøm", 3, "00:00");
-    departureRegistry.addDeparture("08:45", "R11", 77, "Arendal", 1, "00:20");
-    departureRegistry.addDeparture("09:22", "R60", 456, "Hamar", -1, "00:15");
+
+    // Add some starting data
+    departureRegistry.addDeparture(
+            LocalTime.of(8, 0),
+            "L1",
+            9,
+            "Drammen",
+            4,
+            LocalTime.of(0, 10)
+    );
+
+    departureRegistry.addDeparture(
+            LocalTime.of(9, 30),
+            "R12",
+            20,
+            "Eidsvoll",
+            5,
+            LocalTime.of(1, 0)
+    );
+
+    departureRegistry.addDeparture(
+            LocalTime.of(10, 0),
+            "FLY1",
+            65,
+            "Oslo Lufthavn",
+            -1,
+            LocalTime.of(0, 20)
+    );
+
+    departureRegistry.addDeparture(
+            LocalTime.of(18, 17),
+            "L1",
+            10,
+            "Lillestrøm",
+            2,
+            LocalTime.of(0, 0)
+    );
+
 
   }
 
@@ -107,7 +142,7 @@ public class UserInterface {
    */
   private static void addDeparture() {
     System.out.println("Departure time (HH:mm format): ");
-    String departureTime = Input.getTime();
+    LocalTime departureTime = Input.getTime();
 
     System.out.println("Line: ");
     String line = Input.getLine();
@@ -119,7 +154,7 @@ public class UserInterface {
     String destination = Input.getDestination();
 
     System.out.println("Delay (HH:mm format): ");
-    String delay = Input.getTime();
+    LocalTime delay = Input.getTime();
 
     System.out.println("Track (-1 if no track is assigned): ");
     int track = Input.getTrack();
@@ -162,7 +197,7 @@ public class UserInterface {
     System.out.println(TRAIN_NUMBER_REQUEST);
     int trainNumber = Input.getTrainNumber();
     System.out.println("Delay (HH:mm format): ");
-    String newDelay = Input.getTime();
+    LocalTime newDelay = Input.getTime();
     try {
       departureRegistry.setDelayForDeparture(trainNumber, newDelay);
     } catch (NoSuchElementException | IllegalArgumentException e) {
