@@ -29,6 +29,8 @@ public class DepartureRegistry {
    * @param delay         the amount of time the train is delayed compared to it's scheduled time
    * @throws IllegalArgumentException
    *         if a departure with the same train number is already registered
+   * @throws NullPointerException
+   *        if departure time or delay is null
    */
   public void addDeparture(
           LocalTime departureTime,
@@ -153,6 +155,7 @@ public class DepartureRegistry {
    *
    * @param trainNumber the number of the train for the departure
    * @param delay updated delay for the specific departure
+   * @throws NullPointerException if delay is null
    */
   public void setDelayForDeparture(int trainNumber, LocalTime delay) {
     getDepartureByTrainNumber(trainNumber).setDelay(delay);
@@ -163,6 +166,7 @@ public class DepartureRegistry {
    *
    * @param newTime the new time the clock will be set to
    * @throws IllegalArgumentException if the new time is before the current time
+   * @throws NullPointerException if newTime is null
    */
   public void setClock(LocalTime newTime) throws IllegalArgumentException {
     if (newTime.isBefore(clock)) {
