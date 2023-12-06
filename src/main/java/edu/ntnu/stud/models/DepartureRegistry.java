@@ -1,6 +1,5 @@
 package edu.ntnu.stud.models;
 
-import edu.ntnu.stud.utils.TimeHandling;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -32,12 +31,12 @@ public class DepartureRegistry {
    *         if a departure with the same train number is already registered
    */
   public void addDeparture(
-          String departureTime,
+          LocalTime departureTime,
           String line,
           int trainNumber,
           String destination,
           int track,
-          String delay
+          LocalTime delay
   ) throws IllegalArgumentException {
     if (checkIfDepartureWithTrainNumberExists(trainNumber)) {
       throw new IllegalArgumentException(
@@ -155,7 +154,7 @@ public class DepartureRegistry {
    * @param trainNumber the number of the train for the departure
    * @param delay updated delay for the specific departure
    */
-  public void setDelayForDeparture(int trainNumber, String delay) {
+  public void setDelayForDeparture(int trainNumber, LocalTime delay) {
     getDepartureByTrainNumber(trainNumber).setDelay(delay);
   }
 
@@ -165,11 +164,11 @@ public class DepartureRegistry {
    * @param newTime the new time the clock will be set to
    * @throws IllegalArgumentException if the new time is before the current time
    */
-  public void setClock(String newTime) throws IllegalArgumentException {
-    if (TimeHandling.parseTimeString(newTime).isBefore(clock)) {
+  public void setClock(LocalTime newTime) throws IllegalArgumentException {
+    if (newTime.isBefore(clock)) {
       throw new IllegalArgumentException("New time cannot be before current time!");
     }
-    clock = TimeHandling.parseTimeString(newTime);
+    clock = newTime;
     removePastDepartures();
   }
 
