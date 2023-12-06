@@ -6,6 +6,10 @@ import java.util.Scanner;
 
 /**
  * A class for handling user input.
+ *
+ * @author Nikolai Tandberg
+ * @version 1.0
+ * @since 2023-12-6
  */
 public class Input {
 
@@ -19,7 +23,7 @@ public class Input {
   /**
    * Gets valid user input for time.
    *
-   * @return the string input
+   * @return the time
    */
   static LocalTime getTime() {
     LocalTime time = null;
@@ -41,7 +45,7 @@ public class Input {
   /**
    * Gets valid user input for line.
    *
-   * @return the string input
+   * @return the line
    */
   static String getLine() {
     String line = "";
@@ -62,7 +66,7 @@ public class Input {
   /**
    * Gets valid user input for train number.
    *
-   * @return the integer input
+   * @return the train number
    */
   static int getTrainNumber() {
     int trainNumber = 0;
@@ -88,7 +92,7 @@ public class Input {
   /**
    * Gets valid user input for destination.'
    *
-   * @return the string input
+   * @return the destination
    */
   static String getDestination() {
     String destination = "";
@@ -109,7 +113,7 @@ public class Input {
   /**
    * Gets valid user input for track.
    *
-   * @return the integer input
+   * @return the track
    */
   static int getTrack() {
     int track = 0;
@@ -137,7 +141,7 @@ public class Input {
   /**
    * Gets valid user input for menu option.
    *
-   * @return the integer input
+   * @return the menu option
    */
   static int getMenuOption() {
     int option = 0;
