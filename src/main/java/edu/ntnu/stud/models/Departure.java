@@ -1,6 +1,5 @@
 package edu.ntnu.stud.models;
 
-import edu.ntnu.stud.utils.TimeHandling;
 import java.time.LocalTime;
 
 /**
@@ -44,24 +43,29 @@ public class Departure {
    *             <code>@param track</code>: the track at which the train arrives at the station
    *         </li>
    *         <li>
-   *             <code>@throws IllegalArgumentException</code>: When line is empty,
+   *             <code>@throws IllegalArgumentException</code>:
+   *             When line is empty,
    *             when train number is less than 1,
    *             when destination is empty,
-   *             when track is 0 or a negative number other than -1,
-   *             when delay or departureTime is not of format "HH:mm".
-   *             See {@link TimeHandling#parseTimeString(String)}
+   *             when track is 0 or a negative number other than -1
+   *             <code>@throws NullPointerException</code>:
+   *             when departure time is null,
+   *             when delay is null
    *         </li>
    *     </ul>
    */
 
   public Departure(
-          String departureTime,
+          LocalTime departureTime,
           String line,
           int trainNumber,
           String destination,
           int track,
-          String delay
+          LocalTime delay
   ) throws IllegalArgumentException {
+    if (departureTime == null) {
+      throw new NullPointerException("Departure time cannot be null");
+    }
     if (line.isEmpty()) {
       throw new IllegalArgumentException("Line cannot be left empty");
     }
@@ -72,7 +76,7 @@ public class Departure {
       throw new IllegalArgumentException("Destination cannot be left empty");
     }
 
-    this.departureTime = TimeHandling.parseTimeString(departureTime);
+    this.departureTime = departureTime;
     this.line = line;
     this.trainNumber = trainNumber;
     this.destination = destination;
@@ -97,11 +101,13 @@ public class Departure {
    * set new delay and uses TimeHandling class to parse from string parameter to LocalTime object.
    *
    * @param delay a string of format "HH:mm"
-   * @throws IllegalArgumentException if the string is not of format "HH:mm"
-   * @see TimeHandling#parseTimeString(String) for more information
+   * @throws NullPointerException if delay is null
    */
-  public void setDelay(String delay) {
-    this.delay = TimeHandling.parseTimeString(delay);
+  public void setDelay(LocalTime delay) {
+    if (delay == null) {
+      throw new NullPointerException("Delay cannot be null");
+    }
+    this.delay = delay;
   }
 
   /**
