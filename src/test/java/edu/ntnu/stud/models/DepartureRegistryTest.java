@@ -46,6 +46,14 @@ class DepartureRegistryTest {
       LocalTime delay = LocalTime.of(0,10);
       assertThrows(IllegalArgumentException.class, () -> departureRegistry.addDeparture(departureTime, "R11", 1, "Drammen", 2, delay));
     }
+
+    @Test
+    @DisplayName("Should not add departure with departure time before current time")
+    void shouldNotAddDepartureWithDepartureTimeBeforeCurrentTime() {
+      LocalTime departureTime = LocalTime.of(9,0);
+      LocalTime delay = LocalTime.of(0,10);
+      assertThrows(IllegalArgumentException.class, () -> departureRegistry.addDeparture(departureTime, "R11", 1, "Drammen", 2, delay));
+    }
   }
 
 
