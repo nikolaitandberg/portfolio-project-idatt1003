@@ -29,6 +29,7 @@ public class DepartureRegistry {
    * @param delay         the amount of time the train is delayed compared to it's scheduled time
    * @throws IllegalArgumentException
    *         if a departure with the same train number is already registered
+   *         if departure time is before current time
    * @throws NullPointerException
    *        if departure time or delay is null
    */
@@ -42,7 +43,11 @@ public class DepartureRegistry {
   ) throws IllegalArgumentException {
     if (checkIfDepartureWithTrainNumberExists(trainNumber)) {
       throw new IllegalArgumentException(
-              "A departure with this train number is already registered!"
+              "A departure with this train number is already registered"
+      );
+    } else if (departureTime.isBefore(clock)) {
+      throw new IllegalArgumentException(
+              "Departure time cannot be before current time"
       );
     } else {
       Departure newDeparture = new Departure(
@@ -80,7 +85,7 @@ public class DepartureRegistry {
               .filter(departure -> departure.getTrainNumber() == trainNumber)
               .findFirst().orElseThrow();
     } else {
-      throw new NoSuchElementException("No departure with this train number exists!");
+      throw new NoSuchElementException("No departure with this train number exists");
     }
   }
 
@@ -111,7 +116,7 @@ public class DepartureRegistry {
               .sorted(Comparator.comparing(Departure::getDepartureTime))
               .toList();
     } else {
-      throw new NoSuchElementException("No departure with this destination exists!");
+      throw new NoSuchElementException("No departure with this destination exists");
     }
   }
 
@@ -127,7 +132,7 @@ public class DepartureRegistry {
               .sorted(Comparator.comparing(Departure::getDepartureTime))
               .toList();
     } else {
-      throw new NoSuchElementException("No departures are registered!");
+      throw new NoSuchElementException("No departures are registered");
     }
   }
 
@@ -145,19 +150,23 @@ public class DepartureRegistry {
    *
    * @param trainNumber the train number for the departure
    * @param track updated track for the specific departure
+   * @throws IllegalArgumentException if the track is 0 or a negative number other than -1
+   * @throws NoSuchElementException if no departure with the given train number exists
    */
-  public void setTrackForDeparture(int trainNumber, int track) {
+  public void setTrackForDeparture(int trainNumber, int track)
+          throws IllegalArgumentException, NoSuchElementException {
     getDepartureByTrainNumber(trainNumber).setTrack(track);
   }
 
   /**
    * Sets new delay for a specific departure in the departure registry.
    *
-   * @param trainNumber the train number for the departure
+   * @param trainNumber train number for the departure
    * @param delay new delay for the specific departure
    * @throws NullPointerException if delay is null
+   * @throws NoSuchElementException if no departure with the given train number exists
    */
-  public void setDelayForDeparture(int trainNumber, LocalTime delay) {
+  public void setDelayForDeparture(int trainNumber, LocalTime delay) throws NoSuchElementException {
     getDepartureByTrainNumber(trainNumber).setDelay(delay);
   }
 
@@ -170,7 +179,7 @@ public class DepartureRegistry {
    */
   public void setClock(LocalTime newTime) throws IllegalArgumentException {
     if (newTime.isBefore(clock)) {
-      throw new IllegalArgumentException("New time cannot be before current time!");
+      throw new IllegalArgumentException("New time cannot be before current time");
     }
     clock = newTime;
 
