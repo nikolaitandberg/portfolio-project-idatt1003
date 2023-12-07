@@ -5,12 +5,12 @@ import java.time.LocalTime;
 import java.util.Scanner;
 
 /**
- * A class for fetching and validating user input.
- *
- * @author Nikolai Tandberg
- * @version 1.0
- * @since 2023-12-6
- */
+* A class for fetching and validating user input.
+*
+* @author Nikolai Tandberg
+* @version 1.0
+* @since 2023-12-6
+*/
 public class Input {
 
   static Scanner scanner = new Scanner(System.in);
@@ -37,7 +37,7 @@ public class Input {
     return time;
   }
 
-/**
+  /**
    * Fetches and validates user input for a line.
    *
    * @return fetched line as String
@@ -57,7 +57,7 @@ public class Input {
     return line;
   }
 
-/**
+  /**
    * Fetches and validates user input for a train number.
    *
    * @return fetched train number as int
@@ -81,7 +81,7 @@ public class Input {
     return Integer.parseInt(trainNumber);
   }
 
-/**
+  /**
    * Fetches and validates user input for a destination.
    *
    * @return fetched destination as String
@@ -101,7 +101,7 @@ public class Input {
     return destination;
   }
 
-/**
+  /**
    * Fetches and validates user input for a track.
    *
    * @return fetched track as int
@@ -113,10 +113,16 @@ public class Input {
     while (!validInput) {
       track = scanner.nextLine();
       try {
-        if (Integer.parseInt(track) > 0 && Integer.parseInt(track) < 10000 || Integer.parseInt(track) == -1) {
+        if (
+                Integer.parseInt(track) > 0 && Integer.parseInt(track) < 10000
+                        || Integer.parseInt(track) == -1
+        ) {
           validInput = true;
         } else {
-          System.out.println("track must be in range [1-9999] or -1 if no track is assigned, please try again: ");
+          System.out.println(
+                  "track must be in range [1-9999] or -1 if no track is assigned,"
+                          + " please try again: "
+          );
         }
       } catch (NumberFormatException e) {
         System.out.println("track must be an integer, please try again: ");
@@ -125,7 +131,7 @@ public class Input {
     return Integer.parseInt(track);
   }
 
-/**
+  /**
    * Fetches and validates user input for a menu option.
    *
    * @return fetched menu option as int
