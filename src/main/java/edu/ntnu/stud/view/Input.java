@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import java.util.Scanner;
 
 /**
- * A class for handling user input.
+ * A class for fetching and validating user input.
  *
  * @author Nikolai Tandberg
  * @version 1.0
@@ -15,152 +15,137 @@ public class Input {
 
   static Scanner scanner = new Scanner(System.in);
 
-  private Input() {
-    scanner.useDelimiter("\r?\n");
-  }
-
+  private Input() {}
 
   /**
-   * Gets valid user input for time.
+   * Fetches and validates user input for a clock time of format HH:mm.
    *
-   * @return the time
+   * @return fetched time as LocalTime object
    */
   static LocalTime getTime() {
     LocalTime time = null;
     boolean validInput = false;
 
     while (!validInput) {
-      String input = scanner.next();
       try {
-        time = TimeHandling.parseTimeString(input);
+        time = TimeHandling.parseTimeString(scanner.nextLine());
         validInput = true;
       } catch (IllegalArgumentException e) {
-        System.out.println("input has to be of format HH:mm, please try again: ");
-        scanner.nextLine();
+        System.out.println("input must be of format HH:mm, please try again: ");
       }
     }
     return time;
   }
 
-  /**
-   * Gets valid user input for line.
+/**
+   * Fetches and validates user input for a line.
    *
-   * @return the line
+   * @return fetched line as String
    */
   static String getLine() {
     String line = "";
     boolean validInput = false;
 
     while (!validInput) {
-      line = scanner.next();
+      line = scanner.nextLine();
       if (line.length() < 5) {
         validInput = true;
       } else {
-        System.out.println("input has to be less than 5 characters, please try again: ");
-        scanner.nextLine();
+        System.out.println("input must be less than 5 characters, please try again: ");
       }
     }
     return line;
   }
 
-  /**
-   * Gets valid user input for train number.
+/**
+   * Fetches and validates user input for a train number.
    *
-   * @return the train number
+   * @return fetched train number as int
    */
   static int getTrainNumber() {
-    int trainNumber = 0;
-
+    String trainNumber = "";
     boolean validInput = false;
+
     while (!validInput) {
-      if (scanner.hasNextInt()) {
-        trainNumber = scanner.nextInt();
-        if (trainNumber > 0) {
+      trainNumber = scanner.nextLine();
+      try {
+        if (Integer.parseInt(trainNumber) > 0 && Integer.parseInt(trainNumber) < 10000) {
           validInput = true;
         } else {
-          System.out.println("input has to be positive, please try again: ");
-          scanner.nextLine();
+          System.out.println("input must be in range [1-9999], please try again: ");
         }
-      } else {
-        System.out.println("input has to be an integer, please try again: ");
-        scanner.next();
+      } catch (NumberFormatException e) {
+        System.out.println("input must be an integer, please try again: ");
       }
     }
-    return trainNumber;
+    return Integer.parseInt(trainNumber);
   }
 
-  /**
-   * Gets valid user input for destination.'
+/**
+   * Fetches and validates user input for a destination.
    *
-   * @return the destination
+   * @return fetched destination as String
    */
   static String getDestination() {
     String destination = "";
     boolean validInput = false;
 
     while (!validInput) {
-      destination = scanner.next();
-      if (destination.length() < 12) {
+      destination = scanner.nextLine();
+      if (destination.length() < 16) {
         validInput = true;
       } else {
         System.out.println("input has to be less than 16 characters, please try again: ");
-        scanner.nextLine();
       }
     }
     return destination;
   }
 
-  /**
-   * Gets valid user input for track.
+/**
+   * Fetches and validates user input for a track.
    *
-   * @return the track
+   * @return fetched track as int
    */
   static int getTrack() {
-    int track = 0;
-
+    String track = "";
     boolean validInput = false;
+
     while (!validInput) {
-      if (scanner.hasNextInt()) {
-        track = scanner.nextInt();
-        if (track  == -1 || track > 0) {
+      track = scanner.nextLine();
+      try {
+        if (Integer.parseInt(track) > 0 && Integer.parseInt(track) < 10000 || Integer.parseInt(track) == -1) {
           validInput = true;
         } else {
-          System.out.println(
-                  "input has to be positive (or -1 if no track is assigned), please try again: "
-          );
-          scanner.nextLine();
+          System.out.println("track must be in range [1-9999] or -1 if no track is assigned, please try again: ");
         }
-      } else {
-        System.out.println("input has to be a an integer, please try again: ");
-        scanner.next();
+      } catch (NumberFormatException e) {
+        System.out.println("track must be an integer, please try again: ");
       }
     }
-    return track;
+    return Integer.parseInt(track);
   }
 
-  /**
-   * Gets valid user input for menu option.
+/**
+   * Fetches and validates user input for a menu option.
    *
-   * @return the menu option
+   * @return fetched menu option as int
    */
   static int getMenuOption() {
-    int option = 0;
-
+    String option = "";
     boolean validInput = false;
+
     while (!validInput) {
-      if (scanner.hasNextInt()) {
-        option = scanner.nextInt();
-        if (option > 0 && option < 9) {
+      option = scanner.nextLine();
+      try {
+        if (Integer.parseInt(option) > 0 && Integer.parseInt(option) < 9) {
           validInput = true;
         } else {
-          System.out.println("input has to be between 0 and 9, please try again: ");
-          scanner.nextLine();
+          System.out.println("input must be in range [1-8], please try again: ");
         }
-      } else {
-        System.out.println("input has to be an integer, please try again: ");
-        scanner.next();
+      } catch (NumberFormatException e) {
+        System.out.println("input must be an integer, please try again: ");
       }
     }
-    return option;
+    return Integer.parseInt(option);
   }
 }
