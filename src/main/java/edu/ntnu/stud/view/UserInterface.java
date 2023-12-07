@@ -166,9 +166,11 @@ public class UserInterface {
               trainNumber,
               destination,
               track,
-              delay);
+              delay
+      );
+      System.out.println("Departure added successfully");
     } catch (IllegalArgumentException e) {
-      System.out.println(e.getMessage());
+      System.out.println("Departure not added: " + e.getMessage());
     }
 
   }
@@ -184,8 +186,9 @@ public class UserInterface {
     int newTrack = Input.getTrack();
     try {
       departureRegistry.setTrackForDeparture(trainNumber, newTrack);
-    } catch (NoSuchElementException e) {
-      System.out.println(e.getMessage());
+      System.out.println("new track set successfully");
+    } catch (NoSuchElementException | IllegalArgumentException e) {
+      System.out.println("new track not set: " + e.getMessage());
     }
   }
 
@@ -200,8 +203,9 @@ public class UserInterface {
     LocalTime newDelay = Input.getTime();
     try {
       departureRegistry.setDelayForDeparture(trainNumber, newDelay);
+      System.out.println("new delay set successfully");
     } catch (NoSuchElementException | IllegalArgumentException e) {
-      System.out.println(e.getMessage());
+      System.out.println("new delay not set: " + e.getMessage());
     }
   }
 
@@ -243,8 +247,9 @@ public class UserInterface {
     System.out.println("New time (HH:mm format): ");
     try {
       departureRegistry.setClock(Input.getTime());
+      System.out.println("clock updated successfully");
     } catch (IllegalArgumentException e) {
-      System.out.println(e.getMessage());
+      System.out.println("clock not updated: " + e.getMessage());
     }
   }
 
