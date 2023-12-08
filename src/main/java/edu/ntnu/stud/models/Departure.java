@@ -22,26 +22,31 @@ public class Departure {
    * <h1>Constructs an object of the Departure class.</h1>
    *
    *     <p>
-   *         Takes the following parameters.
+   *         Takes following parameters.
    *         May throw IllegalArgumentException.
    *     </p>
    *
    *     <ul>
    *         <li>
-   *             <code>@param departureTime</code>: the time of day the train departs
+   *             <code>@param departureTime</code>: time of day the train departs
    *         </li>
    *         <li>
-   *             <code>@param line</code>: the line the train is traveling on
+   *             <code>@param line</code>: line the train is traveling on
    *         </li>
    *         <li>
-   *             <code>@param trainNumber</code>: the unique number of the departure
+   *             <code>@param trainNumber</code>: unique number of the departure
    *         </li>
    *         <li>
-   *             <code>@param destination</code>: the last stop on the line
+   *             <code>@param destination</code>: last stop on the line
    *         </li>
    *         <li>
-   *             <code>@param track</code>: the track at which the train arrives at the station
+   *             <code>@param track</code>: track at which the train arrives at the station
    *         </li>
+   *         <li>
+   *           <code>@param delay</code>: amount of time the train is delayed compared to it's scheduled departure time
+   *         </li>
+   *
+   *
    *         <li>
    *             <code>@throws IllegalArgumentException</code>:
    *             When line is empty,
@@ -87,8 +92,8 @@ public class Departure {
   /**
    * Sets a new track for the departure.
    *
-   * @param track the new track
-   * @throws IllegalArgumentException if the track is 0 or a negative number other than -1
+   * @param track new track
+   * @throws IllegalArgumentException if track is 0 or a negative number other than -1
    */
   public void setTrack(int track) throws IllegalArgumentException {
     if (track < -1 || track == 0) {
