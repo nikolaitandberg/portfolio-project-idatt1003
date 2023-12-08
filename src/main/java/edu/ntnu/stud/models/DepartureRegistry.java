@@ -21,12 +21,12 @@ public class DepartureRegistry {
   /**
    * Adds a single departure to the registry.
    *
-   * @param departureTime the time of day the train departs
-   * @param line          the line the train is travelling on
-   * @param trainNumber   the unique number of the departure
-   * @param destination   the last stop on the line
-   * @param track         the track at which the train arrives at the station
-   * @param delay         the amount of time the train is delayed compared to it's scheduled time
+   * @param departureTime time of day the train departs
+   * @param line          line the train is travelling on
+   * @param trainNumber   unique number of the departure
+   * @param destination   last stop on the line
+   * @param track         track at which the train arrives at the station
+   * @param delay         amount of time the train is delayed compared to it's scheduled time
    * @throws IllegalArgumentException
    *         if a departure with the same train number is already registered
    *         if departure time is before current time
@@ -41,7 +41,7 @@ public class DepartureRegistry {
           int track,
           LocalTime delay
   ) throws IllegalArgumentException {
-    if (checkIfDepartureWithTrainNumberExists(trainNumber)) {
+    if (checkDepartureExists(trainNumber)) {
       throw new IllegalArgumentException(
               "A departure with this train number is already registered"
       );
@@ -65,22 +65,22 @@ public class DepartureRegistry {
   /**
    * Checks if there is a departure registered with train number.
    *
-   * @param trainNumber The train number that's checked to see if it's in use
-   * @return a boolean value depending on if the train number is in use
+   * @param trainNumber train number that's checked to see if it's in use
+   * @return boolean value depending on if the train number is in use
    */
-  private boolean checkIfDepartureWithTrainNumberExists(int trainNumber) {
+  private boolean checkDepartureExists(int trainNumber) {
     return departures.stream().anyMatch(departure -> departure.getTrainNumber() == trainNumber);
   }
 
   /**
    * Gets departure by its train number.
    *
-   * @param trainNumber the train number of the departure
+   * @param trainNumber train number of the departure
    * @return departure with the given train number
    * @throws NoSuchElementException if no departure with the given train number exists
    */
   public Departure getDepartureByTrainNumber(int trainNumber) throws NoSuchElementException {
-    if (checkIfDepartureWithTrainNumberExists(trainNumber)) {
+    if (checkDepartureExists(trainNumber)) {
       return departures.stream()
               .filter(departure -> departure.getTrainNumber() == trainNumber)
               .findFirst().orElseThrow();
@@ -92,10 +92,10 @@ public class DepartureRegistry {
   /**
    * Checks if there is a departure registered with destination.
    *
-   * @param destination The destination that's checked to see if it's in use
+   * @param destination destination that's checked to see if it's in use
    * @return boolean value depending on if the destination is in use
    */
-  private boolean checkIfDepartureWithDestinationExists(String destination) {
+  private boolean checkDestinationUse(String destination) {
     return departures.stream().anyMatch(
             departure -> departure.getDestination().equals(destination)
     );
@@ -104,13 +104,13 @@ public class DepartureRegistry {
   /**
    * Gets all departures with a given destination in ascending order by departure time.
    *
-   * @param destination the destination of the departures
+   * @param destination destination of the departures
    * @return list of departures with the given destination
    * @throws NoSuchElementException if no departure with the given destination exists
    */
   public List<Departure> getDeparturesByDestination(String destination)
           throws NoSuchElementException {
-    if (checkIfDepartureWithDestinationExists(destination)) {
+    if (checkDestinationUse(destination)) {
       return departures.stream()
               .filter(departure -> departure.getDestination().equals(destination))
               .sorted(Comparator.comparing(Departure::getDepartureTime))
@@ -139,7 +139,7 @@ public class DepartureRegistry {
   /**
    * gets clock for the DepartureRegistry.
    *
-   * @return the clock time as a localTime object
+   * @return clock time as a localTime object
    */
   public LocalTime getClock() {
     return clock;
@@ -148,7 +148,7 @@ public class DepartureRegistry {
   /**
    * Sets new track for a specific departure in the departure registry.
    *
-   * @param trainNumber the train number for the departure
+   * @param trainNumber train number for the departure
    * @param track updated track for the specific departure
    * @throws IllegalArgumentException if the track is 0 or a negative number other than -1
    * @throws NoSuchElementException if no departure with the given train number exists
@@ -188,7 +188,7 @@ public class DepartureRegistry {
   }
 
   /**
-   * removes all departures before current time from departure registry.
+   * removes all departures departing before current time from departure registry.
    *
    */
   private void removePastDepartures() {
