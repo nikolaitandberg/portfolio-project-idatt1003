@@ -43,7 +43,8 @@ public class Departure {
    *             <code>@param track</code>: track at which the train arrives at the station
    *         </li>
    *         <li>
-   *           <code>@param delay</code>: amount of time the train is delayed compared to it's scheduled departure time
+   *           <code>@param delay</code>:
+   *           amount of time the train is delayed compared to it's scheduled departure time
    *         </li>
    *
    *
