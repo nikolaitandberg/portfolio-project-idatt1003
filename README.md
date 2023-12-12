@@ -19,7 +19,7 @@ Link to gitlab repository: https://gitlab.stud.idi.ntnu.no/nikoltan/portfolio-pr
 3. Navigate to the project folder
 4. to package and compile the project run the following command:
 ```bash
-mvn compile
+mvn package
 ```
 5. then execute the jar file:
 ```bash
