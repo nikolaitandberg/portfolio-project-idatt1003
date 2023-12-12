@@ -1,31 +1,37 @@
-# Portfolio project IDATA1003 - 2023
-This file uses Mark Down syntax. For more information see [here](https://www.markdownguide.org/basic-syntax/).
+# Portfolio project IDATT1003
 
-STUDENT NAME = "Your name"  
-STUDENT ID = "Your ID"
+STUDENT NAME = "Nikolai Tandberg"  
+STUDENT ID = "10107"
 
 ## Project description
 
 [//]: # (TODO: Write a short description of your project/product here.)
+This project is a simplified train dispatch system for a single station, used to view, add, and modify trains and their properties.
 
 ## Project structure
 
-[//]: # (TODO: Describe the structure of your project here. How have you used packages in your structure. Where are all sourcefiles stored. Where are all JUnit-test classes stored. etc.)
-
+The project uses maven package structure, with three packages: models, utils and view.
+Source files are stored in src/main/java, test files are stored in src/test/java.
 ## Link to repository
 
-[//]: # (TODO: Include a link to your repository here.)
+Link to gitlab repository: https://gitlab.stud.idi.ntnu.no/nikoltan/mappevurdering
 
 ## How to run the project
 
-[//]: # (TODO: Describe how to run your project here. What is the main class? What is the main method?
-What is the input and output of the program? What is the expected behaviour of the program?)
-
+1. make sure you have apache-maven and java SDK 17.0 installed
+2. open a terminal
+2. Navigate to the project folder
+3. to package and compile the project enter the following command:
+```bash
+mvn compile
+```
+then execute the jar file:
+```bash
+mvn java -jar target/TrainDispatchSystem-1.0-SNAPSHOT.jar
+```
 ## How to run the tests
 
-[//]: # (TODO: Describe how to run the tests here.)
-
-## References
-
-[//]: # (TODO: Include references here, if any. For example, if you have used code from the course book, include a reference to the chapter.
-Or if you have used code from a website or other source, include a link to the source.)
+To run the tests run the following command:
+```bash
+mvn test
+```
