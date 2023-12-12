@@ -23,7 +23,7 @@ mvn compile
 ```
 5. then execute the jar file:
 ```bash
-mvn java -jar target/TrainDispatchSystem-1.0-SNAPSHOT.jar
+java -jar target/TrainDispatchSystem-1.0-SNAPSHOT.jar
 ```
 ## How to run the tests
 follow steps 1-3 from "How to run the project" </br>
